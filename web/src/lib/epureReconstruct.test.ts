@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import type { EpureIR, Vec2 } from './epureIr';
-import { calibrateFrame, rotateAboutAxis, toPixelH, toPixelV, type Vec3, v3, dist } from './epureMath';
+import { add, calibrateFrame, cross, dist, dot, normalize, rotateAboutAxis, scale, sub, toPixelH, toPixelV, type Vec3, v3 } from './epureMath';
 import { reconstruct } from './epureReconstruct';
 
 /**
@@ -264,4 +264,84 @@ test('change_of_plane: an unreachable authored auxiliary is flagged, not absorbe
   const { ir } = changePlaneFixture();
   (ir.operation as { auxiliary?: unknown }).auxiliary = { A: { x: 9999, y: 9999 } };
   assert.ok(reconstruct(ir).warnings.some((w) => w.code === 'aux-vs-authored'));
+});
+
+/**
+ * A double change of plane brings an OBLIQUE plane figure to true shape — which a single change
+ * cannot. The 3D points stay fixed; the test lays a regular hexagon on an oblique plane, projects
+ * it, and hands the reconstructor the two ground lines a draughtsman would use: L′ parallel to the
+ * horizontal trace (turning the plane edge-on) and L″ parallel to that edge (making the plane
+ * parallel to the new plane). The second auxiliary must then reproduce the figure's REAL distances
+ * — the defining property of a true-shape view — and the gold check must behave like the others.
+ */
+function doubleChangeFixture() {
+  const gl = { a: { x: 0, y: 400 }, b: { x: 800, y: 400 } };
+  const frame = calibrateFrame(gl);
+  const m = normalize(v3(0.3, 0.5, 1)); // oblique plane normal
+  const e1 = normalize(cross(m, v3(0, 0, 1))); // orthonormal in-plane basis
+  const e2 = cross(m, e1);
+  const C = v3(400, 120, 150);
+  const r = 90;
+  const ids = ['A', 'B', 'C', 'D', 'E', 'F'];
+  const pts: Record<string, Vec3> = {};
+  ids.forEach((id, i) => {
+    const th = (i * Math.PI) / 3;
+    pts[id] = add(C, add(scale(e1, r * Math.cos(th)), scale(e2, r * Math.sin(th))));
+  });
+
+  const ir = baseIr(gl, pts);
+  // Change 1: L′ ∥ the horizontal projection of m ⇒ the plane goes edge-on in aux-1.
+  const axisDir1 = normalize(v3(m.x, m.y, 0));
+  const Q1 = v3(150, 300, 0); // any point of πH (z = 0); position only translates
+  const newGroundLine1 = { a: toPixelH(frame, Q1), b: toPixelH(frame, add(Q1, scale(axisDir1, 120))) };
+  // Reproduce change-1 internals to place L″ and force the +90° unfold via an auxiliary-1 gold.
+  const n1 = normalize(cross(axisDir1, v3(0, 0, 1)));
+  const proj1 = (P: Vec3) => sub(P, scale(n1, dot(n1, sub(P, Q1))));
+  const ang1 = Math.PI / 2;
+  const auxiliary1: Record<string, Vec2> = {};
+  for (const id of ids) auxiliary1[id] = toPixelH(frame, rotateAboutAxis(proj1(pts[id]), Q1, axisDir1, ang1));
+  // Change 2: L″ ∥ the plane's edge line (cross(m, n1)), a line of π1′, given in the drawn frame.
+  const edgeDir = normalize(cross(m, n1));
+  const R = proj1(pts['A']); // a point of π1′
+  const toDrawn = (P: Vec3) => toPixelH(frame, rotateAboutAxis(P, Q1, axisDir1, ang1)); // π1′ → πH
+  const newGroundLine2 = { a: toDrawn(R), b: toDrawn(add(R, scale(edgeDir, 120))) };
+
+  ir.operation = { kind: 'double_change_of_plane', replaced1: 'v', newGroundLine1, newGroundLine2, points: ids, auxiliary1 };
+  return { ir, pts, ids };
+}
+
+test('double_change_of_plane: the second auxiliary reproduces the figure\'s true shape', () => {
+  const { ir, pts, ids } = doubleChangeFixture();
+  const d = reconstruct(ir).doubleChangePlane!;
+  for (let i = 0; i < ids.length; i++)
+    for (let j = i + 1; j < ids.length; j++) {
+      const real = dist(pts[ids[i]], pts[ids[j]]);
+      const shape = dist(d.auxProj2.get(ids[i])!, d.auxProj2.get(ids[j])!);
+      assert.ok(Math.abs(real - shape) < 1e-6, `${ids[i]}${ids[j]}: true shape ${shape.toFixed(3)} vs real ${real.toFixed(3)}`);
+    }
+});
+
+test('double_change_of_plane: unfolding to the sheet is rigid (distances survive both folds)', () => {
+  const { ir, ids } = doubleChangeFixture();
+  const d = reconstruct(ir).doubleChangePlane!;
+  for (let i = 0; i < ids.length; i++)
+    for (let j = i + 1; j < ids.length; j++) {
+      const space = dist(d.auxProj2.get(ids[i])!, d.auxProj2.get(ids[j])!);
+      const flat = dist(d.trueFlat.get(ids[i])!, d.trueFlat.get(ids[j])!);
+      assert.ok(Math.abs(space - flat) < 1e-6, `${ids[i]}${ids[j]}: unfold not rigid`);
+    }
+});
+
+test('double_change_of_plane: the drawn true shape is the gold — matching passes, garbage flags', () => {
+  const { ir } = doubleChangeFixture();
+  const base = reconstruct(ir).doubleChangePlane!;
+  const frame = calibrateFrame(ir.groundLine);
+  const gold: Record<string, Vec2> = {};
+  for (const [id, P] of base.trueFlat) gold[id] = toPixelH(frame, P);
+  const good = structuredClone(ir);
+  (good.operation as { trueShape?: unknown }).trueShape = gold;
+  assert.equal(reconstruct(good).warnings.filter((w) => w.code === 'true-shape-vs-authored').length, 0);
+  const bad = structuredClone(ir);
+  (bad.operation as { trueShape?: unknown }).trueShape = { A: { x: 9999, y: 9999 } };
+  assert.ok(reconstruct(bad).warnings.some((w) => w.code === 'true-shape-vs-authored'));
 });

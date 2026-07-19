@@ -81,6 +81,13 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
   if (recon.changePlane) {
     extra.push(...recon.changePlane.auxProj.values(), ...recon.changePlane.auxFlat.values(), recon.changePlane.axisPoint);
   }
+  if (recon.doubleChangePlane) {
+    const d = recon.doubleChangePlane;
+    extra.push(
+      ...d.auxProj1.values(), ...d.auxFlat1.values(), d.axisPoint1,
+      ...d.auxProj2.values(), ...d.trueFlat.values(), d.axisPoint2,
+    );
+  }
   const all = [...pts.map(([, p]) => p), ...extra];
 
   // Bounds over everything that will be drawn, including each point's two projections.
@@ -199,9 +206,16 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
     }
   }
 
-  let changePlane: EpureScene['changePlane'];
-  if (recon.changePlane && ir.operation.kind === 'change_of_plane') {
-    const cp = recon.changePlane;
+  // A change of plane renders the same way whether it is the whole operation or the SECOND change
+  // of a double: an auxiliary figure hinged on its ground line, swinging between space and flat.
+  const buildChangePlaneField = (cp: {
+    replaced: 'v' | 'h';
+    axisPoint: Vec3;
+    axisDir: Vec3;
+    planeNormal: Vec3;
+    auxProj: Map<string, Vec3>;
+    unfoldAngle: number;
+  }): EpureScene['changePlane'] => {
     const axisPoint = map(cp.axisPoint);
     const axisDir = cp.axisDir; // scale-invariant under the uniform map
     const aux = [...cp.auxProj].map(([id, P]) => ({ id, at: map(P) }));
@@ -240,7 +254,7 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
     }
     const qp = 0.35;
     const corner = (a: number, b: number) => add(center, add(scale(axisDir, a), scale(e2, b)));
-    changePlane = {
+    return {
       replaced: cp.replaced,
       axisPoint,
       axisDir,
@@ -250,6 +264,22 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
       aux,
       edges,
     };
+  };
+
+  let changePlane: EpureScene['changePlane'];
+  if (recon.changePlane && ir.operation.kind === 'change_of_plane') {
+    changePlane = buildChangePlaneField(recon.changePlane);
+  } else if (recon.doubleChangePlane && ir.operation.kind === 'double_change_of_plane') {
+    // Render the SECOND change (L″ → true shape); the figure's own space edges already show step 1.
+    const d = recon.doubleChangePlane;
+    changePlane = buildChangePlaneField({
+      replaced: d.replaced1,
+      axisPoint: d.axisPoint2,
+      axisDir: d.axisDir2,
+      planeNormal: d.planeNormal2,
+      auxProj: d.auxProj2,
+      unfoldAngle: d.unfoldAngle2,
+    });
   }
 
   // Optional fields are OMITTED, not set to undefined — a scene must survive JSON round-trips

@@ -189,3 +189,43 @@ test('a change_of_plane scene carries a serializable auxiliary and stays in the 
   const spread = Math.max(...scene.changePlane!.aux.map((a) => Math.max(Math.abs(a.at.x), Math.abs(a.at.y), Math.abs(a.at.z))));
   assert.ok(spread <= 11, `aux points outside the box: ${spread}`);
 });
+
+test('a double_change_of_plane scene reuses the change-plane field for its true shape (serializable, in box)', () => {
+  // A minimal synthetic double change: three points, L′ drawn in πH, L″ drawn in the unfolded aux-1
+  // view. The scene must expose the SECOND change as its changePlane field so the viewer renders the
+  // true shape with the existing (op-kind-agnostic) machinery, and it must still serialize + fit.
+  const ir: EpureIR = {
+    version: 1,
+    source: { book: 'synthetic', n: 0, page: 0, blockId: 'b0' },
+    units: 'px',
+    imageSize: { width: 800, height: 800 },
+    groundLine: { a: { x: 40, y: 400 }, b: { x: 760, y: 400 } },
+    points: [
+      { id: 'A', v: { x: 200, y: 320 }, h: { x: 200, y: 470 }, role: 'vertex' },
+      { id: 'B', v: { x: 360, y: 300 }, h: { x: 360, y: 520 }, role: 'vertex' },
+      { id: 'C', v: { x: 300, y: 250 }, h: { x: 300, y: 560 }, role: 'vertex' },
+    ],
+    segments: [
+      { from: 'A', to: 'B', view: 'h' },
+      { from: 'B', to: 'C', view: 'h' },
+      { from: 'C', to: 'A', view: 'h' },
+    ],
+    operation: {
+      kind: 'double_change_of_plane',
+      replaced1: 'v',
+      newGroundLine1: { a: { x: 120, y: 560 }, b: { x: 520, y: 620 } },
+      newGroundLine2: { a: { x: 140, y: 640 }, b: { x: 500, y: 700 } },
+      points: ['A', 'B', 'C'],
+    },
+  };
+  const val = validateEpureIr(ir);
+  assert.ok(val.ok, val.ok ? '' : JSON.stringify(val.errors));
+  const recon = reconstruct(ir);
+  assert.ok(recon.doubleChangePlane, 'double change reconstructed');
+  const scene = buildEpureScene(ir, recon);
+  assert.deepEqual(JSON.parse(JSON.stringify(scene)), scene);
+  assert.ok(scene.changePlane, 'the second change is exposed as the changePlane scene field');
+  assert.equal(scene.changePlane!.aux.length, 3);
+  const spread = Math.max(...scene.changePlane!.aux.map((a) => Math.max(Math.abs(a.at.x), Math.abs(a.at.y), Math.abs(a.at.z))));
+  assert.ok(spread <= 11, `aux points outside the box: ${spread}`);
+});

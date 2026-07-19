@@ -87,6 +87,30 @@ export type IrOperation =
       points: string[];
       /** Auxiliary-view positions as AUTHORED beside L′ — gold the computed reprojection is checked against. */
       auxiliary?: Record<string, Vec2>;
+    }
+  | {
+      /**
+       * Double change of projection plane (double changement de plan) — the two successive changes
+       * that bring an OBLIQUE plane figure to true shape, which a single change cannot. The object
+       * never moves; each change is just another orthogonal projection of the same fixed 3D points.
+       * Change 1 replaces one plane about L′ (exactly like `change_of_plane`), turning the plane
+       * edge-on. Change 2 replaces the plane RETAINED by change 1, about a second ground line L″
+       * drawn in the UNFOLDED auxiliary-1 view — the plane is now parallel to the new plane, so its
+       * second auxiliary is the TRUE SHAPE. That true shape is the strongest gold in the system.
+       */
+      kind: 'double_change_of_plane';
+      /** Which plane the FIRST change replaces; the second replaces whichever plane the first kept. */
+      replaced1: 'v' | 'h';
+      /** L′ as drawn among the retained-plane projections (a line of the retained plane). */
+      newGroundLine1: { a: Vec2; b: Vec2 };
+      /** L″ as drawn in the unfolded auxiliary-1 view (a line of the plane kept by change 1). */
+      newGroundLine2: { a: Vec2; b: Vec2 };
+      /** Points carried through both changes; each needs both original projections. */
+      points: string[];
+      /** Optional gold on the INTERMEDIATE (auxiliary-1) view, drawn beside L′. */
+      auxiliary1?: Record<string, Vec2>;
+      /** Gold on the FINAL true shape (auxiliary-2), drawn beside L″ — the falsifiable check. */
+      trueShape?: Record<string, Vec2>;
     };
 
 export interface EpureIR {
@@ -297,6 +321,36 @@ export function validateEpureIr(x: unknown): Validation {
         for (const [id, pos] of Object.entries(op.auxiliary)) {
           if (!carried.includes(id)) errors.push({ path: `operation.auxiliary.${id}`, message: 'not in points' });
           checkVec2(pos, `operation.auxiliary.${id}`, errors);
+        }
+      }
+    }
+  } else if (op.kind === 'double_change_of_plane') {
+    if (op.replaced1 !== 'v' && op.replaced1 !== 'h') {
+      errors.push({ path: 'operation.replaced1', message: "must be 'v' or 'h'" });
+    }
+    for (const key of ['newGroundLine1', 'newGroundLine2'] as const) {
+      const l = op[key];
+      if (!isObj(l) || !checkVec2(l.a, `operation.${key}.a`, errors) || !checkVec2(l.b, `operation.${key}.b`, errors)) {
+        errors.push({ path: `operation.${key}`, message: 'needs { a, b }' });
+      } else if (Math.hypot((l.b as Vec2).x - (l.a as Vec2).x, (l.b as Vec2).y - (l.a as Vec2).y) < 1) {
+        errors.push({ path: `operation.${key}`, message: 'degenerate (shorter than 1px)' });
+      }
+    }
+    if (!Array.isArray(op.points) || op.points.length === 0) {
+      errors.push({ path: 'operation.points', message: 'must be a non-empty array' });
+    } else {
+      op.points.forEach((id, i) => typeof id === 'string' && requireBothViews(id, `operation.points[${i}]`));
+    }
+    const carried = Array.isArray(op.points) ? (op.points as string[]) : [];
+    for (const key of ['auxiliary1', 'trueShape'] as const) {
+      const gold = op[key];
+      if (gold === undefined) continue;
+      if (!isObj(gold)) {
+        errors.push({ path: `operation.${key}`, message: 'must be an object' });
+      } else {
+        for (const [id, pos] of Object.entries(gold)) {
+          if (!carried.includes(id)) errors.push({ path: `operation.${key}.${id}`, message: 'not in points' });
+          checkVec2(pos, `operation.${key}.${id}`, errors);
         }
       }
     }

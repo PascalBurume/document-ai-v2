@@ -23,6 +23,7 @@ export interface ReconWarning {
     | 'rabattu-vs-authored'
     | 'section-off-plane'
     | 'aux-vs-authored'
+    | 'true-shape-vs-authored'
     | 'unsupported';
   message: string;
   magnitudePx?: number;
@@ -59,6 +60,28 @@ export interface Reconstruction {
     auxFlat: Map<string, Vec3>;
     /** Chosen unfold direction; the viewer animates a second dièdre from 0 to it. */
     unfoldAngle: number;
+  };
+  /**
+   * A double change of plane: the intermediate (edge-on) auxiliary and the final TRUE SHAPE.
+   * Both are orthogonal projections of the same fixed 3D points; `trueFlat` is the true shape
+   * unfolded all the way back into the drawing plane (through both ground lines).
+   */
+  doubleChangePlane?: {
+    replaced1: 'v' | 'h';
+    /** Change 1 (about L′): plane normal, axis, unfold, and the edge-on auxiliary in space + drawn. */
+    axisPoint1: Vec3;
+    axisDir1: Vec3;
+    planeNormal1: Vec3;
+    unfoldAngle1: number;
+    auxProj1: Map<string, Vec3>;
+    auxFlat1: Map<string, Vec3>;
+    /** Change 2 (about L″, a line of the plane kept by change 1): the true shape in space + drawn. */
+    axisPoint2: Vec3;
+    axisDir2: Vec3;
+    planeNormal2: Vec3;
+    unfoldAngle2: number;
+    auxProj2: Map<string, Vec3>;
+    trueFlat: Map<string, Vec3>;
   };
   warnings: ReconWarning[];
   /** True when the reconstruction should not be shown at all (a mis-read figure, not a nuance). */
@@ -238,6 +261,106 @@ export function reconstruct(ir: EpureIR, opts: ReconOptions = {}): Reconstructio
       auxProj,
       auxFlat: foldFlat(unfoldAngle),
       unfoldAngle,
+    };
+    return result;
+  }
+
+  if (op.kind === 'double_change_of_plane') {
+    // Both changes are orthogonal projections of the SAME fixed 3D points — the object never moves.
+    // Change 1 turns the oblique plane edge-on (about L′); change 2 (about L″, a line of the plane
+    // change 1 kept) leaves the figure parallel to the new plane, so its second auxiliary is the
+    // TRUE SHAPE. L″ is drawn in the UNFOLDED aux-1 view, so it is lifted in the kept plane and
+    // folded up onto π1′ before it can define the second projection.
+    const carried = op.points.map((id) => ({ id, P: points.get(id) }));
+    if (carried.some((e) => !e.P)) {
+      warnings.push({ code: 'unsupported', message: 'a point could not be carried into the auxiliary views' });
+      result.fatal = true;
+      return result;
+    }
+    const pts = carried as { id: string; P: Vec3 }[];
+
+    // A ground line drawn in the kept plane, lifted to a 3D line of it. replaced1='v' keeps πH (z=0);
+    // 'h' keeps πV (y=0).
+    const liftGL = (g: { a: Vec2; b: Vec2 }) =>
+      op.replaced1 === 'v'
+        ? { a: v3(u(frame, g.a), s(frame, g.a), 0), b: v3(u(frame, g.b), s(frame, g.b), 0) }
+        : { a: v3(u(frame, g.a), 0, -s(frame, g.a)), b: v3(u(frame, g.b), 0, -s(frame, g.b)) };
+    const keptAxis = op.replaced1 === 'v' ? v3(0, 0, 1) : v3(0, 1, 0); // preserved coordinate axis
+    const keptToPx = op.replaced1 === 'v' ? toPixelH : toPixelV;
+    const proj = (P: Vec3, n: Vec3, q: Vec3) => sub(P, scale(n, dot(n, sub(P, q))));
+    const cand = [Math.PI / 2, -Math.PI / 2];
+
+    // Pick an unfold direction: minimise residual against the drawn gold if given, else land the
+    // unfolded figure on the same side as the target (where its own construction is drawn).
+    const pickSide = (
+      make: (ang: number) => Map<string, Vec3>,
+      gold: Record<string, Vec2> | undefined,
+      target: Vec2,
+    ): { ang: number; perPoint: number } => {
+      if (gold && Object.keys(gold).length) {
+        const resid = (ang: number) => {
+          const flat = make(ang);
+          let sum = 0, k = 0;
+          for (const [id, px] of Object.entries(gold)) {
+            const f = flat.get(id);
+            if (f) { sum += Math.hypot(keptToPx(frame, f).x - px.x, keptToPx(frame, f).y - px.y); k++; }
+          }
+          return k ? sum / k : Infinity;
+        };
+        const r0 = resid(cand[0]), r1 = resid(cand[1]);
+        return { ang: r0 <= r1 ? cand[0] : cand[1], perPoint: Math.min(r0, r1) };
+      }
+      const centroidDist = (ang: number) => {
+        const flat = [...make(ang).values()];
+        let sx = 0, sy = 0;
+        for (const p of flat) { const px = keptToPx(frame, p); sx += px.x; sy += px.y; }
+        return Math.hypot(sx / flat.length - target.x, sy / flat.length - target.y);
+      };
+      return { ang: centroidDist(cand[0]) <= centroidDist(cand[1]) ? cand[0] : cand[1], perPoint: NaN };
+    };
+
+    // ---- Change 1: about L′ (identical to a single change_of_plane) ----
+    const g1 = liftGL(op.newGroundLine1);
+    const axisPoint1 = g1.a;
+    const axisDir1 = normalize(sub(g1.b, g1.a));
+    const planeNormal1 = normalize(cross(axisDir1, keptAxis));
+    const auxProj1 = new Map(pts.map(({ id, P }) => [id, proj(P, planeNormal1, axisPoint1)] as const));
+    const unfold1 = (ang: number) =>
+      new Map([...auxProj1].map(([id, P]) => [id, rotateAboutAxis(P, axisPoint1, axisDir1, ang)] as const));
+    const l2mid: Vec2 = { x: (op.newGroundLine2.a.x + op.newGroundLine2.b.x) / 2, y: (op.newGroundLine2.a.y + op.newGroundLine2.b.y) / 2 };
+    const s1 = pickSide(unfold1, op.auxiliary1, l2mid);
+    const unfoldAngle1 = s1.ang;
+    const auxFlat1 = unfold1(unfoldAngle1);
+    if (op.auxiliary1 && Number.isFinite(s1.perPoint) && s1.perPoint > goldTol) {
+      warnings.push({ code: 'aux-vs-authored', message: `intermediate auxiliary misses the drawn one by ${s1.perPoint.toFixed(1)}px per point`, magnitudePx: s1.perPoint });
+    }
+
+    // ---- Change 2: about L″, a line of the plane kept by change 1 (π1′) ----
+    // L″ is drawn in the unfolded aux-1 view (the kept plane); fold it UP onto π1′ to get it in space.
+    const g2flat = liftGL(op.newGroundLine2);
+    const foldUp = (P: Vec3) => rotateAboutAxis(P, axisPoint1, axisDir1, -unfoldAngle1);
+    const axisPoint2 = foldUp(g2flat.a);
+    const axisDir2 = normalize(sub(foldUp(g2flat.b), axisPoint2));
+    // π2′ ⟂ π1′ and contains L″ ⇒ spanned by axisDir2 and planeNormal1; its normal is their cross.
+    const planeNormal2 = normalize(cross(axisDir2, planeNormal1));
+    const auxProj2 = new Map(pts.map(({ id, P }) => [id, proj(P, planeNormal2, axisPoint2)] as const));
+    // Unfold change 2 about L″ onto π1′, then carry that through the change-1 unfold to the sheet.
+    const trueFlatFor = (ang2: number) =>
+      new Map([...auxProj2].map(([id, P]) => {
+        const ontoPi1 = rotateAboutAxis(P, axisPoint2, axisDir2, ang2);
+        return [id, rotateAboutAxis(ontoPi1, axisPoint1, axisDir1, unfoldAngle1)] as const;
+      }));
+    const s2 = pickSide(trueFlatFor, op.trueShape, l2mid);
+    const unfoldAngle2 = s2.ang;
+    const trueFlat = trueFlatFor(unfoldAngle2);
+    if (op.trueShape && Number.isFinite(s2.perPoint) && s2.perPoint > goldTol) {
+      warnings.push({ code: 'true-shape-vs-authored', message: `computed true shape misses the drawn one by ${s2.perPoint.toFixed(1)}px per point`, magnitudePx: s2.perPoint });
+    }
+
+    result.doubleChangePlane = {
+      replaced1: op.replaced1,
+      axisPoint1, axisDir1, planeNormal1, unfoldAngle1, auxProj1, auxFlat1,
+      axisPoint2, axisDir2, planeNormal2, unfoldAngle2, auxProj2, trueFlat,
     };
     return result;
   }
