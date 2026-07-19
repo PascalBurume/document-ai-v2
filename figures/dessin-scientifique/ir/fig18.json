@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 18,
+    "page": 17,
+    "blockId": "p17-b16",
+    "caption": "Épure E 76 : projections d'une bipyramide de base quadrilatère ABCD et de sommets S et T."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 930 },
+  "groundLine": { "a": { "x": 16, "y": 450 }, "b": { "x": 704, "y": 450 } },
+  "points": [
+    { "id": "A", "v": { "x": 302, "y": 119 }, "h": { "x": 302, "y": 660 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 390, "y": 281 }, "h": { "x": 390, "y": 661 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 538, "y": 206 }, "h": { "x": 538, "y": 589 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 445, "y": 44 }, "h": { "x": 445, "y": 583 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 468, "y": 136 }, "h": { "x": 472, "y": 758 }, "role": "vertex" },
+    { "id": "T", "v": { "x": 372, "y": 187 }, "h": { "x": 372, "y": 500 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "D", "view": "v" },
+    { "from": "D", "to": "C", "view": "v" },
+    { "from": "C", "to": "B", "view": "v" },
+    { "from": "B", "to": "A", "view": "v" },
+    { "from": "S", "to": "A", "view": "v" },
+    { "from": "S", "to": "B", "view": "v" },
+    { "from": "S", "to": "C", "view": "v" },
+    { "from": "S", "to": "D", "view": "v" },
+    { "from": "T", "to": "A", "view": "v" },
+    { "from": "T", "to": "B", "view": "v" },
+    { "from": "T", "to": "C", "view": "v" },
+    { "from": "T", "to": "D", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D", "S", "T"] },
+  "notes": [
+    "Bipyramide : base quadrilatère ABCD + sommets S (haut) et T (bas), 12 arêtes. Reconstruction par point_projection ; sommets appariés par les rappels (abscisses V=H moyennées, léger jeu de tracé)."
+  ]
+}

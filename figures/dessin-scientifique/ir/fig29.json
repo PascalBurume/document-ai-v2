@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 29,
+    "sub": "b",
+    "page": 24,
+    "blockId": "p24-b1",
+    "caption": "Changement de plan (b) : le plan oblique (ABC) est mis de bout par un nouveau plan horizontal H'. La nouvelle ligne de terre H'L'T' donne la projection auxiliaire A^H' B^H' C^H' alignee (vue de bout du plan)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1060 },
+  "groundLine": { "a": { "x": 275, "y": 846 }, "b": { "x": 714, "y": 835 } },
+  "points": [
+    { "id": "A", "v": { "x": 381, "y": 665 }, "h": { "x": 385, "y": 845 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 489, "y": 580 }, "h": { "x": 493, "y": 788 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 622, "y": 724 }, "h": { "x": 625, "y": 938 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "C", "to": "A", "view": "h" }
+  ],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "h",
+    "newGroundLine": { "a": { "x": 604, "y": 432 }, "b": { "x": 668, "y": 785 } },
+    "points": ["A", "B", "C"],
+    "auxiliary": {
+      "A": { "x": 636, "y": 620 },
+      "B": { "x": 672, "y": 546 },
+      "C": { "x": 555, "y": 747 }
+    }
+  },
+  "notes": [
+    "Sub-figure (b) of a sideways change-of-plane plate. Original two projections about the drawn LT (f^H), recall lines pixel-vertical; the new ground line H'L'T' is the near-vertical oblique line, and the auxiliary A^H' B^H' C^H' is the edge-on (mise de bout) view of the oblique plane (ABC), hence collinear. The plate's second construction (true-shape rabattu A^V' B^V' C^V') is ignored."
+  ]
+}

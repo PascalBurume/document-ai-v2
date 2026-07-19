@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 30,
+    "page": 24,
+    "blockId": "p24-b2",
+    "caption": "Changement de plan (c) : plan (ABC) frontal-projetant ; nouvelle ligne de terre L'T' parallèle à la trace verticale donne la vraie grandeur en projection auxiliaire H'."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 590 },
+  "groundLine": { "a": { "x": 21, "y": 393 }, "b": { "x": 400, "y": 395 } },
+  "points": [
+    { "id": "A", "v": { "x": 143, "y": 163 }, "h": { "x": 143, "y": 391 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 201, "y": 116 }, "h": { "x": 202, "y": 511 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 302, "y": 66 }, "h": { "x": 302, "y": 486 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "C", "to": "A", "view": "h" }
+  ],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "h",
+    "newGroundLine": { "a": { "x": 36, "y": 236 }, "b": { "x": 379, "y": 11 } },
+    "points": ["A", "B", "C"],
+    "auxiliary": {
+      "A": { "x": 143, "y": 159 },
+      "B": { "x": 271, "y": 220 },
+      "C": { "x": 350, "y": 145 }
+    }
+  },
+  "notes": [
+    "Changement de plan remplaçant πH : πV retenu, L'T' tracée parallèle à la trace verticale (oblique) du plan frontal-projetant (ABC). La projection auxiliaire H' (triangle en trait fort) est la vraie grandeur du triangle. Le plan auxiliaire coïncide avec le plan (ABC), donc la reconstruction rabat le plan lui-même sur L'T'."
+  ]
+}

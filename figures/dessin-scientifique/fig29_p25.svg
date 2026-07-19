@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1060" width="720" height="1060">
+  <rect width="720" height="1060" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- epure a -->
+    <!-- ligne de terre LT (V/H), prolongee en h^V -->
+    <line x1="26" y1="163" x2="430" y2="122" stroke-width="1.2"/>
+    <!-- h^H -->
+    <path d="M30 320 L147 327 L250 336 L430 345" stroke-width="1.2"/>
+    <!-- nouvelle ligne de terre V'L'T' (oblique raide) -->
+    <path d="M112 25 L90 220 L68 516" stroke-width="1.2"/>
+
+    <!-- triangle des projections verticales A^V B^V C^V -->
+    <path d="M148 126 L246 62 L339 176 Z" stroke-width="1.2"/>
+    <!-- rappel plein A^V - A^H -->
+    <path d="M148 126 L133 272" stroke-width="2.4"/>
+    <!-- triangle rabattu (trait fort) A^H B^H' C^H' -->
+    <path d="M133 272 L194 79 L299 210 Z" stroke-width="2.4"/>
+    <!-- triangle des projections horizontales A^H B^H C^H -->
+    <path d="M147 327 L254 266 L345 384 Z" stroke-width="1.2"/>
+    <!-- trace du plan (ABC) : H'L'T' ... V' -->
+    <path d="M32 250 L257 543" stroke-width="2.4"/>
+    <!-- fleche sur A^H B^H -->
+    <path d="M212 291 L228 281 L214 275" stroke-width="1.2"/>
+
+    <g stroke-width="1" stroke-dasharray="7 5">
+      <line x1="247" y1="66" x2="252" y2="264"/>
+      <line x1="344" y1="182" x2="346" y2="380"/>
+      <line x1="306" y1="220" x2="310" y2="340"/>
+      <line x1="146" y1="278" x2="147" y2="322"/>
+      <line x1="33" y1="382" x2="345" y2="384"/>
+      <line x1="30" y1="250" x2="254" y2="266"/>
+    </g>
+
+    <!-- epure b -->
+    <!-- f^V -->
+    <path d="M275 690 L381 665 L639 604 L712 594" stroke-width="1.2"/>
+    <!-- ligne de terre LT (V/H) = f^H -->
+    <path d="M275 846 L385 845 L714 835" stroke-width="1.2"/>
+    <!-- nouvelle ligne de terre L'T' (oblique raide) -->
+    <path d="M604 432 L668 785" stroke-width="1.2"/>
+
+    <!-- triangle rabattu (trait fort) A^V' B^V' C^V' -->
+    <path d="M406 480 L556 470 L522 723 Z" stroke-width="2.4"/>
+    <!-- triangle des projections verticales -->
+    <path d="M381 665 L489 580 L622 724 Z" stroke-width="1.2"/>
+    <!-- triangle des projections horizontales -->
+    <path d="M385 845 L493 788 L625 938 Z" stroke-width="1.2"/>
+    <!-- trace du plan (ABC) H' L.T.H' -->
+    <path d="M385 1013 L468 880 L552 753 L639 602 L707 487" stroke-width="2.4"/>
+
+    <g stroke-width="1" stroke-dasharray="7 5">
+      <line x1="410" y1="483" x2="635" y2="601"/>
+      <line x1="560" y1="474" x2="671" y2="542"/>
+      <line x1="455" y1="578" x2="700" y2="538"/>
+      <line x1="383" y1="668" x2="385" y2="843"/>
+      <line x1="489" y1="585" x2="492" y2="786"/>
+      <line x1="623" y1="733" x2="625" y2="936"/>
+      <line x1="533" y1="657" x2="534" y2="790"/>
+      <line x1="528" y1="734" x2="620" y2="723"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="14" fill="#111">
+    <!-- epure a labels -->
+    <text x="30" y="156">LT V</text>
+    <text x="54" y="175">H</text>
+    <text x="374" y="121">h<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="403" y="335">h<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="121" y="149">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="249" y="61">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="347" y="179">C<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="184" y="73">B<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="299" y="223">C<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="107" y="278">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="127" y="319">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="257" y="269">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="356" y="383">C<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="22" y="241">B<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="57" y="340">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="109" y="402">C<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="96" y="72" transform="rotate(-80 96 72)">V'L'T'</text>
+    <text x="118" y="70" transform="rotate(-80 118 70)">H</text>
+
+    <text x="187" y="488" transform="rotate(52.5 187 488)" font-size="12">V'</text>
+    <text x="199" y="466" transform="rotate(52.5 199 466)" font-size="12">H'L'T'·(ABC)</text>
+    <text x="267" y="530" transform="rotate(52.5 267 530)" font-size="12">V'</text>
+
+    <text x="126" y="531" font-size="17">( a )</text>
+
+    <!-- epure b labels -->
+    <text x="274" y="842">LT V</text>
+    <text x="290" y="862">H</text>
+    <text x="665" y="592">f<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="671" y="831">f<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="396" y="473">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="542" y="464">B<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="494" y="748">C<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="367" y="660">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="490" y="579">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="625" y="737">C<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="359" y="843">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="496" y="787">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="630" y="944">C<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="647" y="625">A<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="661" y="529">B<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="557" y="757">C<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="579" y="437" transform="rotate(70 579 437)" font-size="12">H'L'T'</text>
+    <text x="612" y="470" transform="rotate(70 612 470)" font-size="12">V</text>
+
+    <text x="383" y="1016" transform="rotate(-58 383 1016)" font-size="12">(ABC)H'·L·T·H'</text>
+    <text x="455" y="932" transform="rotate(-58 455 932)" font-size="12">V'</text>
+
+    <text x="521" y="1033" font-size="17">( b )</text>
+  </g>
+</svg>

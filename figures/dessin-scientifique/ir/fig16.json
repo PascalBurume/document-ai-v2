@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 16,
+    "page": 15,
+    "blockId": "p15-b11",
+    "caption": "Épure E 74 : parallélépipède ABCD–A'B'C'D' et sa section MNKL (centre O)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1130 },
+  "groundLine": { "a": { "x": 22, "y": 884 }, "b": { "x": 706, "y": 884 } },
+  "points": [
+    { "id": "A", "v": { "x": 89, "y": 315 }, "h": { "x": 89, "y": 873 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 332, "y": 320 }, "h": { "x": 332, "y": 1011 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 395, "y": 82 }, "h": { "x": 395, "y": 894 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 168, "y": 80 }, "h": { "x": 168, "y": 749 }, "role": "vertex" },
+    { "id": "Ap", "v": { "x": 200, "y": 468 }, "h": { "x": 200, "y": 676 }, "role": "vertex" },
+    { "id": "Bp", "v": { "x": 448, "y": 468 }, "h": { "x": 448, "y": 808 }, "role": "vertex" },
+    { "id": "Cp", "v": { "x": 517, "y": 222 }, "h": { "x": 517, "y": 688 }, "role": "vertex" },
+    { "id": "Dp", "v": { "x": 298, "y": 222 }, "h": { "x": 298, "y": 541 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 129, "y": 196 }, "h": { "x": 129, "y": 810 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 280, "y": 81 }, "h": { "x": 280, "y": 821 }, "role": "vertex" },
+    { "id": "K", "v": { "x": 210, "y": 317 }, "h": { "x": 210, "y": 942 }, "role": "vertex" },
+    { "id": "L", "v": { "x": 363, "y": 203 }, "h": { "x": 363, "y": 953 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" },
+    { "from": "Ap", "to": "Bp", "view": "v" },
+    { "from": "Bp", "to": "Cp", "view": "v" },
+    { "from": "Cp", "to": "Dp", "view": "v", "style": "hidden" },
+    { "from": "Dp", "to": "Ap", "view": "v", "style": "hidden" },
+    { "from": "A", "to": "Ap", "view": "v" },
+    { "from": "B", "to": "Bp", "view": "v" },
+    { "from": "C", "to": "Cp", "view": "v" },
+    { "from": "D", "to": "Dp", "view": "v", "style": "hidden" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "C", "to": "D", "view": "h" },
+    { "from": "D", "to": "A", "view": "h" },
+    { "from": "Ap", "to": "Bp", "view": "h", "style": "hidden" },
+    { "from": "Bp", "to": "Cp", "view": "h" },
+    { "from": "Cp", "to": "Dp", "view": "h" },
+    { "from": "Dp", "to": "Ap", "view": "h" },
+    { "from": "A", "to": "Ap", "view": "h" },
+    { "from": "B", "to": "Bp", "view": "h" },
+    { "from": "C", "to": "Cp", "view": "h" },
+    { "from": "D", "to": "Dp", "view": "h" },
+    { "from": "N", "to": "M", "view": "h" },
+    { "from": "M", "to": "L", "view": "h" },
+    { "from": "L", "to": "K", "view": "h" },
+    { "from": "K", "to": "N", "view": "h" }
+  ],
+  "operation": {
+    "kind": "solid_section",
+    "solid": ["A", "B", "C", "D", "Ap", "Bp", "Cp", "Dp"],
+    "planePoints": ["N", "M", "K"],
+    "section": ["N", "M", "L", "K"]
+  },
+  "notes": [
+    "E74 : parallélépipède ABCD–A'B'C'D' (faces ABCD ∥ A'B'C'D', arêtes latérales AA'…DD'). Sommets appariés par les rappels, abscisses V=H moyennées (léger jeu de tracé de la planche, jusqu'à 20px sur A').",
+    "Section MNKL : chaque sommet est lu sur une arête de la face supérieure ABCD (N sur DA, M sur CD, K sur AB, L sur BC), au point où l'arête est coupée — les rappels donnent le paramètre H, l'élévation vient de l'arête correspondante en V. N et L retombent sur leurs labels N^V/L^V, ce qui confirme la lecture ; O est le centre de la section.",
+    "Les quatre sommets de section sont coplanaires (résidu < 1.4px) : le plan de coupe passe par les milieux des arêtes et est parallèle à la face ABCD."
+  ]
+}

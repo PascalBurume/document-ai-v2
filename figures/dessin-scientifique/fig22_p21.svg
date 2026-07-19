@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 2000" width="720" height="2000">
+  <rect width="720" height="2000" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ================= (a) ================= -->
+    <!-- axis d^HV = alpha^HV (vertical) -->
+    <line x1="386" y1="38" x2="372" y2="962" stroke-width="1.6"/>
+    <!-- pi^V (the long ruled line; it bows on the right because the page curls in the scan) -->
+    <path d="M30 202 L500 209 Q610 218 706 272" stroke-width="1.6"/>
+    <!-- d^H_R : the rabatted line -->
+    <path d="M48 405 L378 609 Q520 715 676 890" stroke-width="1.6"/>
+    <!-- horizontal through B^H to B^H_R -->
+    <path d="M377 747 L553 753 Q640 762 706 786" stroke-width="1.5"/>
+    <!-- ticks on the axis -->
+    <g stroke-width="1.6">
+      <line x1="371" y1="321" x2="389" y2="320"/>
+      <line x1="371" y1="386" x2="389" y2="385"/>
+      <line x1="371" y1="504" x2="389" y2="503"/>
+    </g>
+    <!-- M^H : long-dash horizontal to M^H_R -->
+    <line x1="376" y1="838" x2="647" y2="853" stroke-width="2" stroke-dasharray="14 8"/>
+    <!-- rappels (long dash) -->
+    <g stroke-width="2" stroke-dasharray="14 8">
+      <line x1="565" y1="209" x2="560" y2="753"/>
+      <line x1="653" y1="233" x2="645" y2="850"/>
+    </g>
+    <!-- arrow at the foot of the axis (a) -->
+    <path d="M389 905 L346 905 M354 900 L346 905 L354 910" stroke-width="1.4"/>
+
+    <!-- ================= (b) ================= -->
+    <line x1="352" y1="1002" x2="343" y2="1990" stroke-width="1.6"/>
+    <!-- d^V_R : the rabatted line -->
+    <path d="M41 1100 L352 1334 L495 1456 Q615 1570 691 1706" stroke-width="1.6"/>
+    <!-- horizontal through B^V to B^V_R -->
+    <path d="M352 1456 L684 1454" stroke-width="1.5"/>
+    <!-- pi^H -->
+    <path d="M40 1753 L345 1757 Q560 1756 690 1712" stroke-width="1.6"/>
+    <!-- ticks on the axis -->
+    <g stroke-width="1.6">
+      <line x1="344" y1="1601" x2="362" y2="1600"/>
+      <line x1="336" y1="1876" x2="354" y2="1875"/>
+      <line x1="335" y1="1932" x2="353" y2="1931"/>
+    </g>
+    <!-- M^V : long-dash horizontal from M^V_R -->
+    <line x1="124" y1="1161" x2="356" y2="1157" stroke-width="2" stroke-dasharray="14 8"/>
+    <!-- rappels -->
+    <g stroke-width="2" stroke-dasharray="14 8">
+      <line x1="124" y1="1161" x2="110" y2="1746"/>
+      <line x1="495" y1="1456" x2="491" y2="1736"/>
+    </g>
+    <!-- arrow near the head of the axis (b) -->
+    <path d="M356 1082 L320 1082 M328 1077 L320 1082 L328 1087" stroke-width="1.4"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="60" y="80" font-size="21">E 80</text>
+    <text x="132" y="900" font-size="19">( a )</text>
+    <text x="150" y="1922" font-size="19">( b )</text>
+
+    <!-- (a) -->
+    <text x="392" y="58">d<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="438" y="58">α<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="392" y="184">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="424" y="188">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="96" y="194">π<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="552" y="192">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="648" y="222">M<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="392" y="372">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="336" y="500">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="66" y="400">d<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="386" y="604">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="434" y="600">A<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="390" y="736">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="558" y="748">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="332" y="842">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="650" y="852">M<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="368" y="958">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <!-- (b) -->
+    <text x="360" y="1016">d<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="366" y="1062">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="106" y="1146">M<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="364" y="1162">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="358" y="1330">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="400" y="1332">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="360" y="1448">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="490" y="1448">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="362" y="1602">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="352" y="1744">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="392" y="1740">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="500" y="1740">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="116" y="1744">M<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="676" y="1706">π<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="350" y="1944">M<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</svg>

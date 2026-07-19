@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 11,
+    "page": 10,
+    "blockId": "p10-b21",
+    "caption": "Épure E 69 : quadrilatère ABCD dans un plan projetant (projection horizontale rectiligne), rabattu autour de la charnière verticale ch^V en vraie grandeur A^V_R B^V_R C^V_R D^V_R."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 890 },
+  "groundLine": { "a": { "x": 22, "y": 701 }, "b": { "x": 706, "y": 701 } },
+  "points": [
+    { "id": "A", "v": { "x": 427, "y": 181 }, "h": { "x": 427, "y": 834 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 270, "y": 61 }, "h": { "x": 270, "y": 677 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 183, "y": 280 }, "h": { "x": 183, "y": 589 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 330, "y": 404 }, "h": { "x": 330, "y": 737 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "vertical",
+    "hinge": { "aH": { "x": 304, "y": 710 } },
+    "planePoints": ["A", "B", "C", "D"],
+    "rabattu": { "view": "v", "points": { "A": { "x": 125, "y": 178 }, "B": { "x": 357, "y": 63 }, "C": { "x": 492, "y": 272 }, "D": { "x": 266, "y": 415 } } }
+  },
+  "notes": [
+    "Plan projetant : les projections horizontales A^H B^H C^H D^H sont alignées sur une droite oblique (pente ~1). La charnière ch^V est une verticale de l'épure ; le quadrilatère bascule jusqu'à devenir frontal, rabattu porté par πV.",
+    "Points lus aux sommets gras puis alignés : A^H/B^H/C^H/D^H reportés sur la droite projetante (leur alignement définit le plan) et abscisses V=H exactes. Le point de charnière aH est pris SUR cette même droite (x≈304) — sinon l'axe sort du plan et le rabattu ne retombe pas à plat."
+  ]
+}

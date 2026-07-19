@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" width="720" height="600">
+  <rect width="720" height="600" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M15 14 L700 16 L706 590 L18 592 Z" stroke-width="1.2"/>
+
+    <!-- traces / long construction lines that could be followed end to end -->
+    <line x1="150" y1="15" x2="156" y2="590" stroke-width="1"/>   <!-- f^H / Ch^H / f1^H bundle -->
+    <line x1="302" y1="15" x2="534" y2="590" stroke-width="1"/>   <!-- Ch^V -->
+    <line x1="360" y1="15" x2="700" y2="455" stroke-width="1"/>   <!-- f'^V -->
+    <line x1="18" y1="326" x2="605" y2="16" stroke-width="1"/>    <!-- h^H -->
+    <line x1="198" y1="590" x2="660" y2="130" stroke-width="1"/>  <!-- p^V -->
+    <line x1="600" y1="15" x2="560" y2="590" stroke-width="1"/>   <!-- h^V -->
+
+    <!-- ===== projection horizontale : C S A B ===== -->
+    <path d="M107 163 L285 198 L212 357 L132 310 Z" stroke-width="2.2"/>
+    <line x1="132" y1="310" x2="285" y2="198" stroke-width="2.2"/>
+    <!-- rayons issus de O^H -->
+    <g stroke-width="1">
+      <line x1="157" y1="259" x2="107" y2="163"/>
+      <line x1="157" y1="259" x2="285" y2="198"/>
+      <line x1="157" y1="259" x2="212" y2="357"/>
+      <line x1="157" y1="259" x2="132" y2="310"/>
+      <line x1="157" y1="259" x2="180" y2="210"/>
+    </g>
+    <!-- rabattement (traits mixtes) -->
+    <path d="M110 168 L200 205" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M180 215 L218 350" stroke-width="1.1" stroke-dasharray="14 6"/>
+
+    <!-- ===== projection verticale : D C S B A ===== -->
+    <path d="M455 208 L568 163 L605 197 L633 305 L512 358 Z" stroke-width="2.2"/>
+    <g stroke-width="1">
+      <line x1="537" y1="255" x2="455" y2="208"/>
+      <line x1="537" y1="255" x2="568" y2="163"/>
+      <line x1="537" y1="255" x2="605" y2="197"/>
+      <line x1="537" y1="255" x2="633" y2="305"/>
+      <line x1="537" y1="255" x2="512" y2="358"/>
+    </g>
+    <g stroke-width="1.1" stroke-dasharray="14 6">
+      <line x1="537" y1="255" x2="502" y2="162"/>
+      <line x1="537" y1="255" x2="627" y2="222"/>
+      <line x1="537" y1="255" x2="572" y2="367"/>
+    </g>
+
+    <!-- ===== lignes de rappel (horizontales) ===== -->
+    <g stroke-width="0.9" stroke-dasharray="9 5">
+      <line x1="113" y1="163" x2="568" y2="163"/>
+      <line x1="186" y1="210" x2="455" y2="208"/>
+      <line x1="291" y1="198" x2="605" y2="197"/>
+      <line x1="163" y1="259" x2="537" y2="255"/>
+      <line x1="138" y1="310" x2="633" y2="305"/>
+      <line x1="218" y1="357" x2="512" y2="358"/>
+      <line x1="330" y1="569" x2="450" y2="569"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="632" y="46" font-size="17">E 68</text>
+
+    <text x="92" y="158">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="288" y="214">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="118" y="324">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="218" y="372">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="172" y="222">D<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="566" y="156">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="610" y="194">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="638" y="318">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="508" y="374">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="538" y="274">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="486" y="146">D<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="636" y="228">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="572" y="382">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="628" y="180">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="434" y="316">C<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+  </g>
+</svg>

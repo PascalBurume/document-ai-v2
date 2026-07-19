@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 720" width="480" height="720"><rect width="480" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="480" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ligne de terre -->
+    <path d="M20 174 L315 172 L718 166" stroke-width="1.6"/>
+    <!-- droite verticale (LT du systeme auxiliaire) -->
+    <path d="M615 20 L612 470" stroke-width="1.6"/>
+
+    <!-- triangle rabattu A^H C^V' B^V' (trait fort) -->
+    <path d="M315 173 L112 230 L230 318 Z" stroke-width="2.6"/>
+
+    <!-- reperes de points sur la ligne de terre -->
+    <line x1="466" y1="165" x2="466" y2="175" stroke-width="1.4"/>
+    <line x1="554" y1="165" x2="554" y2="175" stroke-width="1.4"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1.2" stroke-dasharray="9 6">
+      <line x1="112" y1="177" x2="112" y2="228"/>
+      <line x1="230" y1="175" x2="230" y2="317"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="46" y="154" transform="rotate(180 46 154)">V'</text>
+    <text x="85" y="180" transform="rotate(180 85 180)">LT H</text>
+
+    <text x="114" y="143" transform="rotate(90 114 143)">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="232" y="142" transform="rotate(90 232 142)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="324" y="138" transform="rotate(90 324 138)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="324" y="178" transform="rotate(90 324 178)">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="92" y="232" transform="rotate(90 92 232)">C<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="236" y="327" transform="rotate(90 236 327)">B<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="464" y="142" transform="rotate(90 464 142)">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="553" y="142" transform="rotate(90 553 142)">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="622" y="142" transform="rotate(90 622 142)">A<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="617" y="378" transform="rotate(90 617 378)">LT. V</text>
+    <text x="594" y="402" transform="rotate(90 594 402)">H</text>
+
+    <text x="22" y="305" transform="rotate(90 22 305)" font-size="17">( P )</text>
+  </g>
+</g></svg>

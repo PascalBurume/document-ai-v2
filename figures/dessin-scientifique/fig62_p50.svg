@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 870" width="720" height="870">
+  <rect width="720" height="870" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ===== droites de l'epure ===== -->
+    <!-- ligne de terre V / H -->
+    <line x1="12" y1="214" x2="712" y2="212" stroke-width="1"/>
+    <!-- V' / H' -->
+    <line x1="12" y1="100" x2="712" y2="435" stroke-width="1"/>
+    <!-- pi^V' (Delta ABC) -->
+    <line x1="12" y1="500" x2="708" y2="862" stroke-width="1"/>
+    <!-- autres obliques -->
+    <line x1="19" y1="170" x2="710" y2="507" stroke-width="1"/>
+    <line x1="26" y1="694" x2="712" y2="458" stroke-width="1"/>
+    <line x1="24" y1="485" x2="712" y2="62" stroke-width="1"/>
+    <line x1="15" y1="10" x2="336" y2="862" stroke-width="1"/>
+    <line x1="252" y1="38" x2="600" y2="587" stroke-width="1"/>
+    <line x1="170" y1="304" x2="500" y2="425" stroke-width="0.9"/>
+
+    <!-- ===== projection verticale ===== -->
+    <path d="M242 213 L489 209 L318 357 L173 303 Z" stroke-width="2.2"/>
+    <path d="M173 303 L489 209" stroke-width="2.2"/>
+    <path d="M242 213 L318 357" stroke-width="1.8" stroke-dasharray="14 6"/>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M175 621 L319 430 L498 534 L244 621 Z" stroke-width="2.2"/>
+    <path d="M244 621 L319 430" stroke-width="2.2"/>
+    <path d="M250 630 L500 539" stroke-width="1.8" stroke-dasharray="14 6"/>
+
+    <!-- ===== rabattements (tirets longs) ===== -->
+    <path d="M265 62 L173 303" stroke-width="1.4" stroke-dasharray="14 6"/>
+    <path d="M265 62 L318 357" stroke-width="1.4" stroke-dasharray="14 6"/>
+    <path d="M535 58 L489 209" stroke-width="1.4" stroke-dasharray="14 6"/>
+    <path d="M44 531 L319 430" stroke-width="1.4" stroke-dasharray="14 6"/>
+    <path d="M44 531 L173 303" stroke-width="1.4" stroke-dasharray="14 6"/>
+
+    <!-- ===== lignes de rappel ===== -->
+    <g stroke-width="1" stroke-dasharray="9 6">
+      <line x1="242" y1="213" x2="244" y2="621"/>
+      <line x1="489" y1="209" x2="498" y2="534"/>
+      <line x1="318" y1="357" x2="319" y2="430"/>
+      <line x1="173" y1="303" x2="175" y2="621"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="250" y="60">B<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="530" y="54">C<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="236" y="204">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="496" y="210">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="484" y="172">H'</text>
+    <text x="484" y="190">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="656" y="206">V</text>
+    <text x="656" y="226">H</text>
+    <text x="152" y="322">S'</text>
+    <text x="298" y="290">H'</text>
+    <text x="292" y="306">S<tspan dy="4" font-size="10">2</tspan></text>
+    <text x="322" y="312">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="416" y="290">A<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="322" y="374">B<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="322" y="424">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="502" y="526">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="34" y="542">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="128" y="632">S<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="164" y="642">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="266" y="632">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="290" y="630">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="316" y="618">C<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="644" y="402">V'</text>
+    <text x="644" y="422">H'</text>
+    <text x="534" y="766">π<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="566" y="798">(Δ ABC)<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="296" y="832">H</text>
+    <text x="314" y="820">Y'</text>
+  </g>
+</svg>

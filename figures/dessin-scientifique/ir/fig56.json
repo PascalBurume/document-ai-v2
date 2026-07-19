@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 56,
+    "page": 43,
+    "blockId": "p43-b0",
+    "caption": "Épure E 100 : section plane K N M L du tétraèdre S A B C."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1140 },
+  "groundLine": { "a": { "x": 18, "y": 405 }, "b": { "x": 690, "y": 404 } },
+  "points": [
+    { "id": "A", "v": { "x": 114, "y": 401 }, "h": { "x": 111, "y": 695 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 369, "y": 220 }, "h": { "x": 378, "y": 905 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 640, "y": 406 }, "h": { "x": 646, "y": 702 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 376, "y": 104 }, "h": { "x": 380, "y": 624 }, "role": "vertex" },
+    { "id": "K", "v": { "x": 228, "y": 264 }, "h": { "x": 234, "y": 661 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 372, "y": 163 }, "h": { "x": 378, "y": 735 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 500, "y": 314 }, "h": { "x": 505, "y": 806 }, "role": "vertex" },
+    { "id": "L", "v": { "x": 302, "y": 404 }, "h": { "x": 302, "y": 700 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "S", "view": "v" },
+    { "from": "S", "to": "C", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "S", "to": "B", "view": "v" },
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "A", "to": "S", "view": "h" },
+    { "from": "S", "to": "C", "view": "h" },
+    { "from": "A", "to": "C", "view": "h", "style": "hidden" },
+    { "from": "S", "to": "B", "view": "h" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "K", "to": "N", "view": "v" },
+    { "from": "N", "to": "M", "view": "v" },
+    { "from": "M", "to": "L", "view": "v" },
+    { "from": "L", "to": "K", "view": "v" }
+  ],
+  "operation": {
+    "kind": "solid_section",
+    "solid": ["A", "B", "C", "S"],
+    "planePoints": ["K", "M", "L"],
+    "section": ["K", "N", "M", "L"]
+  },
+  "notes": [
+    "Tétraèdre S A B C (base A B C, sommet S) coupé par un plan → section quadrilatère K N M L : K sur A–S, N sur S–B, M sur S–C, L sur A–C. Sommets et points de section relevés à leurs deux projections, appariés par les rappels verticaux.",
+    "Plan de coupe défini par K, M, L (trois sommets de section non alignés) ; N est le point vérifié : élevé de ses deux projections il tombe dans ce plan (la profondeur de N^H lue à y≈735 coïncide avec la cote prédite par K-M-L)."
+  ]
+}

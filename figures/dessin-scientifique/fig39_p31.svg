@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 530" width="720" height="530"><rect width="720" height="530" fill="#fff"/><g transform="translate(720 530) rotate(180)">
+  <rect width="720" height="530" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- ligne de terre -->
+    <line x1="33" y1="224" x2="688" y2="282" stroke-width="1.4"/>
+    <!-- droite oblique (P^V') -->
+    <line x1="99" y1="27" x2="530" y2="514" stroke-width="1.4"/>
+    <!-- droite quasi verticale (passe par A^V) -->
+    <line x1="530" y1="70" x2="580" y2="510" stroke-width="1.4"/>
+
+    <!-- reperes sur la ligne de terre -->
+    <g stroke-width="1.2">
+      <line x1="149" y1="228" x2="149" y2="242"/>
+      <line x1="197" y1="233" x2="197" y2="247"/>
+      <line x1="383" y1="242" x2="383" y2="256"/>
+      <line x1="439" y1="238" x2="439" y2="252"/>
+      <line x1="497" y1="246" x2="497" y2="260"/>
+      <line x1="618" y1="262" x2="618" y2="276"/>
+    </g>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1.2" stroke-dasharray="9 6">
+      <line x1="149" y1="85" x2="149" y2="230"/>
+      <line x1="196" y1="135" x2="197" y2="236"/>
+    </g>
+    <path d="M141 166 L155 166 M148 159 L148 173" stroke-width="1"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111" text-anchor="middle">
+    <text x="684" y="91" font-size="19" transform="rotate(90 684 91)">E 90</text>
+    <text x="29" y="112" transform="rotate(180 29 112)">( a )</text>
+
+    <text x="62" y="203" transform="rotate(180 62 203)">H</text>
+    <text x="87" y="222" transform="rotate(180 87 222)">LT V'</text>
+
+    <text x="149" y="58" transform="rotate(180 149 58)">M<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="170" y="145" transform="rotate(180 170 145)">B<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="153" y="258" transform="rotate(180 153 258)">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="207" y="256" transform="rotate(180 207 256)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="272" y="264" transform="rotate(180 272 264)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="286" y="284" transform="rotate(180 286 284)">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="385" y="269" transform="rotate(180 385 269)">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="452" y="263" transform="rotate(180 452 263)">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="576" y="274" transform="rotate(180 576 274)">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="676" y="282" transform="rotate(180 676 282)">P<tspan dy="-5" font-size="10">H</tspan><tspan dy="5">V</tspan></text>
+
+    <text x="522" y="474" transform="rotate(180 522 474)">P<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="568" y="456" transform="rotate(180 568 456)">H</text>
+    <text x="593" y="452" transform="rotate(180 593 452)">V</text>
+    <text x="589" y="486" transform="rotate(180 589 486)">LT</text>
+  </g>
+</g></svg>

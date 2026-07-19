@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1140" width="720" height="1140">
+  <rect width="720" height="1140" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- plate frame (hand drawn, slightly bowed) -->
+    <path d="M18 30 Q 350 10 686 46 L 686 1108 Q 355 1136 18 1105 Z" stroke-width="1.2"/>
+
+    <!-- ===== reference / trace lines ===== -->
+    <!-- h^V : passes through B^V -->
+    <path d="M18 235 Q 355 200 690 240" stroke-width="1"/>
+    <!-- ligne de terre (A^V L^V C^V lie on it) -->
+    <path d="M18 405 Q 360 412 690 404" stroke-width="1"/>
+    <!-- f^H : passes through B^H -->
+    <path d="M18 898 Q 360 908 690 907" stroke-width="1"/>
+    <!-- the A^H C^H level, outside the solid -->
+    <path d="M18 697 L 111 695" stroke-width="1"/>
+    <path d="M646 702 L 690 704" stroke-width="1"/>
+
+    <!-- traces at the left : pi^H, p^H, b^H -->
+    <line x1="20" y1="551" x2="330" y2="700" stroke-width="0.9"/>
+    <line x1="20" y1="700" x2="200" y2="565" stroke-width="0.9"/>
+    <line x1="22" y1="760" x2="330" y2="640" stroke-width="0.9"/>
+    <!-- line through A^V coming from the lower left -->
+    <line x1="20" y1="487" x2="200" y2="330" stroke-width="0.9"/>
+
+    <!-- long obliques crossing the plate -->
+    <line x1="150" y1="1100" x2="690" y2="440" stroke-width="0.9"/>
+    <line x1="330" y1="1110" x2="690" y2="700" stroke-width="0.9"/>
+    <line x1="20" y1="1000" x2="690" y2="640" stroke-width="0.9"/>
+    <line x1="245" y1="40" x2="115" y2="400" stroke-width="0.9"/>
+    <line x1="430" y1="60" x2="640" y2="405" stroke-width="0.9"/>
+
+    <!-- ===== projection verticale : tetraedre S A B C ===== -->
+    <path d="M114 401 L376 104 L640 406" stroke-width="2.2"/>
+    <path d="M114 401 L640 406" stroke-width="2.2"/>
+    <path d="M376 104 L369 220" stroke-width="2.2"/>
+    <path d="M114 401 L369 220 L640 406" stroke-width="2.2"/>
+    <!-- section K N M L -->
+    <path d="M228 264 L371 163 L500 314 L302 404" stroke-width="2.2"/>
+
+    <!-- S^H' and G^H' dashed horizontals -->
+    <path d="M376 104 L500 107" stroke-width="1.4" stroke-dasharray="9 5"/>
+    <path d="M310 342 L378 352" stroke-width="1.4" stroke-dasharray="9 5"/>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M111 695 L234 661 L380 624 L646 702" stroke-width="2.2"/>
+    <path d="M111 695 L378 905 L646 702" stroke-width="2.2"/>
+    <path d="M380 624 L378 905" stroke-width="2.2"/>
+    <path d="M111 695 L646 702" stroke-width="2.4" stroke-dasharray="14 8"/>
+
+    <!-- ===== rabattement : K^V' L^V' B^H M^V' N^V' ===== -->
+    <path d="M109 915 L230 835 L377 905 L397 1030 L210 1097 Z" stroke-width="2.2"/>
+    <path d="M377 905 L210 1097" stroke-width="2.2"/>
+
+    <!-- ===== lignes de rappel ===== -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="112" y1="401" x2="111" y2="695"/>
+      <line x1="233" y1="230" x2="235" y2="812"/>
+      <line x1="302" y1="404" x2="302" y2="700"/>
+      <line x1="500" y1="314" x2="505" y2="806"/>
+      <line x1="640" y1="406" x2="646" y2="702"/>
+    </g>
+    <!-- rappel de S / B / J : trait plein sur toute la hauteur -->
+    <line x1="376" y1="28" x2="389" y2="1110" stroke-width="0.9"/>
+
+    <!-- rabattement (long tirets) -->
+    <path d="M200 230 L300 470" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M115 780 L225 1110" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M250 60 L268 300" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M25 85 L130 175" stroke-width="1.1" stroke-dasharray="14 6"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="30" y="62" font-size="19">E 100</text>
+    <text x="676" y="16" font-size="17" font-weight="bold">89</text>
+
+    <!-- projection verticale -->
+    <text x="381" y="96">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="380" y="158">N<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="352" y="212">B<tspan dy="-14" font-size="10">V</tspan></text>
+    <text x="214" y="252">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="507" y="316">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="92" y="394">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="648" y="414">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="296" y="420">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="384" y="422">J<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="208" y="308">x<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="382" y="362">G<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="300" y="338">G<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="502" y="100">S<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="614" y="228">h<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="252" y="48">B<tspan dy="4" font-size="10">1</tspan></text>
+    <text x="222" y="212">X<tspan dy="4" font-size="10">1</tspan></text>
+    <text x="546" y="416">V<tspan dy="4" font-size="10">1</tspan></text>
+    <text x="546" y="432">H<tspan dy="4" font-size="10">1</tspan></text>
+
+    <!-- traces a gauche -->
+    <text x="20" y="404">b<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="36" y="404">α<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="54" y="404">λ<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="36" y="556">π<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="44" y="618">p<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="30" y="688">b<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <!-- projection horizontale -->
+    <text x="94" y="714">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="232" y="650">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="382" y="618">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="644" y="718">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="300" y="690">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="394" y="690">J<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="396" y="736">N<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="396" y="774">G<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="510" y="800">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="218" y="812">x<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="366" y="944">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="636" y="890">f<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="628" y="602">f<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="626" y="498">h<tspan dy="-5" font-size="10">H1</tspan></text>
+
+    <!-- rabattements -->
+    <text x="72" y="928">K<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="236" y="828">L<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="186" y="1110">N<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="410" y="1038">M<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="340" y="1096">λ<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="392" y="1076">β<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="416" y="1094">δ<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="424" y="1112">p<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="656" y="1056">H<tspan dy="4" font-size="10">1</tspan></text>
+    <text x="650" y="1074">V<tspan dy="4" font-size="10">1</tspan></text>
+  </g>
+</svg>

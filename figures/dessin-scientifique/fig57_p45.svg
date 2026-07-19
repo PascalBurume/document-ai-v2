@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 720" width="460" height="720"><rect width="460" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="460" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- plate frame -->
+    <rect x="14" y="15" width="689" height="434" stroke-width="1.2"/>
+
+    <!-- ligne de terre (verticale : la planche est en paysage) -->
+    <line x1="389" y1="15" x2="391" y2="449" stroke-width="1"/>
+    <!-- pi^V ch^V -->
+    <line x1="459" y1="15" x2="461" y2="449" stroke-width="1"/>
+    <!-- p^V (horizontale, passe par S^V) -->
+    <line x1="232" y1="228" x2="702" y2="233" stroke-width="1"/>
+
+    <!-- a^H : droite C^H x^H B^H, et a^H_R son rabattement -->
+    <line x1="15" y1="452" x2="382" y2="17" stroke-width="1"/>
+    <line x1="15" y1="334" x2="425" y2="17" stroke-width="1"/>
+    <!-- a^V : droite B^V x^V C^V -->
+    <line x1="386" y1="16" x2="700" y2="428" stroke-width="1"/>
+    <!-- droite de construction A^V vers K^V -->
+    <line x1="457" y1="289" x2="600" y2="70" stroke-width="0.9"/>
+    <!-- obliques longues -->
+    <line x1="300" y1="15" x2="200" y2="449" stroke-width="0.9"/>
+    <line x1="345" y1="15" x2="255" y2="449" stroke-width="0.9"/>
+
+    <!-- ===== projection horizontale : triangle A^H B^H C^H ===== -->
+    <path d="M165 273 L283 134 L262 282 Z" stroke-width="2.2"/>
+    <!-- polygone interieur -->
+    <path d="M236 192 L264 174 L268 249 L262 282" stroke-width="2.2"/>
+    <path d="M236 192 L239 228 L262 282" stroke-width="2.2"/>
+
+    <!-- ===== projection verticale : A^V B^V S^V C^V ===== -->
+    <path d="M457 289 L476 133 L628 231 L580 272 Z" stroke-width="2.2"/>
+    <!-- diagonale A^V S^V en tirets longs -->
+    <path d="M457 289 L628 231" stroke-width="1.6" stroke-dasharray="14 6"/>
+
+    <!-- ===== triangle rabattu L^H' K^H' M^H' ===== -->
+    <path d="M407 79 L454 81 L379 160 Z" stroke-width="2.2"/>
+
+    <!-- rayons de rabattement (tirets longs) -->
+    <path d="M454 81 L540 173" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M407 79 L518 195" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M379 160 L461 252" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M15 112 L240 197" stroke-width="1.1" stroke-dasharray="14 6"/>
+    <path d="M109 259 L165 273" stroke-width="1.1" stroke-dasharray="14 6"/>
+
+    <!-- lignes de rappel (horizontales ici) -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="298" y1="111" x2="487" y2="111"/>
+      <line x1="290" y1="134" x2="470" y2="133"/>
+      <line x1="272" y1="174" x2="535" y2="173"/>
+      <line x1="243" y1="192" x2="514" y2="195"/>
+      <line x1="176" y1="272" x2="574" y2="272"/>
+      <line x1="274" y1="249" x2="456" y2="252"/>
+      <line x1="268" y1="283" x2="452" y2="289"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="14" fill="#111">
+    <text x="686" y="40" font-size="17" transform="rotate(90 686 40)">E 101</text>
+
+    <!-- projection horizontale -->
+    <text x="162" y="288" transform="rotate(90 162 288)">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="94" y="246" transform="rotate(90 94 246)">C<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="268" y="296" transform="rotate(90 268 296)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="288" y="146" transform="rotate(90 288 146)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="268" y="112" transform="rotate(90 268 112)">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="234" y="166" transform="rotate(90 234 166)">x<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="186" y="168" transform="rotate(90 186 168)">x<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="272" y="164" transform="rotate(90 272 164)">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="228" y="206" transform="rotate(90 228 206)">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="234" y="234" transform="rotate(90 234 234)">G<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="230" y="254" transform="rotate(90 230 254)">J<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="276" y="250" transform="rotate(90 276 250)">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="40" y="316" transform="rotate(90 40 316)">a<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="46" y="416" transform="rotate(90 46 416)">a<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <!-- triangle rabattu -->
+    <text x="392" y="72" transform="rotate(90 392 72)">L<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="458" y="76" transform="rotate(90 458 76)">K<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="366" y="160" transform="rotate(90 366 160)">M<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <!-- projection verticale -->
+    <text x="472" y="122" transform="rotate(90 472 122)">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="548" y="166" transform="rotate(90 548 166)">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="524" y="192" transform="rotate(90 524 192)">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="508" y="170" transform="rotate(90 508 170)">x<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="634" y="238" transform="rotate(90 634 238)">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="586" y="280" transform="rotate(90 586 280)">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="446" y="296" transform="rotate(90 446 296)">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="466" y="262" transform="rotate(90 466 262)">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="502" y="244" transform="rotate(90 502 244)">G<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="684" y="236" transform="rotate(90 684 236)">p<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="684" y="404" transform="rotate(90 684 404)">a<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <!-- bas de planche -->
+    <text x="240" y="410" transform="rotate(90 240 410)">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="284" y="404" transform="rotate(90 284 404)">H'</text>
+    <text x="382" y="402" transform="rotate(90 382 402)">H</text>
+    <text x="400" y="404" transform="rotate(90 400 404)">V</text>
+    <text x="462" y="388" transform="rotate(90 462 388)">π<tspan dy="-5" font-size="10">V</tspan><tspan dy="5">ch</tspan><tspan dy="-5" font-size="10">V</tspan></text>
+  </g>
+</g></svg>

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 970" width="720" height="970">
+  <rect width="720" height="970" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- plate frame -->
+    <path d="M16 16 L702 10 L710 950 L23 940 Z" stroke-width="1.2"/>
+
+    <!-- ===== droites et traces ===== -->
+    <!-- n^V -->
+    <line x1="15" y1="119" x2="705" y2="101" stroke-width="1"/>
+    <!-- m^V -->
+    <line x1="16" y1="205" x2="705" y2="193" stroke-width="1"/>
+    <!-- p^V ... alpha^V -->
+    <line x1="17" y1="355" x2="705" y2="245" stroke-width="1"/>
+    <!-- alpha^V_R -->
+    <line x1="19" y1="478" x2="706" y2="333" stroke-width="1"/>
+    <!-- n^H -->
+    <line x1="18" y1="503" x2="706" y2="503" stroke-width="1"/>
+    <!-- pi^H m^H -->
+    <line x1="18" y1="653" x2="710" y2="664" stroke-width="1"/>
+    <!-- p^H ... d^H -->
+    <line x1="18" y1="886" x2="715" y2="800" stroke-width="1"/>
+    <!-- a^HV : verticale -->
+    <line x1="190" y1="18" x2="197" y2="942" stroke-width="1"/>
+    <!-- b : verticale -->
+    <line x1="458" y1="14" x2="474" y2="948" stroke-width="1"/>
+    <!-- g^V -->
+    <line x1="20" y1="564" x2="418" y2="17" stroke-width="1"/>
+    <!-- g^H -->
+    <line x1="163" y1="940" x2="556" y2="38" stroke-width="1"/>
+    <!-- Delta^V : issue de K^V -->
+    <line x1="192" y1="114" x2="706" y2="429" stroke-width="1"/>
+    <!-- Delta^H : issue de K^H -->
+    <line x1="192" y1="503" x2="580" y2="957" stroke-width="1"/>
+    <!-- construction A^V - C^V_R et A^V - B^V_R -->
+    <line x1="190" y1="203" x2="109" y2="459" stroke-width="0.9"/>
+    <line x1="190" y1="203" x2="410" y2="427" stroke-width="0.9"/>
+
+    <!-- ===== projection verticale : A^V B^V C^V (D^V) ===== -->
+    <path d="M190 203 L109 340" stroke-width="2.2"/>
+    <path d="M190 203 L386 297" stroke-width="2.2"/>
+    <path d="M109 340 L386 297" stroke-width="2.2"/>
+    <path d="M190 203 L366 305" stroke-width="1.8" stroke-dasharray="14 6"/>
+
+    <!-- ===== projection horizontale : A^H D^H B^H C^H ===== -->
+    <path d="M196 655 L365 606 L391 838 L112 877 Z" stroke-width="2.2"/>
+    <path d="M196 655 L391 838" stroke-width="2.2"/>
+    <path d="M112 877 L365 606" stroke-width="1.8" stroke-dasharray="14 6"/>
+
+    <!-- ===== lignes de rappel ===== -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="110" y1="340" x2="112" y2="877"/>
+      <line x1="284" y1="205" x2="285" y2="660"/>
+      <line x1="323" y1="205" x2="325" y2="660"/>
+      <line x1="349" y1="115" x2="351" y2="660"/>
+      <line x1="366" y1="305" x2="367" y2="660"/>
+      <line x1="386" y1="297" x2="391" y2="838"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="28" y="62" font-size="19">E 102</text>
+
+    <text x="188" y="54">a<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="370" y="48">g<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="532" y="44">g<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="654" y="94">n<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="654" y="186">m<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="654" y="500">n<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="672" y="800">d<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="656" y="244">α<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="652" y="336">α<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="672" y="396">Δ<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="568" y="936">Δ<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="20" y="346">p<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="24" y="902">p<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="470" y="938">b<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="638" y="660">π<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="666" y="662">m<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <!-- projection verticale -->
+    <text x="176" y="108">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="172" y="196">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="86" y="338">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="168" y="322">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="388" y="292">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="366" y="320">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="462" y="276">b<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="488" y="274">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="392" y="410">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="472" y="402">M<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="110" y="476">C<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="200" y="458">L<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <!-- projection horizontale -->
+    <text x="176" y="500">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="172" y="652">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="366" y="606">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="392" y="856">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="102" y="894">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="172" y="858">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="478" y="824">M<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</svg>

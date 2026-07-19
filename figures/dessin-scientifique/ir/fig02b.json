@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 2,
+    "sub": "b",
+    "page": 3,
+    "blockId": "p3-b2",
+    "caption": "Épure E 61 (b) : rabattement du triangle ABC sur le plan vertical, charnière oblique ch^V, A étant sur la charnière."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 560 },
+  "groundLine": { "a": { "x": 17, "y": 385.5 }, "b": { "x": 360, "y": 385.5 } },
+  "points": [
+    { "id": "A", "v": { "x": 115, "y": 185 }, "h": { "x": 117, "y": 385 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 213, "y": 109 }, "h": { "x": 210, "y": 337 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 310, "y": 227 }, "h": { "x": 310, "y": 460 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "A", "to": "C", "view": "h" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "frontal",
+    "hinge": { "aV": { "x": 22, "y": 205 }, "bV": { "x": 338, "y": 144 } },
+    "planePoints": ["A", "B", "C"],
+    "rabattu": {
+      "view": "v",
+      "points": {
+        "A": { "x": 115, "y": 185 },
+        "B": { "x": 233, "y": 237 },
+        "C": { "x": 271, "y": 44 }
+      }
+    }
+  },
+  "notes": [
+    "Left half of the fig02 sheet (E61 b + c share it). Ground line straightened to y=385.5 — same scan-skew reasoning as fig01a; the recall lines are pixel-vertical.",
+    "The hinge is a frontale of the plane lying IN πV (its H trace coincides with the LT, labeled π^H ch^H — hence no aH/bH pair, depth 0). B^H sits ABOVE the LT: B is behind πV, the plane crosses πV along the hinge.",
+    "A is on the hinge; the drawn A^V_R coincides with A^V."
+  ]
+}

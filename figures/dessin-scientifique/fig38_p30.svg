@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1110" width="720" height="1110">
+  <rect width="720" height="1110" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- ligne de terre -->
+    <line x1="30" y1="331" x2="662" y2="331" stroke-width="1.6"/>
+
+    <!-- droite b^V (passe par A^V et E^V) -->
+    <line x1="28" y1="505" x2="503" y2="22" stroke-width="1.6"/>
+    <!-- droite passant par E^V et D^V (P^V) -->
+    <line x1="207" y1="22" x2="678" y2="1100" stroke-width="1.6"/>
+    <!-- droite P^H / a^V (passe par E^H) -->
+    <line x1="649" y1="22" x2="258" y2="1100" stroke-width="1.6"/>
+    <!-- droite a^H (passe par A^H, D^H, C^H) -->
+    <line x1="44" y1="694" x2="706" y2="958" stroke-width="1.6"/>
+    <!-- droite P^V' (passe par E^V') -->
+    <line x1="30" y1="848" x2="706" y2="568" stroke-width="1.6"/>
+    <!-- droite issue de C^V' -->
+    <line x1="44" y1="694" x2="228" y2="1100" stroke-width="1.6"/>
+    <!-- droite passant par A^H -->
+    <line x1="348" y1="331" x2="125" y2="1088" stroke-width="1.6"/>
+
+    <!-- lignes de rappel (tirets) -->
+    <g stroke-width="1.4" stroke-dasharray="14 8">
+      <line x1="211" y1="345" x2="225" y2="758"/>
+      <line x1="300" y1="250" x2="330" y2="898"/>
+      <line x1="341" y1="345" x2="366" y2="812"/>
+      <line x1="391" y1="150" x2="426" y2="838"/>
+    </g>
+
+    <!-- rabattements (tirets) -->
+    <g stroke-width="1.6" stroke-dasharray="14 8">
+      <line x1="97" y1="819" x2="331" y2="906"/>
+      <line x1="163" y1="963" x2="231" y2="994"/>
+    </g>
+    <path d="M231 995 L221 990 M231 995 L223 1002" stroke-width="1.4"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="176" y="326">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="203" y="308">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="344" y="326">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="288" y="210">E<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="370" y="126">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="548" y="318">a<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="590" y="320">V</text>
+    <text x="592" y="356">H</text>
+    <text x="566" y="94">P<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="64" y="442">b<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="614" y="584">P<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="44" y="682">C<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="240" y="654">V'</text>
+    <text x="266" y="662">H</text>
+
+    <text x="192" y="748">D<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="234" y="752">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="258" y="778">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="290" y="784">a<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="98" y="800">E<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="376" y="818">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="450" y="846">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="344" y="922">E<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="238" y="962">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="160" y="1028">b<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="212" y="1062">b<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="636" y="914">a<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="618" y="1034">P<tspan dy="-5" font-size="10">V</tspan></text>
+  </g>
+</svg>

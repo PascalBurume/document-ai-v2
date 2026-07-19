@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 7,
+    "page": 6,
+    "blockId": "p6-b8",
+    "caption": "Planche E 65 : rabattement du triangle OAB autour de la charnière frontale ch^V, O étant sur la charnière ; les points rabattus sont portés par la trace α^V_R."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 930 },
+  "groundLine": { "a": { "x": 22, "y": 685 }, "b": { "x": 700, "y": 685 } },
+  "points": [
+    { "id": "O", "v": { "x": 251, "y": 296 }, "h": { "x": 245, "y": 687 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 499, "y": 302 }, "h": { "x": 495, "y": 595 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 308, "y": 432 }, "h": { "x": 308, "y": 470 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "O", "to": "A", "view": "v" },
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "O", "view": "v" },
+    { "from": "O", "to": "A", "view": "h" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "O", "view": "h" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "frontal",
+    "hinge": { "aV": { "x": 22, "y": 330 }, "bV": { "x": 700, "y": 215 } },
+    "planePoints": ["O", "A", "B"],
+    "rabattu": {
+      "view": "v",
+      "points": {
+        "O": { "x": 251, "y": 296 },
+        "A": { "x": 480, "y": 122 },
+        "B": { "x": 205, "y": 34 }
+      }
+    }
+  },
+  "notes": [
+    "Points read at their recall-line endpoints (the drawing's own V↔H correspondence): this clears the abscissa/recall check that the triangle-corner reading tripped. O^H sits on the ligne de terre (depth ~0), confirming O lies on the frontal hinge ch^V in πV.",
+    "The hinge ch^V is a frontale of the plane lying IN πV; aV/bV are two points on the drawn oblique ch^V line, and O^V falls on it to <1px. O is on the hinge — its rabattu O^V_R coincides with O^V; A and B swing to A^V_R=(480,122), B^V_R=(205,34) read off the trace alpha^V_R.",
+    "Residual not-coplanarity ~8.5px (just over the 8px tolerance, so a coplanarity chip shows): the redrawn plate places A^V across a ~10px spread (triangle corner 296 / rabattu-radius 292 / recall 302). This is the drawing's own internal slop, surfaced rather than smoothed — the fold (125deg) and rabattu still reconstruct and match the authored true-size within tolerance.",
+    "Scan mislabels the top vertex O^H where the geometry needs O^V (recorded in figures.json omissions)."
+  ]
+}

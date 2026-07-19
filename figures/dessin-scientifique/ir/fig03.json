@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 3,
+    "sub": "d",
+    "page": 3,
+    "blockId": "p3-b3",
+    "caption": "Épure E 61 (d) : le triangle ABC est dans un plan de profil (projections verticale et horizontale toutes deux portées par la verticale ch^V) ; rabattement autour de la charnière verticale passant par A, les rabattus A^V_R B^V_R C^V_R en vraie grandeur."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 940 },
+  "groundLine": { "a": { "x": 30, "y": 645 }, "b": { "x": 690, "y": 645 } },
+  "points": [
+    { "id": "A", "v": { "x": 315, "y": 110 }, "h": { "x": 315, "y": 634 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 315, "y": 360 }, "h": { "x": 315, "y": 524 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 315, "y": 218 }, "h": { "x": 315, "y": 794 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "vertical",
+    "hinge": { "aH": { "x": 315, "y": 645 } },
+    "planePoints": ["A", "B", "C"],
+    "rabattu": { "view": "v", "points": { "A": { "x": 317, "y": 110 }, "B": { "x": 204, "y": 358 }, "C": { "x": 440, "y": 232 } } }
+  },
+  "notes": [
+    "Plan de profil (perpendiculaire à la LT) : A^V/B^V/C^V et A^H/B^H/C^H tombent tous sur la verticale ch^V (x=315), abscisse commune — le rappel est donc exact. La vraie grandeur n'existe que par rabattement.",
+    "Charnière verticale sur l'épure = droite verticale du plan passant par A (A^H sur la LT, profondeur 0) : hingeKind 'vertical', l'axe monte selon z, le plan bascule jusqu'à devenir frontal (rabattu porté par πV). A est sur la charnière, A^V_R coïncide avec A^V.",
+    "B^V (au-dessus de la LT) et C^H (sous la LT) placent B devant πV et C derrière : le plan traverse la LT, cohérent avec un plan de profil."
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 59,
+    "page": 46,
+    "blockId": "p46-b1",
+    "caption": "Épure E 103 : pentagone D C B A S en double projection, diagonale D–A en trait fort, rabattu en vraie grandeur autour d'une frontale du plan passant par A (charnière ch)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1000 },
+  "groundLine": { "a": { "x": 18, "y": 306 }, "b": { "x": 706, "y": 294 } },
+  "points": [
+    { "id": "D", "v": { "x": 62, "y": 220 }, "h": { "x": 75, "y": 704 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 248, "y": 145 }, "h": { "x": 270, "y": 570 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 384, "y": 231 }, "h": { "x": 407, "y": 720 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 212, "y": 298 }, "h": { "x": 232, "y": 856 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 89, "y": 301 }, "h": { "x": 105, "y": 824 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "D", "to": "C", "view": "v" },
+    { "from": "C", "to": "B", "view": "v" },
+    { "from": "B", "to": "A", "view": "v" },
+    { "from": "A", "to": "S", "view": "v" },
+    { "from": "S", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" },
+    { "from": "D", "to": "C", "view": "h" },
+    { "from": "C", "to": "B", "view": "h" },
+    { "from": "B", "to": "A", "view": "h" },
+    { "from": "A", "to": "S", "view": "h" },
+    { "from": "S", "to": "D", "view": "h" },
+    { "from": "D", "to": "A", "view": "h" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "frontal",
+    "hinge": {
+      "aV": { "x": 212, "y": 298 },
+      "bV": { "x": 568, "y": 298 },
+      "aH": { "x": 232, "y": 856 },
+      "bH": { "x": 590, "y": 842 }
+    },
+    "planePoints": ["D", "C", "B", "A", "S"],
+    "rabattu": {
+      "view": "v",
+      "points": {
+        "A": { "x": 212, "y": 298 },
+        "D": { "x": 70, "y": 488 },
+        "B": { "x": 420, "y": 457 },
+        "C": { "x": 286, "y": 638 }
+      }
+    }
+  },
+  "notes": [
+    "Rotated plate (rotation 90); read in the raw inspect-epure frame — ligne de terre horizontal (ch^V/p^V line, y≈306), recall lines vertical. Reconstructor is orientation-agnostic.",
+    "Charnière = frontale du plan passant par A (fixe): V-proj le long de la LT par A^V(212,298)→ch^V(568,298), H-proj par A^H→ch^H. hingeKind=frontal, rabattu dessiné dans la zone V (^V_R).",
+    "Rabattu vertices read at the ends of the drawn solid edges: A_R=A^V (on charnière, fixed), D_R via the D–A diagonal, B_R via edge B–A, C_R via edge D–C. S_R is not separately drawn, so it is omitted from the gold set.",
+    "Genuine plate slop, confirmed against exact SVG path coords: the two pentagon projections are sheared ~15px horizontally (recall-mismatch, cannot be zeroed by any single ground line — the drawn recall lines are not parallel) and the lifted pentagon is ~15px from coplanar. A mild ground-line tilt (306→294) balances recall (~15px) against coplanarity (~17px). Gold rabattu residual stays well under tolerance."
+  ]
+}

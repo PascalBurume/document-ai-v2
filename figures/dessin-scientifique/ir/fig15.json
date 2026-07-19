@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 15,
+    "page": 14,
+    "blockId": "p14-b10",
+    "caption": "Épure E 73 : quadrilatère ABCD et ses diagonales, projections verticale et horizontale."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 540 },
+  "groundLine": { "a": { "x": 360, "y": 40 }, "b": { "x": 360, "y": 540 } },
+  "points": [
+    { "id": "A", "v": { "x": 635, "y": 184 }, "h": { "x": 85, "y": 185 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 548, "y": 349 }, "h": { "x": 113, "y": 357 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 448, "y": 274 }, "h": { "x": 269, "y": 278 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 535, "y": 111 }, "h": { "x": 238, "y": 109 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "D", "view": "v" },
+    { "from": "D", "to": "C", "view": "v" },
+    { "from": "C", "to": "B", "view": "v" },
+    { "from": "B", "to": "A", "view": "v" },
+    { "from": "A", "to": "D", "view": "h" },
+    { "from": "D", "to": "C", "view": "h" },
+    { "from": "C", "to": "B", "view": "h" },
+    { "from": "B", "to": "A", "view": "h" },
+    { "from": "A", "to": "C", "view": "v", "style": "hidden" },
+    { "from": "B", "to": "D", "view": "v", "style": "hidden" },
+    { "from": "A", "to": "C", "view": "h", "style": "hidden" },
+    { "from": "B", "to": "D", "view": "h", "style": "hidden" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "notes": [
+    "E73 quadrilatère plan ABCD (ordre A-D-C-B) avec ses deux diagonales. Planche de côté : ligne de terre verticale, projections appariées par rappels HORIZONTAUX (même hauteur). Reconstruction par point_projection ; la position de la LT ne fait que translater le solide dans le dièdre."
+  ]
+}

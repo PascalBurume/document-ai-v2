@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 44,
+    "page": 32,
+    "blockId": "p32-b7",
+    "caption": "Épure e(ii) : changement de plan remplaçant πH. A, B, M, N sont dans un plan de profil (double projection portée par la même verticale) ; la nouvelle ligne de terre L'T' donne la projection auxiliaire H' (πV retenu, hauteurs conservées)."
+  },
+  "units": "px",
+  "imageSize": { "width": 510, "height": 720 },
+  "groundLine": { "a": { "x": 193, "y": 439 }, "b": { "x": 658, "y": 459 } },
+  "points": [
+    { "id": "A", "v": { "x": 205, "y": 162 }, "h": { "x": 191, "y": 502 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 199, "y": 320 }, "h": { "x": 185, "y": 627 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 196, "y": 382 }, "h": { "x": 188, "y": 564 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 202, "y": 224 }, "h": { "x": 193, "y": 439 }, "role": "vertex" }
+  ],
+  "segments": [],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "h",
+    "newGroundLine": { "a": { "x": 185, "y": 627 }, "b": { "x": 205, "y": 162 } },
+    "points": ["A", "B", "N", "M"],
+    "auxiliary": {
+      "A": { "x": 257, "y": 163 },
+      "B": { "x": 362, "y": 323 },
+      "N": { "x": 304, "y": 384 },
+      "M": { "x": 202, "y": 224 }
+    }
+  },
+  "notes": [
+    "The SVG file wraps the plate in translate(0 720) rotate(-90); the manifest's own 720×510 viewBox is that inner drawing frame. The IR is authored in the SVG FILE's 510×720 viewBox (every coordinate = inner (x,y) mapped by (x,y)→(y,720−x)), because EpurePlate overlays an imageSize-viewBox SVG directly on the raw fig.svg — the overlay only aligns if the IR shares the file's frame.",
+    "Plan de profil : A^V/M^V/B^V/N^V and A^H/N^H/B^H (M^H on the LT) all fall on ONE near-vertical recall line (abscisse commune). The drawn ligne de terre crosses that recall line ~4° off perpendicular, so — as in fig01a/E61 — the ground line is straightened perpendicular to the recall line through the crossing at ~(193,439); calibrating to the skewed drawn LT would manufacture ~24px recall mismatches that are not in the figure. Straightened, uV=uH to <1px for all four points.",
+    "replaced 'h' (nouveau plan horizontal πH', πV retenu → hauteurs conservées). The new ligne de terre L'T' is the profile recall line itself (the V projections lie on it); the rappels toward the rabattus H' run perpendicular to it (horizontal on the plate), which forces L'T' vertical — the two parallel obliques are NOT perpendicular to the rappels and are construction/trace lines, not L'T'.",
+    "M lies in πV (M^H on the ligne de terre, depth 0), so its auxiliary M^H' sits on L'T' and coincides with M^V — the two labels are drawn side by side.",
+    "Auxiliary residual averages ~13px/point (A 11, B 25, N 17, M 0): the plate draws the H' rabattus with depths compressed by ~0.89 (an anisotropy a rigid change of plane cannot produce), so the largest-depth vertex B carries the most slop. Surfaced, not smoothed; the fold direction and every rabattu still reconstruct within the gold tolerance."
+  ]
+}

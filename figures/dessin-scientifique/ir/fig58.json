@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 58,
+    "page": 45,
+    "blockId": "p45-b31",
+    "caption": "Épure E 102 : projections d'un quadrilatère ABCD, la trace α^V portant C, L, B, M et son rabattement α^V_R."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 970 },
+  "groundLine": { "a": { "x": 15, "y": 473 }, "b": { "x": 715, "y": 473 } },
+  "points": [
+    { "id": "A", "v": { "x": 190, "y": 203 }, "h": { "x": 196, "y": 655 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 386, "y": 297 }, "h": { "x": 391, "y": 838 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 109, "y": 340 }, "h": { "x": 112, "y": 877 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 366, "y": 305 }, "h": { "x": 365, "y": 606 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "D", "view": "v" },
+    { "from": "D", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "notes": [
+    "Quadrilatère ABCD (gauche/skew) relevé par point_projection ; ordre de parcours A-D-B-C lu sur le contour épais fermé de la projection horizontale (seul ordre non croisé). Sommets appariés par rappels verticaux (Δx ≤ 6 px). Rabattement α^V_R et traces (g, α, Δ, n, m, p, K/L/M) omis."
+  ]
+}

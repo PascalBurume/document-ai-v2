@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 31,
+    "page": 24,
+    "blockId": "p24-b3",
+    "caption": "Changement de plan : triangle ABC dans un plan de profil (ses projections V et H se confondent sur une même ligne de rappel). La nouvelle ligne de terre L'T' donne la projection auxiliaire de profil A^V' B^V' C^V' en vraie grandeur (trait fort)."
+  },
+  "units": "px",
+  "imageSize": { "width": 480, "height": 720 },
+  "groundLine": { "a": { "x": 20, "y": 107 }, "b": { "x": 470, "y": 107 } },
+  "points": [
+    { "id": "A", "v": { "x": 170, "y": 107 }, "h": { "x": 170, "y": 405 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 170, "y": 254 }, "h": { "x": 170, "y": 490 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 170, "y": 166 }, "h": { "x": 170, "y": 608 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "C", "to": "A", "view": "h" }
+  ],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "v",
+    "newGroundLine": { "a": { "x": 170, "y": 405 }, "b": { "x": 170, "y": 608 } },
+    "points": ["A", "B", "C"],
+    "auxiliary": {
+      "A": { "x": 173, "y": 405 },
+      "B": { "x": 318, "y": 490 },
+      "C": { "x": 230, "y": 608 }
+    }
+  },
+  "notes": [
+    "Plaque imprimee de cote (rotation -90 dans le SVG) : la ligne de terre principale est verticale a l'ecran (x~170), les six projections de A,B,C se confondent sur cette meme ligne de rappel — ABC est dans un plan de profil. La groundLine authored ici est la LT du systeme (horizontale a y~107 apres redressement)."
+  ]
+}

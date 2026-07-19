@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" width="720" height="510">
+  <rect width="720" height="510" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <rect x="18" y="14" width="686" height="488" stroke-width="1.2"/>
+
+    <!-- droites longues (traits fins) -->
+    <line x1="24" y1="118" x2="704" y2="340" stroke-width="1"/>
+    <line x1="20" y1="272" x2="704" y2="140" stroke-width="1"/>
+    <line x1="18" y1="418" x2="704" y2="247" stroke-width="1"/>
+    <line x1="147" y1="16" x2="370" y2="500" stroke-width="1"/>
+    <line x1="218" y1="16" x2="592" y2="500" stroke-width="1"/>
+    <line x1="486" y1="16" x2="178" y2="500" stroke-width="1"/>
+    <line x1="496" y1="16" x2="492" y2="500" stroke-width="1"/>
+
+    <!-- ===== figure principale (traits forts) ===== -->
+    <path d="M379 53 L330 219" stroke-width="2.2"/>
+    <path d="M379 53 L510 185" stroke-width="2.2"/>
+    <path d="M330 219 L245 361" stroke-width="2.2"/>
+    <path d="M245 361 L345 223" stroke-width="2.2"/>
+    <path d="M345 223 L510 185" stroke-width="2.2"/>
+    <path d="M386 229 L494 354" stroke-width="2.2"/>
+
+    <!-- rabattements (traits forts, long tirets) -->
+    <path d="M194 173 L330 219" stroke-width="2.2" stroke-dasharray="14 6"/>
+    <path d="M194 173 L245 361" stroke-width="2.2" stroke-dasharray="14 6"/>
+    <path d="M492 178 L494 354" stroke-width="2.2" stroke-dasharray="14 6"/>
+
+    <!-- fleches -->
+    <path d="M460 188 L489 176" stroke-width="2.2"/>
+    <path d="M491 175 L480 175 M491 175 L483 183" stroke-width="1.6"/>
+    <path d="M194 173 L206 178 M194 173 L204 167" stroke-width="1.6"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1" stroke-dasharray="9 5">
+      <line x1="194" y1="172" x2="491" y2="172"/>
+      <line x1="248" y1="354" x2="494" y2="354"/>
+      <line x1="248" y1="362" x2="494" y2="362"/>
+    </g>
+
+    <!-- constructions en tirets -->
+    <g stroke-width="1" stroke-dasharray="9 5">
+      <line x1="330" y1="219" x2="408" y2="428"/>
+      <line x1="345" y1="223" x2="445" y2="432"/>
+      <line x1="510" y1="185" x2="445" y2="432"/>
+      <line x1="556" y1="196" x2="408" y2="428"/>
+    </g>
+    <g stroke-width="1.4">
+      <path d="M408 433 L403 423 M408 433 L413 423"/>
+      <path d="M445 437 L440 427 M445 437 L450 427"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="646" y="46" font-size="19">E 85</text>
+
+    <text x="380" y="44">O<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="170" y="166">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="498" y="166">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="514" y="196">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="548" y="192">K<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="640" y="150">a<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="656" y="342">H'</text>
+    <text x="656" y="362">V'</text>
+    <text x="40" y="406">H</text>
+    <text x="42" y="426">V'</text>
+    <text x="72" y="294">(o a)<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="366" y="198">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="282" y="242">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="348" y="240">B<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="382" y="240">B<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="264" y="346">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="258" y="384">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="502" y="352">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="502" y="380">L<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="232" y="398" font-size="13">L<tspan dy="-4" font-size="9">H</tspan><tspan dy="4"> L</tspan><tspan dy="-4" font-size="9">V'</tspan><tspan dy="4"> O</tspan><tspan dy="-4" font-size="9">V'</tspan></text>
+
+    <text x="400" y="436">B<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="438" y="450">K<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="496" y="446">h<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="480" y="484">H</text>
+    <text x="498" y="484">V</text>
+    <text x="170" y="484">a<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="284" y="486">h<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="584" y="484">ρ<tspan dy="-5" font-size="10">V</tspan></text>
+  </g>
+</svg>

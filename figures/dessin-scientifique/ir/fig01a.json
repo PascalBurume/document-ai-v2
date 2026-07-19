@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 1,
+    "sub": "a",
+    "page": 2,
+    "blockId": "p2-b11",
+    "caption": "Épure E 61 (a) : rabattement du triangle ABC autour de la charnière horizontale ch^H, A étant sur la charnière."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 790 },
+  "groundLine": { "a": { "x": 105, "y": 117.5 }, "b": { "x": 700, "y": 117.5 } },
+  "points": [
+    { "id": "A", "v": { "x": 240, "y": 120 }, "h": { "x": 235, "y": 461 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 368, "y": 48 }, "h": { "x": 362, "y": 598 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 498, "y": 253 }, "h": { "x": 495, "y": 517 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "A", "to": "C", "view": "h" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "horizontal",
+    "hinge": { "aH": { "x": 108, "y": 382 }, "bH": { "x": 582, "y": 678 } },
+    "planePoints": ["A", "B", "C"],
+    "rabattu": {
+      "view": "h",
+      "points": {
+        "A": { "x": 235, "y": 461 },
+        "B": { "x": 434, "y": 494 },
+        "C": { "x": 342, "y": 730 }
+      }
+    }
+  },
+  "notes": [
+    "Ground line straightened to y=117.5: the plate's LT is drawn with ~1° of scan skew ((105,123)-(700,112)) while every recall line is pixel-vertical, so the drawing's own frame is axis-aligned and calibrating to the skewed LT would manufacture 10-16px recall mismatches that are not in the figure.",
+    "The hinge Ch^H is a horizontal line of the plane through A at height 0 (its V trace coincides with the LT, hence no aV/bV). C sits BELOW πH (C^V under the LT) — the plane crosses πH along the hinge.",
+    "B^V_R, C^V_R and O^V on the plate sit on the LT: rabattu points at height 0 project onto the ground line in V. Kept as a test invariant, not stored here.",
+    "The plate's own drawn C^H_R is imprecise: its swing from C^H drifts 17px ALONG the hinge, where a true rabattement swings exactly perpendicular. The reconstruction lands ~20px from it — that is the drawing's compass error, not a reading error."
+  ]
+}

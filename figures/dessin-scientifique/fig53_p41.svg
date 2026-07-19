@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 720" width="480" height="720"><rect width="480" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="480" fill="#fff"/>
+  <!-- NOTE: the plate is printed sideways in the scan; all lettering reads rotated 90 deg CW,
+       reproduced here with rotate(90) transforms so the drawing matches the source crop. -->
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M18 20 L706 10 L702 462 L14 470 Z" stroke-width="1.2"/>
+
+    <!-- reference lines (horizontal in the plate = vertical in this crop) -->
+    <line x1="603" y1="14" x2="615" y2="464" stroke-width="1"/>    <!-- h^V -->
+    <line x1="579" y1="14" x2="591" y2="464" stroke-width="1"/>    <!-- m^V alpha^V a^V -->
+    <line x1="468" y1="14" x2="478" y2="464" stroke-width="1"/>    <!-- f^V / iota^V -->
+    <line x1="302" y1="14" x2="312" y2="464" stroke-width="1"/>    <!-- b^V -->
+    <line x1="283" y1="14" x2="294" y2="464" stroke-width="1.1"/>  <!-- V / H -->
+    <line x1="271" y1="14" x2="281" y2="464" stroke-width="1"/>    <!-- m^H -->
+    <line x1="208" y1="14" x2="217" y2="464" stroke-width="1"/>    <!-- iota^H -->
+    <line x1="170" y1="14" x2="179" y2="464" stroke-width="1"/>    <!-- f^H -->
+
+    <!-- lignes de rappel -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="588" y1="204" x2="271" y2="213"/>   <!-- A -->
+      <line x1="513" y1="205" x2="395" y2="208"/>   <!-- A' -->
+      <line x1="674" y1="254" x2="326" y2="264"/>   <!-- B -->
+      <line x1="600" y1="258" x2="447" y2="259"/>   <!-- B' -->
+      <line x1="643" y1="380" x2="305" y2="391"/>   <!-- C -->
+      <line x1="576" y1="382" x2="427" y2="387"/>   <!-- C' -->
+      <line x1="560" y1="332" x2="254" y2="340"/>   <!-- D -->
+      <line x1="486" y1="333" x2="378" y2="337"/>   <!-- D' -->
+    </g>
+
+    <!-- ===== projection verticale : parallelepipede A B C D / A' B' C' D' ===== -->
+    <path d="M674 254 L643 380 L560 332 L588 204 Z" stroke-width="2.2"/>
+    <path d="M588 204 L513 205" stroke-width="2.2"/>
+    <path d="M560 332 L486 333" stroke-width="2.2"/>
+    <path d="M643 380 L576 382" stroke-width="2.2"/>
+    <path d="M513 205 L486 333 L576 382" stroke-width="2.2"/>
+    <path d="M513 205 L600 258" stroke-width="2.2"/>
+    <path d="M674 254 L600 258" stroke-width="1.8" stroke-dasharray="9 5"/>
+    <path d="M600 258 L576 382" stroke-width="1.8" stroke-dasharray="9 5"/>
+    <g stroke-width="0.9">
+      <line x1="674" y1="254" x2="560" y2="332"/>
+      <line x1="588" y1="204" x2="643" y2="380"/>
+    </g>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M326 264 L305 391 L254 340 L271 213 Z" stroke-width="2.2"/>
+    <path d="M271 213 L395 208" stroke-width="2.2"/>
+    <path d="M326 264 L447 259" stroke-width="2.2"/>
+    <path d="M305 391 L427 387" stroke-width="2.2"/>
+    <path d="M447 259 L395 208" stroke-width="2.2"/>
+    <path d="M447 259 L427 387" stroke-width="2.2"/>
+    <path d="M395 208 L378 337" stroke-width="1.8" stroke-dasharray="9 5"/>
+    <path d="M378 337 L427 387" stroke-width="1.8" stroke-dasharray="9 5"/>
+    <path d="M378 337 L254 340" stroke-width="1.8" stroke-dasharray="9 5"/>
+    <g stroke-width="0.9">
+      <line x1="326" y1="264" x2="254" y2="340"/>
+      <line x1="271" y1="213" x2="305" y2="391"/>
+    </g>
+
+    <!-- arrow beside m^H -->
+    <line x1="262" y1="40" x2="262" y2="60" stroke-width="1"/>
+    <path d="M257 53 L262 61 L267 53" stroke-width="1"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="13" fill="#111">
+    <text x="683" y="32" font-size="17" transform="rotate(90 683 32)">E 97</text>
+
+    <text x="608" y="42" transform="rotate(90 608 42)">h<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="586" y="23" transform="rotate(90 586 23)">m<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="586" y="46" transform="rotate(90 586 46)">α<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="586" y="68" transform="rotate(90 586 68)">a<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="467" y="19" transform="rotate(90 467 19)">f<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="305" y="25" transform="rotate(90 305 25)">b<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="289" y="72" transform="rotate(90 289 72)">V</text>
+    <text x="277" y="73" transform="rotate(90 277 73)">H</text>
+    <text x="270" y="33" transform="rotate(90 270 33)">m<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="174" y="36" transform="rotate(90 174 36)">f<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="146" y="120" transform="rotate(90 146 120)">P<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="519" y="116" transform="rotate(90 519 116)">P<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="28" y="124" transform="rotate(90 28 124)">a<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="28" y="179" transform="rotate(90 28 179)">h<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="24" y="304" transform="rotate(90 24 304)">H'</text>
+
+    <text x="680" y="262" transform="rotate(90 680 262)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="673" y="298" transform="rotate(90 673 298)">Q<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="671" y="337" transform="rotate(90 671 337)">Q<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="660" y="368" transform="rotate(90 660 368)">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="655" y="386" transform="rotate(90 655 386)">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="631" y="285" transform="rotate(90 631 285)">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="611" y="370" transform="rotate(90 611 370)">N<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="593" y="262" transform="rotate(90 593 262)">B'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="577" y="194" transform="rotate(90 577 194)">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="565" y="331" transform="rotate(90 565 331)">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="546" y="415" transform="rotate(90 546 415)">O'<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="526" y="219" transform="rotate(90 526 219)">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="532" y="305" transform="rotate(90 532 305)">O'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="502" y="195" transform="rotate(90 502 195)">A'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="485" y="335" transform="rotate(90 485 335)">D'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="676" y="167" transform="rotate(90 676 167)">n<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="693" y="188" transform="rotate(90 693 188)">P<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="450" y="258" transform="rotate(90 450 258)">B'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="429" y="390" transform="rotate(90 429 390)">C'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="396" y="196" transform="rotate(90 396 196)">A'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="416" y="308" transform="rotate(90 416 308)">O'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="374" y="337" transform="rotate(90 374 337)">D'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="357" y="226" transform="rotate(90 357 226)">K<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="326" y="257" transform="rotate(90 326 257)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="324" y="308" transform="rotate(90 324 308)">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="294" y="309" transform="rotate(90 294 309)">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="332" y="347" transform="rotate(90 332 347)">D<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="309" y="394" transform="rotate(90 309 394)">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="267" y="207" transform="rotate(90 267 207)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="250" y="337" transform="rotate(90 250 337)">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="272" y="404" transform="rotate(90 272 404)">I<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="231" y="237" transform="rotate(90 231 237)">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="201" y="367" transform="rotate(90 201 367)">N<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="201" y="401" transform="rotate(90 201 401)">C<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="136" y="281" transform="rotate(90 136 281)">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="102" y="386" transform="rotate(90 102 386)">M<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</g></svg>

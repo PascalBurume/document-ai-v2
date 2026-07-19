@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 720" width="560" height="720"><rect width="560" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="560" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- trace phi^HV : horizontale portant toutes les projections -->
+    <line x1="42" y1="221" x2="686" y2="221" stroke-width="1.8"/>
+    <!-- ligne de terre (H | V), quasi verticale -->
+    <line x1="156" y1="28" x2="140" y2="530" stroke-width="1.8"/>
+
+    <!-- phi^H' : oblique montante -->
+    <line x1="56" y1="523" x2="692" y2="148" stroke-width="1.8"/>
+    <!-- (AB)^H' : oblique descendante, legerement courbee -->
+    <path d="M365 30 Q 470 190 634 526" stroke-width="1.8"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1.4" stroke-dasharray="9 6">
+      <line x1="363" y1="222" x2="361" y2="343"/>
+      <line x1="416" y1="222" x2="415" y2="310"/>
+      <line x1="562" y1="222" x2="558" y2="380"/>
+    </g>
+
+    <!-- repere de Q^H -->
+    <g stroke-width="1.6">
+      <line x1="272" y1="215" x2="272" y2="226"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="656" y="42" font-size="17" transform="rotate(90 656 42)">(f)</text>
+
+    <text x="136" y="55" transform="rotate(90 136 55)">H</text>
+    <text x="166" y="55" transform="rotate(90 166 55)">V</text>
+
+    <text x="52" y="202" transform="rotate(90 52 202)">H'</text>
+    <text x="60" y="229" transform="rotate(90 60 229)">V</text>
+    <text x="660" y="230" transform="rotate(90 660 230)">φ<tspan dy="-5" font-size="10">HV</tspan></text>
+
+    <text x="233" y="189" transform="rotate(90 233 189)">P<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="273" y="197" transform="rotate(90 273 197)">Q<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="304" y="236" transform="rotate(90 304 236)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="160" y="232" transform="rotate(90 160 232)">B<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="366" y="201" transform="rotate(90 366 201)">Q<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="417" y="197" transform="rotate(90 417 197)">P<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="462" y="225" transform="rotate(90 462 225)">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="460" y="252" transform="rotate(90 460 252)">B<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="566" y="232" transform="rotate(90 566 232)">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="542" y="388" transform="rotate(90 542 388)">A<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="363" y="347" transform="rotate(90 363 347)">Q<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="417" y="314" transform="rotate(90 417 314)">P<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="86" y="497" transform="rotate(90 86 497)">φ<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="618" y="468" transform="rotate(90 618 468)">(AB)<tspan dy="-5" font-size="10">H'</tspan></text>
+  </g>
+</g></svg>

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 720" width="530" height="720"><rect width="530" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="530" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame (slightly skewed on the scan; drawn straight) -->
+    <rect x="20" y="14" width="688" height="504" stroke-width="1.2"/>
+
+    <!-- ligne de terre LT (drawn near-vertical: the plate is turned 90 deg) -->
+    <line x1="180" y1="14" x2="196" y2="518" stroke-width="1.1"/>
+    <!-- nouvelle ligne de terre L'T'V' / H' -->
+    <line x1="20" y1="206" x2="708" y2="88" stroke-width="1.1"/>
+    <!-- droite a^V' -->
+    <line x1="25" y1="316" x2="708" y2="178" stroke-width="1"/>
+
+    <!-- droites de l'epure (thin construction) -->
+    <line x1="205" y1="16" x2="412" y2="518" stroke-width="1"/>
+    <line x1="305" y1="16" x2="81" y2="518" stroke-width="1"/>
+    <line x1="459" y1="20" x2="578" y2="518" stroke-width="1"/>
+    <line x1="517" y1="20" x2="307" y2="518" stroke-width="1"/>
+
+    <!-- ===== figure principale (traits forts) ===== -->
+    <path d="M362 61 L336 245" stroke-width="2.2"/>
+    <path d="M362 61 L468 221" stroke-width="2.2"/>
+    <path d="M336 245 L468 221" stroke-width="2.2"/>
+    <path d="M336 245 L270 345" stroke-width="2.2"/>
+
+    <!-- rabattements (traits forts, long tirets) -->
+    <path d="M185 181 L270 345" stroke-width="2.2" stroke-dasharray="14 6"/>
+    <path d="M473 353 L502 243" stroke-width="2.2" stroke-dasharray="14 6"/>
+
+    <!-- fleches -->
+    <path d="M225 240 L188 184" stroke-width="2.2"/>
+    <path d="M186 182 L196 192 M186 182 L198 184" stroke-width="1.6"/>
+    <path d="M476 218 L499 184" stroke-width="2.2"/>
+    <path d="M500 182 L494 194 M500 182 L488 190" stroke-width="1.6"/>
+    <path d="M468 221 L457 214 M468 221 L461 231" stroke-width="1.6"/>
+
+    <!-- petits traits forts de construction -->
+    <path d="M263 215 L295 233" stroke-width="2.2"/>
+    <path d="M413 212 L452 197" stroke-width="2.2"/>
+
+    <!-- lignes de rappel (horizontales : perpendiculaires a LT) -->
+    <g stroke-width="1" stroke-dasharray="9 5">
+      <line x1="185" y1="181" x2="500" y2="181"/>
+      <line x1="270" y1="347" x2="473" y2="352"/>
+      <line x1="193" y1="474" x2="573" y2="476"/>
+    </g>
+
+    <!-- ligne a long tirets (vers K^V') -->
+    <path d="M255 42 L647 188" stroke-width="1" stroke-dasharray="14 6"/>
+
+    <!-- construction fine, en tirets courts -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="336" y1="245" x2="412" y2="318"/>
+      <line x1="399" y1="251" x2="352" y2="300"/>
+      <line x1="399" y1="251" x2="468" y2="221"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="681" y="32" font-size="19" transform="rotate(90 681 32)">E 84</text>
+
+    <text x="186" y="28" transform="rotate(90 186 28)">f<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="188" y="46" transform="rotate(90 188 46)">LT</text>
+    <text x="189" y="62" transform="rotate(90 189 62)">V</text>
+    <text x="172" y="62" transform="rotate(90 172 62)">H</text>
+    <text x="459" y="26" transform="rotate(90 459 26)">f<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="644" y="66" transform="rotate(90 644 66)">H'</text>
+    <text x="672" y="76" transform="rotate(90 672 76)">L'T'V'</text>
+
+    <text x="372" y="54" transform="rotate(90 372 54)">V</text>
+
+    <text x="322" y="228" transform="rotate(90 322 228)">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="341" y="258" transform="rotate(90 341 258)">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="399" y="228" transform="rotate(90 399 228)">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="412" y="282" transform="rotate(90 412 282)">A<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="442" y="210" transform="rotate(90 442 210)">B<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="474" y="228" transform="rotate(90 474 228)">B<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="277" y="352" transform="rotate(90 277 352)">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="479" y="358" transform="rotate(90 479 358)">B<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="166" y="168" transform="rotate(90 166 168)">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="506" y="174" transform="rotate(90 506 174)">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="494" y="120" transform="rotate(90 494 120)">O<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="506" y="132" transform="rotate(90 506 132)">K<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="652" y="194" transform="rotate(90 652 194)">K<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="580" y="482" transform="rotate(90 580 482)">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="199" y="482" transform="rotate(90 199 482)">K<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="274" y="262" transform="rotate(90 274 262)">x<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="365" y="218" transform="rotate(90 365 218)">x<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="405" y="314" transform="rotate(90 405 314)">x<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="44" y="306" transform="rotate(90 44 306)">a<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="175" y="502" transform="rotate(90 175 502)">a<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</g></svg>

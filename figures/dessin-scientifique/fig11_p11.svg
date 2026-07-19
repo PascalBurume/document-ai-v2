@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 890" width="720" height="890">
+  <rect width="720" height="890" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M20 14 L704 16 L706 878 L22 880 Z" stroke-width="1.2"/>
+
+    <!-- lignes de reference -->
+    <line x1="22" y1="240" x2="706" y2="212" stroke-width="1.1"/>   <!-- P^V -->
+    <line x1="22" y1="706" x2="706" y2="697" stroke-width="1.1"/>   <!-- pi^H -->
+
+    <!-- ===== projection verticale ===== -->
+    <path d="M275 61 L427 181 L436 231 L330 404 L186 280 L178 234 Z" stroke-width="2.2"/>
+    <g stroke-width="2.2">
+      <line x1="178" y1="234" x2="427" y2="181"/>
+      <line x1="427" y1="181" x2="330" y2="404"/>
+    </g>
+    <!-- diagonales du quadrilatere (passent par O^V), prolongees -->
+    <g stroke-width="1">
+      <line x1="186" y1="280" x2="700" y2="68"/>
+      <line x1="275" y1="61" x2="345" y2="440"/>
+      <line x1="108" y1="190" x2="440" y2="180"/>
+      <line x1="300" y1="235" x2="700" y2="318"/>
+    </g>
+    <!-- rabattement : quadrilatere en vraie grandeur -->
+    <path d="M125 178 L357 63 L492 272 L266 415 Z" stroke-width="1.2" stroke-dasharray="14 6"/>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M180 586 L432 581 L427 834 L168 836 Z" stroke-width="2.2"/>
+    <path d="M168 836 L268 675 L432 581" stroke-width="2.2"/>
+    <!-- trace : A,B,C,D alignes (plan projetant) + diagonale T-S -->
+    <g stroke-width="1">
+      <line x1="127" y1="529" x2="470" y2="878"/>
+      <line x1="120" y1="884" x2="480" y2="536"/>
+    </g>
+    <path d="M168 836 L360 730 L435 590" stroke-width="1.4" stroke-dasharray="14 6"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="178" y1="240" x2="168" y2="830"/>
+      <line x1="186" y1="286" x2="180" y2="580"/>
+      <line x1="273" y1="68" x2="268" y2="670"/>
+      <line x1="336" y1="410" x2="343" y2="737"/>
+      <line x1="427" y1="188" x2="427" y2="828"/>
+      <line x1="436" y1="238" x2="432" y2="575"/>
+      <line x1="392" y1="212" x2="382" y2="808"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="38" y="50" font-size="17">E 69</text>
+
+    <!-- projection verticale -->
+    <text x="266" y="52">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="312" y="44">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="362" y="52">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="322" y="88">Y<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="352" y="90">Y'</text>
+    <text x="112" y="180">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="170" y="194">X<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="430" y="172">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="152" y="228">T<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="308" y="222">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="384" y="216">X<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="440" y="250">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="164" y="302">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="484" y="278">C<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="336" y="416">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="256" y="424">D<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="640" y="84">γ<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="648" y="218">P<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="656" y="316">X<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <!-- projection horizontale -->
+    <text x="184" y="574">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="438" y="576">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="252" y="656">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="304" y="684">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="344" y="684">γ<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="340" y="756">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="372" y="820">X<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="140" y="850">T<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="432" y="844">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="450" y="862">α<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="26" y="704">π<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</svg>

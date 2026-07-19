@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 33,
+    "page": 26,
+    "blockId": "p26-b20",
+    "caption": "E 84 — Changement de plan : le plan (OBK) est projeté sur un nouveau plan horizontal πH'. πV est retenu (hauteurs conservées), la nouvelle ligne de terre L'T'V'/H' est tracée parmi les projections verticales ; la projection auxiliaire H' (O^H', B^H', K^H') donne la nouvelle vue."
+  },
+  "units": "px",
+  "imageSize": { "width": 530, "height": 720 },
+  "groundLine": { "a": { "x": 188, "y": 14 }, "b": { "x": 188, "y": 518 } },
+  "points": [
+    { "id": "O", "v": { "x": 500, "y": 181 }, "h": { "x": 185, "y": 181 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 473, "y": 353 }, "h": { "x": 270, "y": 347 }, "role": "vertex" },
+    { "id": "K", "v": { "x": 573, "y": 476 }, "h": { "x": 193, "y": 474 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "O", "to": "B", "view": "v" },
+    { "from": "B", "to": "K", "view": "v" },
+    { "from": "K", "to": "O", "view": "v" },
+    { "from": "O", "to": "B", "view": "h" },
+    { "from": "B", "to": "K", "view": "h" },
+    { "from": "K", "to": "O", "view": "h" }
+  ],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "h",
+    "newGroundLine": { "a": { "x": 20, "y": 206 }, "b": { "x": 708, "y": 88 } },
+    "points": ["O", "B", "K"],
+    "auxiliary": {
+      "O": { "x": 494, "y": 120 },
+      "B": { "x": 457, "y": 214 },
+      "K": { "x": 506, "y": 132 }
+    }
+  },
+  "notes": [
+    "Changement de plan remplaçant πH : πV retenu, nouvelle ligne de terre L'T'V'/H' oblique. Les points O, B, K se lisent en projection sur les lignes de rappel horizontales (y≈181, 350, 475) de part et d'autre de la LT principale (tracée verticale, redressée). La projection auxiliaire H' authoréе (O^H', B^H', K^H') est reproduite par la reconstruction à moins de 10px/point."
+  ]
+}

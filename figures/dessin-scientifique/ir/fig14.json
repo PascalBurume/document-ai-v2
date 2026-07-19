@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 14, "page": 13, "blockId": "p13-b4", "caption": "Épure E 72 : quadrilatère MLKN, ses diagonales se coupant en C, et le rabattement de la face verticale autour de ch^V." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 550 },
+  "groundLine": { "a": { "x": 154, "y": 15 }, "b": { "x": 154, "y": 540 } },
+  "points": [
+    { "id": "M", "v": { "x": 455, "y": 72 }, "h": { "x": 99, "y": 72 }, "role": "vertex" },
+    { "id": "L", "v": { "x": 373, "y": 197 }, "h": { "x": 267, "y": 195 }, "role": "vertex" },
+    { "id": "K", "v": { "x": 475, "y": 376 }, "h": { "x": 196, "y": 376 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 559, "y": 257 }, "h": { "x": 27, "y": 249 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "M", "to": "L", "view": "v" },
+    { "from": "L", "to": "K", "view": "v" },
+    { "from": "K", "to": "N", "view": "v" },
+    { "from": "N", "to": "M", "view": "v" },
+    { "from": "M", "to": "K", "view": "v" },
+    { "from": "L", "to": "N", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["M", "L", "K", "N"] },
+  "notes": ["planar oblique quadrilateral MLKN lifted (diagonals M-K, L-N meet at C); rabattement of the vertical face omitted (compound construction)"]
+}

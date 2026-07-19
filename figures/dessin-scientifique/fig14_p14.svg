@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 550" width="720" height="550">
+  <rect width="720" height="550" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M14 14 L706 12 L708 538 L16 540 Z" stroke-width="1.2"/>
+
+    <!-- lignes de construction -->
+    <g stroke-width="1">
+      <line x1="75" y1="15" x2="170" y2="540"/>
+      <line x1="152" y1="15" x2="140" y2="540"/>   <!-- pi ch^H -->
+      <line x1="398" y1="15" x2="545" y2="540"/>   <!-- Ch^V -->
+      <line x1="27" y1="249" x2="335" y2="58"/>
+      <line x1="200" y1="15" x2="400" y2="212"/>
+      <line x1="14" y1="163" x2="400" y2="212"/>
+    </g>
+
+    <!-- ===== projection horizontale : M L K N ===== -->
+    <path d="M99 72 L267 195 L196 376 L27 249 Z" stroke-width="2.2"/>
+    <g stroke-width="1">
+      <line x1="99" y1="72" x2="196" y2="376"/>
+      <line x1="27" y1="249" x2="267" y2="195"/>
+    </g>
+
+    <!-- ===== projection verticale : M L K N ===== -->
+    <path d="M455 72 L559 257 L475 376 L373 197 Z" stroke-width="2.2"/>
+    <g stroke-width="1">
+      <line x1="455" y1="72" x2="486" y2="540"/>
+      <line x1="373" y1="197" x2="706" y2="301"/>
+    </g>
+    <!-- rabattement -->
+    <g stroke-width="1.2" stroke-dasharray="14 6">
+      <line x1="330" y1="140" x2="455" y2="72"/>
+      <line x1="455" y1="72" x2="628" y2="258"/>
+      <line x1="628" y1="258" x2="472" y2="382"/>
+    </g>
+
+    <!-- lignes de rappel horizontales -->
+    <g stroke-width="0.9" stroke-dasharray="9 5">
+      <line x1="105" y1="72" x2="450" y2="72"/>
+      <line x1="272" y1="196" x2="368" y2="197"/>
+      <line x1="152" y1="223" x2="458" y2="228"/>
+      <line x1="33" y1="250" x2="554" y2="257"/>
+      <line x1="202" y1="376" x2="470" y2="376"/>
+      <line x1="150" y1="473" x2="530" y2="478"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="648" y="46" font-size="17">E 72</text>
+
+    <text x="76" y="66">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="270" y="210">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="14" y="266">N<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="192" y="392">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="124" y="214">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="132" y="480">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="134" y="40">π<tspan dy="5"> ch</tspan><tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="214" y="96">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="292" y="60">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="292" y="76">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="294" y="218">L<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <text x="462" y="64">M<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="362" y="212">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="466" y="220">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="558" y="272">N<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="482" y="388">K<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="436" y="396">K<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="618" y="260">N<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="404" y="42">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="536" y="490">B<tspan dy="-5" font-size="10">V</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 12, "page": 11, "blockId": "p11-b1", "caption": "Épure E 70 : projections d'un triangle ABC et du point S, avec les vraies grandeurs en traits mixtes." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 520 },
+  "groundLine": { "a": { "x": 397, "y": 40 }, "b": { "x": 397, "y": 500 } },
+  "points": [
+    { "id": "A", "v": { "x": 425, "y": 66 }, "h": { "x": 357, "y": 67 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 427, "y": 282 }, "h": { "x": 212, "y": 282 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 577, "y": 285 }, "h": { "x": 367, "y": 282 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 470, "y": 354 }, "h": { "x": 321, "y": 353 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "S"] },
+  "notes": [
+    "Monge épure with a VERTICAL ligne de terre: H-projection triangle drawn left (A^H,B^H,C^H,S^H), V-projection triangle right (A^V,B^V,C^V,S^V); each point's V and H reads pair via a horizontal recall line (shared y-ordinate).",
+    "Reads from the thick projection polygons + S recall-line endpoints. Ignored the 'vraies grandeurs en traits mixtes' (dashed A-S true-length constructions) per point_projection scope.",
+    "No point sits on the LT; groundLine placed cleanly between the two projections (x=397) — position only translates the lift."
+  ]
+}

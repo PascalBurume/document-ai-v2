@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 8,
+    "page": 7,
+    "blockId": "p7-b1",
+    "caption": "Épure E 66 : quadrilatère ABCD de centre O (planche de côté, LT verticale), rabattu autour de la charnière ch^H (dans πH) en vraie grandeur A^H_R B^H_R C^H_R D^H_R."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 550 },
+  "groundLine": { "a": { "x": 485, "y": 16 }, "b": { "x": 485, "y": 538 } },
+  "points": [
+    { "id": "A", "v": { "x": 568, "y": 292 }, "h": { "x": 118, "y": 292 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 433, "y": 281 }, "h": { "x": 290, "y": 281 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 405, "y": 81 }, "h": { "x": 253, "y": 81 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 537, "y": 91 }, "h": { "x": 80, "y": 91 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "horizontal",
+    "hinge": { "aH": { "x": 140, "y": 16 }, "bH": { "x": 300, "y": 538 } },
+    "planePoints": ["A", "B", "C", "D"],
+    "rabattu": { "view": "h", "points": { "A": { "x": 332, "y": 248 }, "B": { "x": 136, "y": 312 }, "C": { "x": 50, "y": 150 }, "D": { "x": 216, "y": 56 } } }
+  },
+  "notes": [
+    "Planche imprimée de côté : ligne de terre verticale (π^V ch^V), rappels horizontaux, projection horizontale à gauche et verticale à droite. Sommets appariés V↔H par les rappels.",
+    "Rabattu reconstruit par rayons issus de O^H : positions R lues aux extrémités des tracés de rabattement (construction), moins nettes qu'un polygone rabattu fermé."
+  ]
+}

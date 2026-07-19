@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 43,
+    "page": 32,
+    "blockId": "p32-b6",
+    "caption": "Épure e(i) : changement de plan remplaçant πH. Ligne de terre du profil (H | V, quasi verticale) ; seconde ligne de terre L'T' (horizontale, V au-dessus / H' au-dessous). Les points A, B, M, N portés par les traces obliques passent dans la projection auxiliaire H'."
+  },
+  "units": "px",
+  "imageSize": { "width": 470, "height": 720 },
+  "groundLine": { "a": { "x": 225, "y": 20 }, "b": { "x": 225, "y": 455 } },
+  "points": [
+    { "id": "A", "v": { "x": 566, "y": 139 }, "h": { "x": 177, "y": 133 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 481, "y": 138 }, "h": { "x": 315, "y": 134 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 425, "y": 252 }, "h": { "x": 232, "y": 255 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 368, "y": 252 }, "h": { "x": 332, "y": 250 }, "role": "vertex" }
+  ],
+  "segments": [],
+  "operation": {
+    "kind": "change_of_plane",
+    "replaced": "h",
+    "newGroundLine": { "a": { "x": 38, "y": 132 }, "b": { "x": 660, "y": 144 } },
+    "points": ["A", "B", "M", "N"],
+    "auxiliary": {
+      "A": { "x": 562, "y": 190 },
+      "B": { "x": 481, "y": 58 },
+      "M": { "x": 425, "y": 140 },
+      "N": { "x": 368, "y": 50 }
+    }
+  },
+  "notes": [
+    "Changement de plan remplaçant πH : πV retenu, nouvelle ligne de terre L'T' (L1) horizontale. Ligne de terre d'origine = droite du profil (quasi verticale). Rappels V↔H horizontaux (perpendiculaires à la LT d'origine), rappels V↔H' verticaux (perpendiculaires à L'T'). Les positions H' sont l'or authored."
+  ]
+}

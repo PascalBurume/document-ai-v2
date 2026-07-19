@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 10,
+    "page": 9,
+    "blockId": "p9-b14",
+    "caption": "Épure E 68 : projections d'une pyramide de sommet S, avec les rabattements autour du centre O."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 600 },
+  "groundLine": { "a": { "x": 370, "y": 16 }, "b": { "x": 370, "y": 590 } },
+  "points": [
+    { "id": "S", "v": { "x": 605, "y": 197 }, "h": { "x": 285, "y": 198 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 512, "y": 358 }, "h": { "x": 212, "y": 357 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 633, "y": 305 }, "h": { "x": 132, "y": 310 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 568, "y": 163 }, "h": { "x": 107, "y": 163 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 455, "y": 208 }, "h": { "x": 180, "y": 210 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" },
+    { "from": "S", "to": "A", "view": "v" },
+    { "from": "S", "to": "B", "view": "v" },
+    { "from": "S", "to": "C", "view": "v" },
+    { "from": "S", "to": "D", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["S", "A", "B", "C", "D"] },
+  "notes": [
+    "Pyramide de sommet S sur base quadrilatère ABCD (centre O). Projection horizontale à gauche, verticale à droite; les deux appariées par des rappels HORIZONTAUX, donc ligne de terre verticale (x=370, translation seulement).",
+    "Vertices lus: outline épais de la projection V (pentagone D-C-S-B-A) et de la projection H (C-S-A-B avec D intérieur). D^H pris sur le rayon O^H->D. Rabattements/centre O ignorés (point_projection sans gold).",
+    "Aucun point sur la ligne de terre. Base perimeter A-B-C-D cohérente dans les deux projections."
+  ]
+}

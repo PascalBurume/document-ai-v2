@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1030" width="720" height="1030">
+  <rect width="720" height="1030" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- axis p^HV = alpha^HV -->
+    <line x1="290" y1="26" x2="278" y2="1012" stroke-width="1.8"/>
+
+    <!-- pi^H : heavy horizontal -->
+    <line x1="41" y1="727" x2="630" y2="723" stroke-width="2.6"/>
+
+    <!-- traces of the plane : a^V, b^V rising ; a^H, b^H falling -->
+    <line x1="35" y1="317" x2="706" y2="93" stroke-width="1.6"/>    <!-- b^V -->
+    <line x1="35" y1="520" x2="706" y2="299" stroke-width="1.6"/>   <!-- a^V -->
+    <line x1="38" y1="573" x2="710" y2="723" stroke-width="1.6"/>   <!-- b^H -->
+    <line x1="45" y1="665" x2="710" y2="815" stroke-width="1.6"/>   <!-- a^H -->
+
+    <!-- the two steep lines that cross at I^V_R -->
+    <line x1="112" y1="72" x2="378" y2="650" stroke-width="1.6"/>
+    <line x1="532" y1="168" x2="313" y2="650" stroke-width="1.6"/>
+
+    <!-- I^V : heavy short horizontal -->
+    <line x1="275" y1="575" x2="345" y2="575" stroke-width="2.6"/>
+
+    <!-- rabattement horizontals (dashed) -->
+    <g stroke-width="1.6" stroke-dasharray="12 7">
+      <line x1="192" y1="236" x2="281" y2="234"/>
+      <line x1="285" y1="308" x2="462" y2="309"/>
+      <line x1="281" y1="551" x2="346" y2="556"/>
+    </g>
+
+    <!-- rappels (dashed verticals) -->
+    <g stroke-width="1.6" stroke-dasharray="12 7">
+      <line x1="188" y1="242" x2="181" y2="742"/>
+      <line x1="464" y1="315" x2="468" y2="700"/>
+      <line x1="345" y1="582" x2="348" y2="712"/>
+    </g>
+
+    <!-- ticks on the axis -->
+    <g stroke-width="1.6">
+      <line x1="270" y1="768" x2="288" y2="767"/>
+      <line x1="270" y1="797" x2="288" y2="796"/>
+      <line x1="269" y1="910" x2="287" y2="909"/>
+    </g>
+
+    <!-- arrow at the head of the axis -->
+    <path d="M272 82 L308 82 M300 77 L308 82 L300 87" stroke-width="1.5"/>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="430" y="968" font-size="19">( d )</text>
+
+    <text x="296" y="50">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="648" y="86">b<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="658" y="280">a<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="688" y="710">b<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="684" y="820">a<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="50" y="716">x<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="176" y="222">D<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="288" y="220">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="246" y="314">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="466" y="312">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="286" y="412">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="246" y="550">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="362" y="550">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="286" y="600">I<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="356" y="596">I<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <text x="240" y="658">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="150" y="762">D<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="222" y="716">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="290" y="714">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="342" y="712">I<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="464" y="712">A<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="292" y="772">I<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="238" y="806">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="238" y="908">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="278" y="962">p<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="292" y="1008">α<tspan dy="-5" font-size="10">HV</tspan></text>
+  </g>
+</svg>

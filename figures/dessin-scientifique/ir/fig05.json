@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 5,
+    "page": 4,
+    "blockId": "p4-b1",
+    "caption": "Planche E 63 : les deux projections d'un solide de sommets A, B, C, D, E."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1000 },
+  "groundLine": { "a": { "x": 26, "y": 530 }, "b": { "x": 700, "y": 530 } },
+  "points": [
+    { "id": "A", "v": { "x": 244, "y": 345 }, "h": { "x": 244, "y": 752 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 314, "y": 489 }, "h": { "x": 314, "y": 560 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 581, "y": 335 }, "h": { "x": 581, "y": 650 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 438, "y": 520 }, "h": { "x": 438, "y": 790 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 370, "y": 242 }, "h": { "x": 370, "y": 545 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "E", "view": "v" },
+    { "from": "E", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "B", "view": "v" },
+    { "from": "B", "to": "A", "view": "v" },
+    { "from": "E", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D", "E"] },
+  "notes": [
+    "Solide à 5 sommets ABCDE reconstruit par point_projection. Arêtes lues sur la projection verticale (contour A-E-C-D-B + diagonales E-B, B-C). Sommets appariés par les rappels verticaux."
+  ]
+}

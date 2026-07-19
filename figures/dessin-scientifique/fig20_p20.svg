@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 920" width="720" height="920">
+  <rect width="720" height="920" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- ligne de terre pi^V -->
+    <line x1="4" y1="74" x2="716" y2="68" stroke-width="1.4"/>
+
+    <!-- ===== projection verticale : A^V B^V C^V on the LT, apex S^V ===== -->
+    <path d="M212 72 L475 73" stroke-width="2.2"/>
+    <path d="M212 72 L375 268 L475 73" stroke-width="2.2"/>
+    <line x1="290" y1="73" x2="375" y2="268" stroke-width="2.2"/>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M208 439 L276 765 L462 661 Z" stroke-width="2.2"/>
+    <g stroke-width="2" stroke-dasharray="9 5">
+      <line x1="208" y1="439" x2="368" y2="658"/>
+      <line x1="276" y1="765" x2="368" y2="658"/>
+      <line x1="368" y1="658" x2="462" y2="661"/>
+    </g>
+
+    <!-- the four lines l1..l4 and the auxiliary centres S1^h, S2^h, S' -->
+    <g stroke-width="1">
+      <line x1="39" y1="723" x2="208" y2="439"/>   <!-- l1 : S1^h A^h -->
+      <line x1="39" y1="723" x2="276" y2="765"/>   <!-- l2 : S1^h B^h -->
+      <line x1="39" y1="723" x2="462" y2="661"/>   <!-- S1^h C^h -->
+      <line x1="462" y1="661" x2="489" y2="868"/>  <!-- l3 : C^h S2^h -->
+      <line x1="276" y1="765" x2="489" y2="868"/>  <!-- S2^h B^h -->
+      <line x1="368" y1="658" x2="554" y2="559"/>  <!-- S^h S' -->
+    </g>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1.2" stroke-dasharray="14 8">
+      <line x1="212" y1="72" x2="208" y2="439"/>
+      <line x1="290" y1="73" x2="276" y2="765"/>
+      <line x1="475" y1="73" x2="462" y2="661"/>
+      <line x1="375" y1="268" x2="368" y2="658"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="180" y="58">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="276" y="56">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="470" y="56">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="380" y="290">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="658" y="58">π<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="178" y="434">A<tspan dy="-5" font-size="10">h</tspan></text>
+    <text x="262" y="790">B<tspan dy="-5" font-size="10">h</tspan></text>
+    <text x="472" y="656">C<tspan dy="-5" font-size="10">h</tspan></text>
+    <text x="366" y="646">S<tspan dy="-5" font-size="10">h</tspan></text>
+    <text x="14" y="748">S<tspan dy="-5" font-size="10">h</tspan><tspan dy="9" font-size="10">1</tspan></text>
+    <text x="490" y="890">S<tspan dy="-5" font-size="10">h</tspan><tspan dy="9" font-size="10">2</tspan></text>
+    <text x="544" y="556">S'</text>
+
+    <text x="92" y="592">ℓ<tspan dy="4" font-size="10">1</tspan></text>
+    <text x="142" y="746">ℓ<tspan dy="4" font-size="10">2</tspan></text>
+    <text x="470" y="752">ℓ<tspan dy="4" font-size="10">3</tspan></text>
+  </g>
+</svg>

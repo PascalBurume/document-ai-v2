@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1110" width="720" height="1110">
+  <rect width="720" height="1110" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- trace P^HV / beta^HV : ligne quasi verticale portant toutes les projections -->
+    <line x1="403" y1="25" x2="384" y2="1095" stroke-width="2.2"/>
+
+    <!-- b^V : arc montant vers la droite -->
+    <path d="M35 470 Q 350 215 700 57" stroke-width="2.2"/>
+    <!-- a^V : courbe presque horizontale -->
+    <path d="M35 375 Q 380 315 700 352" stroke-width="2.2"/>
+    <!-- a^H : courbe presque horizontale -->
+    <path d="M30 665 Q 380 615 705 636" stroke-width="2.2"/>
+    <!-- b^H : droite descendante -->
+    <line x1="26" y1="513" x2="680" y2="1084" stroke-width="2.2"/>
+    <!-- iota^V' : droite descendante -->
+    <line x1="55" y1="140" x2="634" y2="980" stroke-width="2.2"/>
+    <!-- P^V' : droite montante -->
+    <path d="M51 1099 Q 371 844 692 637" stroke-width="2.2"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="1.6" stroke-dasharray="14 8">
+      <line x1="200" y1="355" x2="189" y2="650"/>
+      <line x1="400" y1="772" x2="486" y2="772"/>
+      <line x1="400" y1="830" x2="526" y2="830"/>
+      <line x1="330" y1="900" x2="385" y2="900"/>
+    </g>
+
+    <!-- reperes -->
+    <g stroke-width="1.8">
+      <line x1="393" y1="240" x2="405" y2="240"/>
+      <line x1="384" y1="884" x2="384" y2="906"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="62" y="80" font-size="20">(g)</text>
+
+    <text x="378" y="58" transform="rotate(90 378 58)">H</text>
+    <text x="414" y="55" transform="rotate(90 414 55)">V</text>
+    <text x="415" y="115">P<tspan dy="-5" font-size="10">HV</tspan></text>
+
+    <text x="70" y="142">ι<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="636" y="58">b<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="652" y="330">a<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="646" y="613">a<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="648" y="1028">b<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="70" y="1048">P<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="624" y="322">V</text>
+    <text x="624" y="368">H</text>
+
+    <text x="432" y="208">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="360" y="258">Q<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="414" y="328">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="362" y="424">P<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="402" y="604">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="452" y="608">A<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="348" y="764">Q<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="482" y="748">Q<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="393" y="820">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="531" y="810">B<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="361" y="882">P<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="270" y="890">P<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="393" y="960">ι<tspan dy="-5" font-size="10">HV</tspan></text>
+    <text x="388" y="1052">β<tspan dy="-5" font-size="10">HV</tspan></text>
+  </g>
+</svg>

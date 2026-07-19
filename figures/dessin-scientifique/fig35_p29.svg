@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" width="720" height="490">
+  <rect width="720" height="490" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame (legerement deforme sur le scan) -->
+    <path d="M39 9 L683 22 L678 473 L27 486 Z" stroke-width="1.2"/>
+
+    <!-- droites longues (traits fins) -->
+    <line x1="203" y1="20" x2="189" y2="484" stroke-width="1"/>
+    <line x1="136" y1="18" x2="372" y2="484" stroke-width="1"/>
+    <line x1="241" y1="20" x2="30" y2="484" stroke-width="1"/>
+    <line x1="20" y1="360" x2="700" y2="205" stroke-width="1"/>
+    <line x1="30" y1="484" x2="688" y2="80" stroke-width="1"/>
+    <line x1="286" y1="16" x2="497" y2="484" stroke-width="1"/>
+
+    <!-- ===== quadrilatere principal (traits forts) ===== -->
+    <path d="M415 125 L608 164 L562 341 L361 297 Z" stroke-width="2.2"/>
+
+    <!-- rabattement (traits forts, long tirets) -->
+    <g stroke-width="2.2" stroke-dasharray="14 6">
+      <line x1="109" y1="82" x2="540" y2="82"/>
+      <line x1="109" y1="82" x2="116" y2="257"/>
+      <line x1="116" y1="255" x2="585" y2="252"/>
+      <line x1="266" y1="75" x2="300" y2="241"/>
+      <line x1="540" y1="82" x2="587" y2="254"/>
+      <line x1="424" y1="76" x2="416" y2="122"/>
+    </g>
+    <!-- fleches -->
+    <path d="M116 257 L126 251 M116 257 L128 259" stroke-width="1.6"/>
+    <path d="M109 82 L119 78 M109 82 L119 86" stroke-width="1.6"/>
+
+    <!-- lignes de rappel / constructions en tirets fins -->
+    <g stroke-width="1" stroke-dasharray="9 5">
+      <line x1="188" y1="161" x2="455" y2="158"/>
+      <line x1="195" y1="447" x2="565" y2="437"/>
+      <line x1="236" y1="136" x2="360" y2="168"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="648" y="56" font-size="19">E 86</text>
+    <text x="592" y="52" font-size="13">(o a)<tspan dy="-4" font-size="9">H'</tspan></text>
+
+    <text x="150" y="32">O<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="84" y="92">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="250" y="70">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="416" y="70">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="540" y="86">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="226" y="138">L<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="172" y="164">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="352" y="176">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="568" y="148">D<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="536" y="164">A<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="502" y="170">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="478" y="222">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="524" y="244" font-size="13">O<tspan dy="-4" font-size="9">H'</tspan><tspan dy="4">L</tspan><tspan dy="-4" font-size="9">H'</tspan></text>
+
+    <text x="404" y="118">A<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="612" y="170">D<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="566" y="352">C<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="352" y="312">B<tspan dy="-5" font-size="10">V'</tspan></text>
+
+    <text x="586" y="266">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="456" y="260">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="294" y="244">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="116" y="270">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="500" y="316">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="476" y="362">B<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="26" y="386">b<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="688" y="378">b<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="172" y="378">H</text>
+    <text x="190" y="376">V</text>
+    <text x="186" y="408">LT</text>
+    <text x="186" y="452">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="196" y="462">f<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="168" y="476">a<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="292" y="418">H'</text>
+    <text x="274" y="416">V'</text>
+    <text x="266" y="462">L'T'</text>
+
+    <text x="646" y="210">H'</text>
+    <text x="664" y="218">L'T'V</text>
+
+    <text x="376" y="430">K<tspan dy="-5" font-size="10">V'</tspan></text>
+    <text x="434" y="446">K<tspan dy="-5" font-size="10">H'</tspan></text>
+    <text x="564" y="436">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="564" y="464">f<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="584" y="464">a<tspan dy="-5" font-size="10">V</tspan></text>
+  </g>
+</svg>

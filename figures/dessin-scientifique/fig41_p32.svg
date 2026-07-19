@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1150" width="720" height="1150">
+  <rect width="720" height="1150" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ligne de terre (LT), slightly hand-drawn -->
+    <path d="M20 962 Q 360 945 706 944" stroke-width="1.8"/>
+
+    <!-- trace alpha^HV : near-vertical line, top to bottom -->
+    <line x1="325" y1="25" x2="290" y2="1125" stroke-width="2.2"/>
+
+    <!-- (AB)^H : steep oblique through A and B^H' -->
+    <line x1="245" y1="66" x2="594" y2="906" stroke-width="2.2"/>
+
+    <!-- (CD)^H : gentle oblique through D^H', B^V, I^H', C^H' -->
+    <path d="M35 290 Q 240 405 440 535 Q 560 605 692 733" stroke-width="2.2"/>
+
+    <!-- dashed correspondences (rabattement / rappel horizontaux) -->
+    <g stroke-width="1.4" stroke-dasharray="14 8">
+      <line x1="207" y1="382" x2="314" y2="374"/>
+      <line x1="317" y1="460" x2="412" y2="459"/>
+      <line x1="309" y1="536" x2="438" y2="535"/>
+      <line x1="307" y1="589" x2="527" y2="592"/>
+    </g>
+
+    <!-- ticks marking points on alpha^HV -->
+    <g stroke-width="1.8">
+      <line x1="308" y1="373" x2="320" y2="373"/>
+      <line x1="303" y1="723" x2="311" y2="723"/>
+      <line x1="290" y1="536" x2="302" y2="536"/>
+      <line x1="300" y1="589" x2="312" y2="589"/>
+      <line x1="290" y1="850" x2="302" y2="850"/>
+      <line x1="284" y1="1073" x2="296" y2="1073"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="330" y="70" font-size="19">α<tspan dy="-7" font-size="12">HV</tspan></text>
+    <text x="105" y="178" font-size="17">(c)</text>
+
+    <!-- two sideways glyphs (H and V) written rotated on the scan -->
+    <text x="268" y="132" font-size="16" transform="rotate(90 268 132)">H</text>
+    <text x="303" y="122" font-size="16" transform="rotate(90 303 122)">V</text>
+
+    <text x="334" y="246">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="373" y="244">A<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="326" y="352">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="190" y="376">D<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="327" y="450">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="420" y="448">B<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="274" y="536">I<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="452" y="527">I<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="316" y="582">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="537" y="577">C<tspan dy="-5" font-size="10">H'</tspan></text>
+
+    <text x="627" y="672">(CD)<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="500" y="832">(AB)<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="319" y="700">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="267" y="805">I<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="317" y="833">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="314" y="937">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="307" y="1070">D<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="27" y="951">LT</text>
+    <text x="78" y="946">V</text>
+    <text x="76" y="988">H</text>
+  </g>
+</svg>

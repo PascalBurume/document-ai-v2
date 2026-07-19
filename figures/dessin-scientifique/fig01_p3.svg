@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 790" width="720" height="790">
+  <rect width="720" height="790" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- ligne de terre : pi^V ch^V -->
+    <line x1="105" y1="123" x2="700" y2="112" stroke-width="1.4"/>
+
+    <!-- charniere ch^H (oblique, passe par A^H) -->
+    <line x1="108" y1="382" x2="582" y2="678" stroke-width="1.4"/>
+    <!-- fleche sur ch^H -->
+    <line x1="136" y1="416" x2="158" y2="384" stroke-width="1.2"/>
+    <line x1="158" y1="384" x2="151" y2="396" stroke-width="1.2"/>
+    <line x1="158" y1="384" x2="146" y2="391" stroke-width="1.2"/>
+
+    <!-- projection verticale : triangle A^V B^V C^V -->
+    <path d="M240 120 L368 48 L498 253 Z" stroke-width="1.6"/>
+
+    <!-- projection horizontale : triangle A^H B^H C^H (fin) -->
+    <path d="M235 461 L362 598 L495 517 Z" stroke-width="1.1"/>
+
+    <!-- rabattement : triangle A^H_R B^H_R C^H_R (fort) -->
+    <path d="M235 461 L434 494 L342 730 Z" stroke-width="2.6"/>
+
+    <!-- direction de rabattement de B, prolongee vers M^H_B -->
+    <line x1="434" y1="494" x2="472" y2="440" stroke-width="1.1"/>
+
+    <!-- direction de rabattement de C (trait long), C^H_R - C^H - M^H_C -->
+    <path d="M342 730 L530 468" stroke-width="1.2" stroke-dasharray="14 6"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="239" y1="126" x2="236" y2="455"/>
+      <line x1="368" y1="55" x2="363" y2="592"/>
+      <line x1="498" y1="260" x2="495" y2="510"/>
+      <line x1="389" y1="120" x2="388" y2="494"/>
+      <line x1="409" y1="119" x2="407" y2="499"/>
+    </g>
+    <!-- rappels des points rabattus (trait fort, long) -->
+    <g stroke-width="2" stroke-dasharray="14 6">
+      <line x1="347" y1="120" x2="342" y2="724"/>
+      <line x1="437" y1="118" x2="434" y2="488"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="30" y="292" font-size="19">E 61</text>
+    <text x="142" y="710" font-size="17">(a)</text>
+
+    <text x="110" y="120">π<tspan dy="-5" font-size="10">V</tspan><tspan dy="5">Ch</tspan><tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="222" y="108">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="356" y="38">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="505" y="256">C<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="316" y="106">C<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="374" y="106">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="446" y="106">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <text x="102" y="384">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="200" y="446">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="236" y="446">A<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="436" y="464">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+    <text x="348" y="752">C<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">R</tspan></text>
+
+    <text x="367" y="628">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="510" y="544">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="380" y="552">O<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="468" y="420">M<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">B</tspan></text>
+    <text x="508" y="464">M<tspan dy="-5" font-size="10">H</tspan><tspan dy="9" font-size="10">C</tspan></text>
+  </g>
+</svg>

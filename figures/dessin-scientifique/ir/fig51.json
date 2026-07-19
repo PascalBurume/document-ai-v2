@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 51,
+    "page": 38,
+    "blockId": "p38-b0",
+    "caption": "Épure E 95 : les deux projections d'un solide hexagonal (sommets B, L, S, M, A, C et N)."
+  },
+  "units": "px",
+  "imageSize": { "width": 430, "height": 720 },
+  "groundLine": { "a": { "x": 20, "y": 325 }, "b": { "x": 410, "y": 325 } },
+  "points": [
+    { "id": "B", "v": { "x": 114, "y": 260 }, "h": { "x": 114, "y": 430 }, "role": "vertex" },
+    { "id": "L", "v": { "x": 167, "y": 171 }, "h": { "x": 167, "y": 517 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 216, "y": 76 },  "h": { "x": 216, "y": 597 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 321, "y": 81 },  "h": { "x": 321, "y": 408 }, "role": "vertex" },
+    { "id": "N", "v": { "x": 318, "y": 245 }, "h": { "x": 318, "y": 583 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 354, "y": 85 },  "h": { "x": 354, "y": 352 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 353, "y": 302 }, "h": { "x": 353, "y": 579 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "B", "to": "L", "view": "v" },
+    { "from": "L", "to": "S", "view": "v" },
+    { "from": "S", "to": "M", "view": "v" },
+    { "from": "M", "to": "A", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "C", "to": "B", "view": "v" },
+    { "from": "S", "to": "N", "view": "v" },
+    { "from": "M", "to": "N", "view": "v" },
+    { "from": "N", "to": "C", "view": "v" },
+    { "from": "L", "to": "C", "view": "v" },
+    { "from": "B", "to": "A", "view": "v", "style": "hidden" },
+    { "from": "L", "to": "A", "view": "v", "style": "hidden" },
+
+    { "from": "B", "to": "L", "view": "h" },
+    { "from": "L", "to": "S", "view": "h" },
+    { "from": "S", "to": "N", "view": "h" },
+    { "from": "N", "to": "C", "view": "h" },
+    { "from": "C", "to": "A", "view": "h" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "M", "view": "h" },
+    { "from": "M", "to": "N", "view": "h" },
+    { "from": "S", "to": "M", "view": "h" },
+    { "from": "M", "to": "A", "view": "h" },
+    { "from": "B", "to": "C", "view": "h", "style": "hidden" },
+    { "from": "L", "to": "C", "view": "h", "style": "hidden" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["B", "L", "S", "M", "A", "C", "N"] },
+  "notes": [
+    "Solide hexagonal E 95 (7 sommets B, L, S, M, A, C, N ; 12 arêtes). Reconstruction par point_projection : chaque sommet est élevé de ses deux projections, appariées par les lignes de rappel. Le rabattement, les droites f/m/n et les points de construction K, H sont ignorés.",
+    "La planche est imprimée de côté dans le scan (transform rotate(-90) dans le SVG). Coordonnées de l'IR exprimées dans l'espace écran (viewBox 430×720) : ligne de terre horizontale, rappels verticaux (rot 0). sx = y_groupe, sy = 720 − x_groupe.",
+    "Chaque sommet lu dans les deux vues concorde en abscisse à ≤6 px ; les deux projections ont été calées sur une abscisse commune (élévation/profondeur préservées). A et C partagent une même droite de rappel (droite « A/C »), de même que M et N (droite « M/N ») — c'est une particularité de l'épure, pas une confusion.",
+    "Arêtes cachées telles que dessinées : en projection verticale B–A et L–A (tirets) ; en projection horizontale B–C et L–C (tirets). Le solide étant non convexe (N est un sommet en creux relié à S, M, C), chaque vue tranche différemment les arêtes ambiguës L–A (V) / B–M (H) : les segments sont transcrits vue par vue, fidèlement à la planche."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 55,
+    "page": 42,
+    "blockId": "p42-b1",
+    "caption": "Épure E 99 : projections du quadrilatère SDEF (le rabattement change-de-plan de la planche n'est pas reconstruit ; seul le quadrilatère est relevé)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 470 },
+  "groundLine": { "a": { "x": 445, "y": 10 }, "b": { "x": 445, "y": 460 } },
+  "points": [
+    { "id": "S", "v": { "x": 443, "y": 139 }, "h": { "x": 243, "y": 141 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 558, "y": 282 }, "h": { "x": 405, "y": 284 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 557, "y": 342 }, "h": { "x": 342, "y": 342 }, "role": "vertex" },
+    { "id": "F", "v": { "x": 450, "y": 409 }, "h": { "x": 416, "y": 409 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "S", "to": "D", "view": "v" },
+    { "from": "D", "to": "E", "view": "v" },
+    { "from": "E", "to": "F", "view": "v" },
+    { "from": "F", "to": "S", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["S", "D", "E", "F"] },
+  "notes": [
+    "Quadrilatère SDEF relevé par point_projection (plaque tournée, ligne de terre verticale x≈445 ; projection verticale à droite, horizontale à gauche, rappels horizontaux). Le rabattement K'L'M' de la planche est une construction combinée changement-de-plan + rabattement que le reconstructeur mono-opération ne modélise pas ; il est volontairement omis."
+  ]
+}

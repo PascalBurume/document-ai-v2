@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 940" width="720" height="940">
+  <rect width="720" height="940" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- verticale : ch^V -->
+    <line x1="315" y1="25" x2="315" y2="915" stroke-width="1.4"/>
+    <!-- fleche sur la verticale -->
+    <line x1="298" y1="845" x2="340" y2="845" stroke-width="1.2"/>
+    <line x1="340" y1="845" x2="331" y2="841" stroke-width="1.2"/>
+    <line x1="340" y1="845" x2="331" y2="849" stroke-width="1.2"/>
+
+    <!-- ligne de terre pi^H (ch^H) -->
+    <line x1="30" y1="645" x2="690" y2="645" stroke-width="1.4"/>
+
+    <!-- triangle rabattu A^V_R B^V_R C^V_R (fort) -->
+    <path d="M317 110 L440 232 L204 358 Z" stroke-width="2.8"/>
+
+    <!-- traces horizontales du rabattement -->
+    <path d="M318 230 L556 230" stroke-width="1.2" stroke-dasharray="16 9"/>
+    <path d="M135 362 L315 362" stroke-width="1.2" stroke-dasharray="16 9"/>
+
+    <!-- rappels des points rabattus -->
+    <g stroke-width="2.4" stroke-dasharray="14 8">
+      <line x1="204" y1="364" x2="204" y2="645"/>
+      <line x1="440" y1="238" x2="440" y2="645"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="322" y="98">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="10" font-size="10">E</tspan></text>
+    <text x="366" y="98">A<tspan dy="-5" font-size="10">V</tspan><tspan dy="10" font-size="10">R</tspan></text>
+
+    <text x="318" y="218">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="448" y="216">C<tspan dy="-5" font-size="10">V</tspan><tspan dy="10" font-size="10">R</tspan></text>
+
+    <text x="318" y="360">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="352" y="362">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="148" y="352">B<tspan dy="-5" font-size="10">V</tspan><tspan dy="10" font-size="10">R</tspan></text>
+
+    <text x="322" y="524">B<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="132" y="640">B<tspan dy="-5" font-size="10">H</tspan><tspan dy="10" font-size="10">R</tspan></text>
+    <text x="210" y="636">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="238" y="640">A<tspan dy="-5" font-size="10">H</tspan><tspan dy="10" font-size="10">R</tspan></text>
+    <text x="324" y="634">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="366" y="636">Ch<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="460" y="632">C<tspan dy="-5" font-size="10">H</tspan><tspan dy="10" font-size="10">R</tspan></text>
+    <text x="628" y="634">π<tspan dy="-5" font-size="10">H</tspan></text>
+
+    <text x="320" y="794">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="318" y="900">Ch<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <text x="492" y="848" font-size="19">(d)</text>
+  </g>
+</svg>

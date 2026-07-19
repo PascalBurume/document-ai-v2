@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 20,
+    "page": 19,
+    "blockId": "p19-b15",
+    "caption": "Épure : projections d'une pyramide de sommet S sur la base ABC (A, B, C sur la ligne de terre)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 920 },
+  "groundLine": { "a": { "x": 50, "y": 72 }, "b": { "x": 700, "y": 72 } },
+  "points": [
+    { "id": "A", "v": { "x": 210, "y": 72 }, "h": { "x": 210, "y": 439 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 276, "y": 72 }, "h": { "x": 276, "y": 765 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 468, "y": 73 }, "h": { "x": 468, "y": 661 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 370, "y": 268 }, "h": { "x": 370, "y": 646 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "S", "to": "A", "view": "v" },
+    { "from": "S", "to": "B", "view": "v" },
+    { "from": "S", "to": "C", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "S"] },
+  "notes": [
+    "Pyramide S-ABC : la base ABC est sur la ligne de terre (A^V B^V C^V sur la LT, cote 0). Reconstruction par point_projection ; le sommet S est sous πH (S^V sous la LT)."
+  ]
+}

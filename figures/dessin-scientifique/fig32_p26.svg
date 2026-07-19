@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 510 720" width="510" height="720"><rect width="510" height="720" fill="#fff"/><g transform="translate(0 720) rotate(-90)">
+  <rect width="720" height="510" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- cadre de la planche -->
+    <path d="M13 23 L706 6 L712 500 L34 502 Z" stroke-width="1"/>
+
+    <!-- f^H : verticale de gauche -->
+    <path d="M238 15 L223 502" stroke-width="1"/>
+    <!-- LT (V/H) : verticale de droite -->
+    <path d="M467 15 L472 180 L478 502" stroke-width="1"/>
+
+    <!-- L'T'.V' / H' ... (ABC)V' : oblique descendant vers la gauche -->
+    <path d="M329 17 L112 500" stroke-width="1"/>
+    <!-- f^V : oblique descendant vers la droite -->
+    <path d="M356 19 L406 158 L455 300 L500 502" stroke-width="1"/>
+
+    <!-- p^H : longue oblique passant par A^V -->
+    <path d="M15 361 L472 180 L700 88" stroke-width="1"/>
+    <!-- oblique portant les reperes x^V et p^V -->
+    <path d="M20 395 L703 164" stroke-width="1"/>
+
+    <!-- droite passant par D' et A^V'C^V' -->
+    <path d="M141 199 L213 276 L250 314" stroke-width="1"/>
+    <!-- droite issue de B^V' -->
+    <path d="M263 145 L302 308" stroke-width="1"/>
+
+    <!-- ===== projection horizontale (trait fort) ===== -->
+    <path d="M177 186 L177 293 L247 357 L313 238 Z" stroke-width="2.4"/>
+    <path d="M177 186 L213 276 L247 357" stroke-width="2.4"/>
+    <path d="M213 276 L313 238" stroke-width="2.4"/>
+
+    <!-- ===== projection verticale (trait fort) ===== -->
+    <path d="M472 182 L373 236 L342 289 L313 238 Z" stroke-width="2.4"/>
+    <path d="M472 182 L472 353 L342 289" stroke-width="2.4"/>
+
+    <!-- ligne x (grand tirete) -->
+    <path d="M315 243 L472 351" stroke-width="1.8" stroke-dasharray="14 7"/>
+    <!-- construction B^H' (tirete) -->
+    <path d="M293 148 L313 235" stroke-width="1.4" stroke-dasharray="9 5"/>
+
+    <!-- lignes de rappel horizontales (LT verticale) -->
+    <g stroke-width="1.2" stroke-dasharray="9 5">
+      <line x1="180" y1="184" x2="470" y2="181"/>
+      <line x1="232" y1="208" x2="424" y2="205"/>
+      <line x1="316" y1="240" x2="371" y2="238"/>
+      <line x1="232" y1="264" x2="430" y2="261"/>
+      <line x1="180" y1="292" x2="340" y2="289"/>
+      <line x1="250" y1="355" x2="470" y2="352"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="13" fill="#111">
+    <text x="672" y="26" transform="rotate(90 672 26)" font-size="17">E 82</text>
+
+    <text x="236" y="29" transform="rotate(90 236 29)">f<tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="372" y="33" transform="rotate(90 372 33)">f<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="320" y="31" transform="rotate(90 320 31)">L'T'.V'</text>
+    <text x="295" y="52" transform="rotate(90 295 52)">H'</text>
+    <text x="466" y="27" transform="rotate(90 466 27)">LT V</text>
+    <text x="455" y="46" transform="rotate(90 455 46)">H</text>
+
+    <text x="648" y="74" transform="rotate(90 648 74)">H</text>
+    <text x="661" y="80" transform="rotate(90 661 80)">L'T'.V'</text>
+    <text x="636" y="108" transform="rotate(90 636 108)">p<tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="681" y="180" transform="rotate(90 681 180)">p<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="512" y="233" transform="rotate(90 512 233)">x<tspan dy="-5" font-size="9">V</tspan></text>
+
+    <text x="255" y="119" transform="rotate(90 255 119)">B<tspan dy="-5" font-size="9">V'</tspan></text>
+    <text x="278" y="133" transform="rotate(90 278 133)">B<tspan dy="-5" font-size="9">H'</tspan></text>
+
+    <text x="172" y="169" transform="rotate(90 172 169)">A<tspan dy="-5" font-size="9">H'</tspan></text>
+    <text x="132" y="190" transform="rotate(90 132 190)">D'</text>
+    <text x="108" y="238" transform="rotate(90 108 238)">A<tspan dy="-5" font-size="9">H'</tspan></text>
+    <text x="169" y="297" transform="rotate(90 169 297)">D<tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="250" y="361" transform="rotate(90 250 361)">C<tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="294" y="305" transform="rotate(90 294 305)">C<tspan dy="-5" font-size="9">H'</tspan></text>
+    <text x="207" y="290" transform="rotate(90 207 290)">A<tspan dy="-5" font-size="9">V'</tspan><tspan dy="5">C</tspan><tspan dy="-5" font-size="9">V'</tspan></text>
+    <text x="247" y="265" transform="rotate(90 247 265)">O<tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="246" y="213" transform="rotate(90 246 213)">O<tspan dy="-5" font-size="9">H'</tspan></text>
+    <text x="219" y="212" transform="rotate(90 219 212)">O<tspan dy="-5" font-size="9">V'</tspan></text>
+
+    <text x="311" y="219" transform="rotate(90 311 219)">x<tspan dy="-5" font-size="9">H</tspan><tspan dy="5">,B</tspan><tspan dy="-5" font-size="9">H</tspan></text>
+    <text x="372" y="231" transform="rotate(90 372 231)">B<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="353" y="288" transform="rotate(90 353 288)">D<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="430" y="262" transform="rotate(90 430 262)">D<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="346" y="308" transform="rotate(90 346 308)">x'</text>
+
+    <text x="476" y="172" transform="rotate(90 476 172)">A<tspan dy="-5" font-size="9">V</tspan></text>
+    <text x="477" y="352" transform="rotate(90 477 352)">C<tspan dy="-5" font-size="9">V</tspan></text>
+
+    <text x="140" y="442" transform="rotate(90 140 442)">(ABC)V'</text>
+  </g>
+</g></svg>

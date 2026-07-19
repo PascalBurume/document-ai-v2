@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 9,
+    "page": 8,
+    "blockId": "p8-b18",
+    "caption": "Épure E 67 : hexagone régulier ABCDEF dans un plan oblique (planche de côté, LT verticale), rabattu en vraie grandeur autour de la charnière ch^H (dans πH) passant par A et D."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 530 },
+  "groundLine": { "a": { "x": 475, "y": 16 }, "b": { "x": 475, "y": 505 } },
+  "points": [
+    { "id": "A", "v": { "x": 477, "y": 298 }, "h": { "x": 217, "y": 298 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 540, "y": 260 }, "h": { "x": 105, "y": 260 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 538, "y": 135 }, "h": { "x": 79, "y": 135 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 467, "y": 50 }, "h": { "x": 144, "y": 50 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 401, "y": 91 }, "h": { "x": 245, "y": 91 }, "role": "vertex" },
+    { "id": "F", "v": { "x": 401, "y": 206 }, "h": { "x": 285, "y": 206 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "E", "view": "v" },
+    { "from": "E", "to": "F", "view": "v" },
+    { "from": "F", "to": "A", "view": "v" }
+  ],
+  "operation": {
+    "kind": "rabattement_plane",
+    "hingeKind": "horizontal",
+    "hinge": { "aH": { "x": 135, "y": 16 }, "bH": { "x": 279, "y": 505 } },
+    "planePoints": ["A", "B", "C", "D", "E", "F"],
+    "rabattu": {
+      "view": "h",
+      "points": {
+        "A": { "x": 217, "y": 295 },
+        "B": { "x": 110, "y": 272 },
+        "C": { "x": 56, "y": 144 },
+        "D": { "x": 144, "y": 47 },
+        "E": { "x": 263, "y": 77 },
+        "F": { "x": 303, "y": 212 }
+      }
+    }
+  },
+  "notes": [
+    "Planche imprimée de côté : ligne de terre verticale (π^V ch^V), rappels horizontaux, projection horizontale à gauche et verticale à droite. Sommets appariés V↔H par les rappels horizontaux.",
+    "La charnière ch^H passe par A^H et D^H (fixes) ; sa trace V coïncide avec la LT (π^V ch^V) — donc la charnière est dans πH, hauteur 0, aV/bV omis. Le rabattu retombe dans πH.",
+    "Résidu de coplanarité ~15px (une puce s'affiche) : l'hexagone tracé n'est pas parfaitement plan (slop de la planche). Le rabattu reconstruit correspond quand même au tracé en tirets (gold ok) — imperfection surfacée, non lissée, comme pour E65."
+  ]
+}

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1130" width="720" height="1130">
+  <rect width="720" height="1130" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M20 16 L706 12 L708 1116 L26 1120 Z" stroke-width="1.2"/>
+
+    <!-- ligne de terre f^H (passe par A^H et C^H) -->
+    <line x1="22" y1="868" x2="706" y2="900" stroke-width="1.1"/>
+
+    <!-- obliques de la planche -->
+    <g stroke-width="1">
+      <line x1="22" y1="690" x2="706" y2="330"/>
+      <line x1="22" y1="600" x2="706" y2="240"/>
+      <line x1="22" y1="390" x2="706" y2="30"/>
+      <line x1="95" y1="14" x2="500" y2="1118"/>
+      <line x1="300" y1="14" x2="700" y2="1116"/>
+    </g>
+
+    <!-- ===== projection verticale : parallelepipede ===== -->
+    <!-- face ABCD -->
+    <path d="M88 315 L330 320 L390 82 L160 80 Z" stroke-width="2.2"/>
+    <!-- aretes visibles vers la face A'B'C'D' -->
+    <g stroke-width="2.2">
+      <line x1="88" y1="315" x2="210" y2="468"/>
+      <line x1="330" y1="320" x2="450" y2="468"/>
+      <line x1="390" y1="82" x2="515" y2="222"/>
+      <line x1="210" y1="468" x2="450" y2="468"/>
+      <line x1="450" y1="468" x2="515" y2="222"/>
+    </g>
+    <!-- aretes cachees par D' -->
+    <g stroke-width="1.6" stroke-dasharray="9 5">
+      <line x1="160" y1="80" x2="290" y2="222"/>
+      <line x1="290" y1="222" x2="515" y2="222"/>
+      <line x1="290" y1="222" x2="210" y2="468"/>
+    </g>
+
+    <!-- ===== projection horizontale ===== -->
+    <path d="M90 873 L190 676 L305 541 L519 688 L334 1011 Z" stroke-width="2.2"/>
+    <g stroke-width="1.8">
+      <line x1="175" y1="749" x2="399" y2="894"/>
+      <line x1="134" y1="811" x2="446" y2="808"/>
+    </g>
+    <path d="M190 676 L446 808" stroke-width="1.6" stroke-dasharray="9 5"/>
+    <g stroke-width="1">
+      <line x1="90" y1="873" x2="134" y2="811"/>
+      <line x1="134" y1="811" x2="211" y2="943"/>
+      <line x1="134" y1="811" x2="369" y2="955"/>
+      <line x1="287" y1="820" x2="211" y2="943"/>
+      <line x1="287" y1="820" x2="369" y2="955"/>
+      <line x1="211" y1="943" x2="369" y2="955"/>
+      <line x1="369" y1="955" x2="399" y2="894"/>
+    </g>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="88" y1="322" x2="90" y2="866"/>
+      <line x1="160" y1="88" x2="175" y2="742"/>
+      <line x1="330" y1="327" x2="334" y2="1005"/>
+      <line x1="390" y1="90" x2="399" y2="888"/>
+      <line x1="210" y1="474" x2="190" y2="670"/>
+      <line x1="290" y1="230" x2="305" y2="535"/>
+      <line x1="515" y1="230" x2="519" y2="682"/>
+      <line x1="450" y1="474" x2="446" y2="802"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="34" y="48" font-size="17">E 74</text>
+
+    <!-- projection verticale -->
+    <text x="152" y="76">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="396" y="86">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="132" y="196">N<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="222" y="196">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="282" y="200">D'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="358" y="200">L<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="518" y="230">C'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="72" y="318">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="326" y="326">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="172" y="412">X<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="182" y="482">A'<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="454" y="478">B'<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <!-- projection horizontale -->
+    <text x="300" y="536">D'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="524" y="696">C'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="180" y="678">A'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="62" y="678">X'</text>
+    <text x="70" y="584">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="176" y="752">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="206" y="754">X<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="140" y="810">N<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="296" y="822">M<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="452" y="818">B'<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="70" y="878">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="248" y="886">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="404" y="890">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="206" y="962">K<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="316" y="950">O'</text>
+    <text x="368" y="962">L<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="330" y="1026">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="660" y="878">f<tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</svg>

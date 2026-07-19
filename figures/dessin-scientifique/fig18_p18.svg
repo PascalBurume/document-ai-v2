@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 930" width="720" height="930">
+  <rect width="720" height="930" fill="#fff"/>
+  <g stroke="#111" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- plate frame -->
+    <path d="M16 12 L704 8 L700 908 L22 914 Z" stroke-width="1.2"/>
+
+    <!-- the two long near-horizontal traces that frame the horizontal projection -->
+    <line x1="22" y1="612" x2="700" y2="628" stroke-width="1"/>     <!-- p^H -->
+    <line x1="20" y1="650" x2="700" y2="672" stroke-width="1.1"/>   <!-- pi^H ch^H : carries A^H B^H -->
+
+    <!-- ===== projection verticale (upper) ===== -->
+    <!-- base quadrilateral A D C B -->
+    <path d="M302 119 L442 44 L536 206 L395 281 Z" stroke-width="2.2"/>
+    <!-- apex S^V -->
+    <path d="M468 136 L302 119 M468 136 L442 44 M468 136 L536 206 M468 136 L395 281" stroke-width="2.2"/>
+    <!-- apex T^V -->
+    <path d="M372 187 L302 119 M372 187 L395 281" stroke-width="2.2"/>
+    <path d="M372 187 L536 206 M372 187 L442 44" stroke-width="1.6" stroke-dasharray="9 5"/>
+    <!-- diagonals of the base : A^V C^V through O^V, B^V D^V hidden -->
+    <line x1="302" y1="119" x2="536" y2="206" stroke-width="1"/>
+    <line x1="395" y1="281" x2="442" y2="44" stroke-width="1.6" stroke-dasharray="9 5"/>
+
+    <!-- ===== projection horizontale (lower) ===== -->
+    <path d="M306 660 L449 583 L541 589" stroke-width="2.2"/>
+    <path d="M541 589 L401 661" stroke-width="1.6" stroke-dasharray="9 5"/>
+    <!-- apex S^H -->
+    <path d="M477 752 L306 660 M477 752 L449 583 M477 752 L541 589" stroke-width="2.2"/>
+    <path d="M477 752 L401 661" stroke-width="1.6" stroke-dasharray="9 5"/>
+    <!-- apex T^H -->
+    <path d="M371 500 L306 660 M371 500 L449 583 M371 500 L541 589" stroke-width="2.2"/>
+    <path d="M371 500 L401 661" stroke-width="1"/>
+    <!-- diagonals -->
+    <line x1="306" y1="660" x2="541" y2="589" stroke-width="1"/>
+    <line x1="401" y1="661" x2="449" y2="583" stroke-width="1"/>
+
+    <!-- lignes de rappel -->
+    <g stroke-width="0.9" stroke-dasharray="5 4">
+      <line x1="302" y1="119" x2="306" y2="660"/>
+      <line x1="395" y1="281" x2="401" y2="661"/>
+      <line x1="536" y1="206" x2="541" y2="589"/>
+      <line x1="442" y1="44" x2="449" y2="583"/>
+      <line x1="468" y1="136" x2="477" y2="752"/>
+      <line x1="372" y1="187" x2="371" y2="500"/>
+    </g>
+  </g>
+
+  <g font-family="Georgia, serif" font-size="15" fill="#111">
+    <text x="30" y="48" font-size="19">E 76</text>
+
+    <!-- projection verticale -->
+    <text x="286" y="112">A<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="398" y="296">B<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="542" y="216">C<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="436" y="36">D<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="470" y="128">S<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="374" y="182">T<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="414" y="156">O<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="340" y="196">Q<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="356" y="76">X<tspan dy="-5" font-size="10">V</tspan></text>
+    <text x="360" y="292">Y<tspan dy="-5" font-size="10">V</tspan></text>
+
+    <!-- projection horizontale -->
+    <text x="286" y="676">A<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="382" y="678">B<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="546" y="584">C<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="450" y="576">D<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="470" y="770">S<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="348" y="502">T<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="432" y="628">O<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="356" y="462">Q<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="340" y="608">X<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="366" y="620">Y<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="506" y="746">S'</text>
+    <text x="298" y="476">Q'</text>
+
+    <!-- the two traces that are drawn -->
+    <text x="676" y="626">p<tspan dy="-5" font-size="10">H</tspan></text>
+    <text x="36" y="646">π<tspan dy="-5" font-size="10">H</tspan><tspan dy="5">ch</tspan><tspan dy="-5" font-size="10">H</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 60,
+    "page": 47,
+    "blockId": "p47-b2",
+    "caption": "Épure E 104 : projections verticale et horizontale d'une pyramide triangulaire de base ACO et de sommet B (le plan sécant, sa section KMNL et le rabattu B_R sont des tracés de construction, hors solide)."
+  },
+  "units": "px",
+  "imageSize": { "width": 480, "height": 720 },
+  "groundLine": { "a": { "x": 16, "y": 320 }, "b": { "x": 464, "y": 304 } },
+  "points": [
+    { "id": "A", "v": { "x": 192, "y": 226 }, "h": { "x": 196, "y": 402 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 303, "y": 164 }, "h": { "x": 319, "y": 525 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 389, "y": 230 }, "h": { "x": 398, "y": 470 }, "role": "vertex" },
+    { "id": "O", "v": { "x": 242, "y": 227 }, "h": { "x": 257, "y": 631 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "C", "to": "O", "view": "v", "style": "hidden" },
+    { "from": "O", "to": "A", "view": "v" },
+    { "from": "B", "to": "A", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "B", "to": "O", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "O"] },
+  "notes": [
+    "Solide E104 : pyramide triangulaire (tétraèdre) de base A-C-O (plan quasi horizontal, cotes ~80px) et de sommet B (cote ~146px). Reconstruction directe par élévation de chaque sommet depuis ses deux projections (point_projection) ; aucun gold, le rappel V↔H de chaque sommet est le garde-fou.",
+    "Sommets appariés par les lignes de rappel dessinées : rappel 1 (A^H↔A^V), 3 (O^H↔O^V), 5 (B^H↔B^V), 7 (C^H↔C^V) relient chacune les deux projections épaisses d'un même sommet. Les rappels 2/4/6 relient des points de section (K, M, N, L) — hors solide, ignorés.",
+    "La ligne de terre est prise légèrement inclinée (pente ~-0,036) pour épouser l'inclinaison à main levée des rappels : sur ce tracé chaque sommet a bien V et H de même abscisse (écart max ~3px), sans déplacer aucun point lu.",
+    "Arête O-C (diagonale de fond du tétraèdre) non tracée sur la planche — masquée : marquée hidden."
+  ]
+}

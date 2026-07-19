@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 49,
+    "page": 36,
+    "blockId": "p36-b19",
+    "caption": "Épure E 93 : les deux projections du tétraèdre ABCD (A sur la ligne de terre)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1150 },
+  "groundLine": { "a": { "x": 24, "y": 369 }, "b": { "x": 706, "y": 369 } },
+  "points": [
+    { "id": "A", "v": { "x": 213, "y": 369 }, "h": { "x": 213, "y": 369 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 252, "y": 134 }, "h": { "x": 252, "y": 603 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 419, "y": 130 }, "h": { "x": 419, "y": 590 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 345, "y": 328 }, "h": { "x": 345, "y": 546 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "A", "to": "D", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "B", "to": "D", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "notes": [
+    "Tétraèdre ABCD reconstruit par point_projection. A est sur la ligne de terre (A^V et A^H confondus, cote et éloignement 0). Sommets appariés par les rappels verticaux."
+  ]
+}
