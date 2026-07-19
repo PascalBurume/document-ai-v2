@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 13,
+    "page": 12,
+    "blockId": "p12-b8",
+    "caption": "Épure E 71 : prisme hexagonal ABCDEF–A'B'C'D'E'F' en projections, avec les rabattements et la charnière ch."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 990 },
+  "groundLine": { "a": { "x": 22, "y": 794 }, "b": { "x": 706, "y": 794 } },
+  "points": [
+    { "id": "A", "v": { "x": 190, "y": 483 }, "h": { "x": 188, "y": 708 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 240, "y": 556 }, "h": { "x": 237, "y": 772 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 307, "y": 531 }, "h": { "x": 304, "y": 898 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 283, "y": 418 }, "h": { "x": 284, "y": 889 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 267, "y": 345 }, "h": { "x": 262, "y": 830 }, "role": "vertex" },
+    { "id": "F", "v": { "x": 193, "y": 381 }, "h": { "x": 190, "y": 689 }, "role": "vertex" },
+    { "id": "Ap", "v": { "x": 423, "y": 478 }, "h": { "x": 419, "y": 580 }, "role": "vertex" },
+    { "id": "Bp", "v": { "x": 452, "y": 572 }, "h": { "x": 455, "y": 647 }, "role": "vertex" },
+    { "id": "Cp", "v": { "x": 530, "y": 525 }, "h": { "x": 536, "y": 778 }, "role": "vertex" },
+    { "id": "Dp", "v": { "x": 521, "y": 406 }, "h": { "x": 525, "y": 775 }, "role": "vertex" },
+    { "id": "Ep", "v": { "x": 482, "y": 331 }, "h": { "x": 480, "y": 688 }, "role": "vertex" },
+    { "id": "Fp", "v": { "x": 400, "y": 368 }, "h": { "x": 410, "y": 580 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "E", "view": "v" },
+    { "from": "E", "to": "F", "view": "v" },
+    { "from": "F", "to": "A", "view": "v" },
+    { "from": "Ap", "to": "Bp", "view": "v", "style": "hidden" },
+    { "from": "Bp", "to": "Cp", "view": "v", "style": "hidden" },
+    { "from": "Cp", "to": "Dp", "view": "v" },
+    { "from": "Dp", "to": "Ep", "view": "v" },
+    { "from": "Ep", "to": "Fp", "view": "v", "style": "hidden" },
+    { "from": "Fp", "to": "Ap", "view": "v", "style": "hidden" },
+    { "from": "A", "to": "Ap", "view": "v", "style": "hidden" },
+    { "from": "B", "to": "Bp", "view": "v", "style": "hidden" },
+    { "from": "C", "to": "Cp", "view": "v" },
+    { "from": "D", "to": "Dp", "view": "v" },
+    { "from": "E", "to": "Ep", "view": "v" },
+    { "from": "F", "to": "Fp", "view": "v", "style": "hidden" }
+  ],
+  "operation": {
+    "kind": "point_projection",
+    "points": ["A", "B", "C", "D", "E", "F", "Ap", "Bp", "Cp", "Dp", "Ep", "Fp"]
+  },
+  "notes": [
+    "Prisme hexagonal E 71 relevé de ses deux projections : base ABCDEF (octogone-silhouette côté V, arêtes C-D et D-E collinéaires sur la droite L1 qui passe par D) et face translatée A'B'C'D'E'F'. Chaque sommet est élevé de son couple V/H apparié par rappel (point_projection) ; aucun gold, le rappel V↔H est le garde-fou.",
+    "Rappels VERTICAUX, ligne de terre horizontale : la LT tracée (22,798)-(706,790) est très légèrement inclinée à main levée ; je prends son horizontale moyenne (y≈794), perpendiculaire aux lignes de rappel verticales, pour ne pas gauchir les abscisses (même parti que fig61).",
+    "Cohérence latérale vérifiée : les 6 arêtes A-A'…F-F' sont quasi parallèles (~(+225,-120,+8)px) et de longueur 240-266px — prisme légèrement oblique mais à décalage de face constant, pas de sommet mal apparié.",
+    "ERREUR DE PLANCHE relevée, non corrigée dans le tracé : le sommet en P4≈(521,406) porte l'étiquette « D^V » (sans prime), alors que la ligne de rappel R7 tracée par la planche elle-même le relie à D'^H au coin (525,775). C'est donc D'^V ; l'étiquette « D^V » a perdu son prime, et l'étiquette « D'^V » manque. La lecture géométrique (rappel + arête latérale L1→L2 D-D') est retenue : P4=D', et D=(283,418) sur L1.",
+    "Rabattements (traits mixtes) et charnière Ch^V/Ch^H, points X, r, O, α : constructions de vraie grandeur — ignorés.",
+    "Arêtes de fond non tracées en trait plein sur la planche (A'B', B'C', E'F', F'A' du dessus ; latérales A-A', B-B', F-F') marquées 'hidden'."
+  ]
+}

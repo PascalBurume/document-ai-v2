@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 62, "page": 49, "blockId": "p49-b6", "caption": "Épure : projections d'un triangle ABC et de son sommet S, avec les rabattements autour de la charnière et la trace." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 870 },
+  "groundLine": { "a": { "x": 12, "y": 214 }, "b": { "x": 712, "y": 212 } },
+  "points": [
+    { "id": "A", "v": { "x": 242, "y": 213 }, "h": { "x": 244, "y": 621 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 318, "y": 357 }, "h": { "x": 319, "y": 430 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 489, "y": 209 }, "h": { "x": 498, "y": 534 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 173, "y": 303 }, "h": { "x": 175, "y": 621 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "S", "to": "A", "view": "v" },
+    { "from": "S", "to": "B", "view": "v" },
+    { "from": "S", "to": "C", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "S"] },
+  "notes": [
+    "Sideways plate (rotation 90): horizontal ligne de terre V/H at y~213; recall lines are vertical, so each point's V and H projection share an abscissa.",
+    "V-projection tetrahedron A^V C^V B^V S^V (thick quad + diagonals S^V-C^V solid, A^V-B^V dashed hidden); H-projection tetrahedron A^H B^H C^H S^H drawn below. Paired via the four drawn rappel lines.",
+    "C carries the largest recall drift (~8px along the LT): C^V x=489 vs C^H x=498 — hand-drawn plate noise, left as-read, not nudged.",
+    "Rabattus (B^H', C^H', A^H', S^V', S_2, S'), the plane trace pi^V'/(Delta ABC)^V' and the charnière/oblique construction lines are omitted from the lift per point_projection scope."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 54,
+    "page": 41,
+    "blockId": "p41-b24",
+    "caption": "Épure E 98 : projections de la figure B–D–A–C relevées dans le dièdre (le rabattement K'L'M' de la planche n'est pas reconstruit ; le sommet « F » du titre n'a aucune projection tracée sur la planche)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1050 },
+  "groundLine": { "a": { "x": 28, "y": 533 }, "b": { "x": 700, "y": 520 } },
+  "points": [
+    { "id": "B", "v": { "x": 302, "y": 254 }, "h": { "x": 302, "y": 529 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 430, "y": 346 }, "h": { "x": 432, "y": 529 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 302, "y": 529 }, "h": { "x": 302, "y": 742 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 269, "y": 529 }, "h": { "x": 268, "y": 714 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "B", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" },
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" },
+    { "from": "C", "to": "D", "view": "v", "style": "hidden" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["B", "D", "A", "C"] },
+  "notes": [
+    "Figure B–D–A–C relevée par point_projection. Planche tournée 90° mais la ligne de terre DESSINÉE est quasi horizontale (28,533)-(700,520) ; les rappels sont verticaux (C : (269,529)↔(268,714), D : (430,346)↔(432,529) tracés sur la planche), V au-dessus de la LT, H au-dessous. Abscisses V=H partagées à ~5px près (le léger dévers ~1° de la LT dessinée est absorbé).",
+    "A a sa projection verticale A^V sur la LT (hauteur 0) et B sa projection horizontale B^H sur la LT (profondeur 0) : A^V et B^H tombent au même pixel (302,529), sommets distincts en 3D — coïncidence de projection, pas d'erreur. C^V et D^H sont aussi sur la LT.",
+    "Rabattement K'L'M' (triangle K^H'L^H'M^H', même construction que la planche voisine E99) et les traces de plan (r^V/r^H, P, a, b) volontairement omis : seule la figure relevée.",
+    "OMISSION SIGNALÉE : le titre OCR nomme la figure « B–D–A–C–F » mais aucun « F » (ni F^V ni F^H) n'est tracé sur la planche — quadrilatère à 4 sommets lu, F non pairable et non inventé."
+  ]
+}

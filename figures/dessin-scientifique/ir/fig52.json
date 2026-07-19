@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 52,
+    "page": 40,
+    "blockId": "p40-b0",
+    "caption": "Épure E 96 : projections d'un quadrilatère NMIK, avec les droites a, b, f, h et les rabattements."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1100 },
+  "groundLine": { "a": { "x": 24, "y": 432 }, "b": { "x": 706, "y": 432 } },
+  "points": [
+    { "id": "N", "v": { "x": 155, "y": 206 }, "h": { "x": 152, "y": 632 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 373, "y": 197 }, "h": { "x": 370, "y": 442 }, "role": "vertex" },
+    { "id": "I", "v": { "x": 478, "y": 413 }, "h": { "x": 478, "y": 563 }, "role": "vertex" },
+    { "id": "K", "v": { "x": 254, "y": 428 }, "h": { "x": 252, "y": 760 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "N", "to": "M", "view": "v" },
+    { "from": "M", "to": "I", "view": "v" },
+    { "from": "I", "to": "K", "view": "v" },
+    { "from": "K", "to": "N", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["N", "M", "I", "K"] },
+  "notes": [
+    "Quadrilatère NMIK relevé par point_projection : chaque sommet apparié V/H par sa ligne de rappel (rappels verticaux → ligne de terre horizontale).",
+    "K^V = (254,428) lu sur la ligne de rappel de K ; le tracé épais de la projection verticale passe par le point auxiliaire A^V (193,426) avec K^V posé sur l'arête A^V-I^V. A est ignoré : lifter NMIK avec K rend le quadrilatère quasi plan (~3px hors plan) alors qu'avec A il l'écarte (~16px).",
+    "Droites a/b/f/h et tous les rabattus (N^H_R, K^H_R, M^H_R, P^H_R, L^H_R, points A/P/Q/R/L) omis : seul le quadrilatère épais NMIK est relevé."
+  ]
+}

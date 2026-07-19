@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 19,
+    "page": 18,
+    "blockId": "p18-b12",
+    "caption": "Épure E 77 : projections verticale et horizontale d'un solide C-D-F, la ligne de terre π^V ch^V traversant la figure."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1010 },
+  "groundLine": { "a": { "x": 20, "y": 388 }, "b": { "x": 702, "y": 388 } },
+  "points": [
+    { "id": "C", "v": { "x": 306, "y": 483 }, "h": { "x": 306, "y": 483 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 539, "y": 165 }, "h": { "x": 539, "y": 450 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 539, "y": 375 }, "h": { "x": 539, "y": 782 }, "role": "vertex" },
+    { "id": "F", "v": { "x": 608, "y": 468 }, "h": { "x": 608, "y": 505 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "F", "view": "v" },
+    { "from": "C", "to": "F", "view": "v" },
+    { "from": "C", "to": "E", "view": "v" },
+    { "from": "E", "to": "F", "view": "v" },
+    { "from": "D", "to": "E", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["C", "D", "E", "F"] },
+  "notes": [
+    "Tétraèdre C-D-E-F lifté par point_projection ; la ligne de terre traverse la figure (C, E, F sous la LT ; D au-dessus).",
+    "C : projections verticale et horizontale confondues en un seul point (306,483) — v==h, point dont les deux vues coïncident, pas une pile ambiguë.",
+    "D et E sont sur un même rappel de profil (la verticale D^V-B^V à x≈533 et la verticale D^H-E^H à x≈543 sont le même rappel, ~9px de jeu de tracé) ; abscisse harmonisée à x=539 pour les deux.",
+    "Ignorés (construction/perçage) : A^V/O^V sur la mince ligne C-A ; B^V trace sous E sur la verticale prolongée ; I sur l'arête C-D ; leurs rabattus C^H_R, E^H_R."
+  ]
+}
