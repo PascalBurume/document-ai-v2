@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 40,
+    "page": 30,
+    "blockId": "p30-b2",
+    "caption": "Épure E 90 (b) : ligne de terre (droite verticale, LT), droite oblique et les points A, B, M sur celle-ci avec leurs rabattements H'. Vraie grandeur de la droite oblique par lift des projections V/H."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 540 },
+  "groundLine": { "a": { "x": 219, "y": 25 }, "b": { "x": 219, "y": 508 } },
+  "points": [
+    { "id": "A", "v": { "x": 477, "y": 253 }, "h": { "x": 233, "y": 253 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 426, "y": 253 }, "h": { "x": 310, "y": 253 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 589, "y": 251 }, "h": { "x": 62, "y": 251 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "B", "to": "M", "view": "v" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "B", "to": "M" },
+  "notes": [
+    "Ligne de terre LT dessinee verticale (comme fig43) : recall V<->H horizontal, perpendiculaire a la LT ; abscisse partagee (le long de la LT) rendue lossless en egalant v.y = h.y par point.",
+    "A, B, M sont colineaires sur la droite oblique (pentes profondeur/hauteur A->B=0.662, A->M=0.655) ; extremites = B et M, A intermediaire. line_true_length porte donc sur B et M.",
+    "H' (A^H', B^H', trace P^H') = rabattement du changement de plan : ignore, la vraie grandeur vient du lift 3D des projections V/H.",
+    "La droite verticale mentionnee dans le titre est la ligne de terre elle-meme (rendue comme axe) ; le seul segment dessine est la droite oblique en vue v."
+  ]
+}

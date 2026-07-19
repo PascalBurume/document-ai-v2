@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 39,
+    "page": 30,
+    "blockId": "p30-b0",
+    "caption": "Épure E 90 (a) : ligne de terre (LT V'/H, quasi horizontale), droite oblique (P^V') et droite verticale, avec les points A, B, M en double projection. On cherche la vraie grandeur du segment oblique B–M lu sur ses deux projections."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 530 },
+  "groundLine": { "a": { "x": 24, "y": 290 }, "b": { "x": 706, "y": 290 } },
+  "points": [
+    { "id": "A", "v": { "x": 144, "y": 256 }, "h": null, "role": "vertex" },
+    { "id": "B", "v": { "x": 524, "y": 395 }, "h": { "x": 524, "y": 274 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 571, "y": 446 }, "h": { "x": 571, "y": 272 }, "role": "vertex" },
+    { "id": "V1", "v": { "x": 140, "y": 20 }, "h": null, "role": "vertex" },
+    { "id": "V2", "v": { "x": 190, "y": 460 }, "h": null, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "B", "to": "M", "view": "v" },
+    { "from": "V1", "to": "V2", "view": "v" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "B", "to": "M" },
+  "notes": [
+    "Plate rotated 180deg (transform translate(720 530) rotate(180)); every coordinate here is in visual/display space = (720-x_src, 530-y_src).",
+    "Ligne de terre drawn slightly sloped (visual (32,248)->(687,306)); straightened exactly horizontal (rotation 0), position only translated to y=290 near the B/M construction.",
+    "Oblique line P^V' carries B and M: their frontal projections B^V'(524,395) and M^V'(571,446) sit on it, each joined to its horizontal projection B^H(513,274)/M^H(567,272) by a drawn vertical rappel (abscissae x=524 and x=571). h/v snapped to the shared rappel abscissa (lossless).",
+    "line_true_length COMPUTES the vraie grandeur of B–M from the 3D lift; the rabattu/primed construction on the sheet is omitted, not reused.",
+    "A lies on the droite verticale (its frontal projection A^V is on that quasi-vertical line), not on the oblique — kept as a single-view label so it renders without being lifted. Droite verticale drawn as segment V1–V2 (helper endpoints of the drawn line, visual (140,20)->(190,460))."
+  ]
+}
