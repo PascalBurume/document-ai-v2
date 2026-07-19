@@ -26,11 +26,11 @@ for (const file of files) {
   const r = reconstruct(val.ir);
   // The gold check is whichever authored-vs-computed disagreement the operation carries: a
   // rabattement checks its rabattu, a change of plane its auxiliary view.
-  const GOLD = new Set(['rabattu-vs-authored', 'aux-vs-authored']);
+  const GOLD = new Set(['rabattu-vs-authored', 'aux-vs-authored', 'true-shape-vs-authored']);
   const gold: any = r.warnings.find((w) => GOLD.has(w.code));
   const other = r.warnings.filter((w) => !GOLD.has(w.code));
   const op: any = val.ir.operation;
-  const hasGold = op.rabattu !== undefined || op.auxiliary !== undefined;
+  const hasGold = op.rabattu !== undefined || op.auxiliary !== undefined || op.trueShape !== undefined;
   const goldStr = gold ? `FAIL ${gold.magnitudePx.toFixed(0)}px` : hasGold ? 'ok' : 'no-gold';
   const worst = Math.max(0, ...other.map((w) => w.magnitudePx ?? 0));
   const verdict = r.fatal ? 'FATAL' : gold ? 'reject' : worst < 12 ? 'PASS' : 'noisy';
