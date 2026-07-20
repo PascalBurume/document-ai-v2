@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 57,
+    "page": 44,
+    "blockId": "p44-b23",
+    "caption": "Épure E 101 : pyramide S-ABC sectionnée par un plan ; base triangulaire ABC relevée par point_projection (planche paysage, ligne de terre verticale)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 460 },
+  "groundLine": { "a": { "x": 390, "y": 15 }, "b": { "x": 390, "y": 449 } },
+  "points": [
+    { "id": "A", "v": { "x": 457, "y": 289 }, "h": { "x": 262, "y": 282 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 476, "y": 133 }, "h": { "x": 283, "y": 134 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 580, "y": 272 }, "h": { "x": 165, "y": 273 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C"] },
+  "notes": [
+    "Planche en paysage : la SVG (viewBox 460x720 portrait) tourne son contenu de -90° dans un cadre interne 720x460 ; toutes les coordonnées ici sont dans ce cadre. Ligne de terre VERTICALE (x≈390) ; les lignes de rappel sont horizontales et apparient V/H par ordonnée.",
+    "Base triangulaire A^H B^H C^H (proj. horizontale épaisse, gauche) relevée avec sa proj. verticale : A^V(457,289)↔A^H(262,282), B^V(476,133)↔B^H(283,134), C^V(580,272)↔C^H(165,273). Rappels y≈289/133/272. A pointe un léger décalage de rappel (~7px, tracé du rappel légèrement oblique 283→289).",
+    "Sommet S de la pyramide OMIS : S n'a qu'une projection verticale S^V(628,231) sur p^V ; aucun S^H n'est tracé ni côté horizontal, donc l'apex est sous-déterminé (point_projection exige les deux vues). La silhouette verticale épaisse A^V-B^V-S^V-C^V et la diagonale cachée A^V-S^V ne sont donc pas relevées.",
+    "Reste omis (construction seule) : le polygone de section K/L/M/x/J/G intérieur à la base, son vrai grandeur rabattu (triangle L^H' K^H' M^H'), les droites a/p, les rabattements et rayons en tirets."
+  ]
+}
