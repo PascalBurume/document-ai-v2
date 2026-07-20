@@ -1245,6 +1245,32 @@ mark.suspect.nav-focus {
 .epure-figure-svg svg { display: block; width: 100%; height: auto; max-height: 62vh; }
 .epure-figure figcaption { margin-top: 10px; }
 
+/* Flat 2D plate rendered in three.js — zoomable/pannable, so a dense construction plate is legible. */
+.epure-plate-viewer {
+  position: relative;
+  width: 100%;
+  height: min(62vh, 520px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--epure-paper);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+.epure-plate-viewer:active { cursor: grabbing; }
+.epure-plate-viewer canvas { display: block; }
+.epure-plate-label {
+  font-family: Georgia, serif;
+  font-size: 13px;
+  line-height: 1;
+  color: #1a1a1a;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+}
+.epure-plate-label sup { font-size: 0.7em; vertical-align: super; }
+.epure-plate-label sub { font-size: 0.7em; vertical-align: sub; }
+
 /* "Voir en 3D" on a page rule — only where a reconstruction actually exists. */
 .page-rule .epure-jump {
   color: var(--accent);

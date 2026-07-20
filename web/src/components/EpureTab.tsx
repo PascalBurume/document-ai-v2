@@ -6,6 +6,7 @@ import { reconstruct } from '../lib/epureReconstruct';
 import { buildEpureScene } from '../lib/epureScene';
 import { ALL_LAYERS, EpureViewer, type EpureLayers, type EpureView } from './EpureViewer';
 import { EpurePlate } from './EpurePlate';
+import { EpurePlateViewer } from './EpurePlateViewer';
 import { EpureStage, LEGEND } from './EpureStage';
 
 interface Props {
@@ -448,12 +449,16 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
  * One hand-redrawn figure, shown as the visualization for a page that has no 3D reconstruction. The
  * SVG is authored and checked in (trusted), and it is a RECONSTRUCTION, not evidence — the scan in
  * the left pane stays the reference, which is why they are read side by side.
+ *
+ * Drawn in a three.js canvas (`EpurePlateViewer`) rather than injected as static SVG, so a dense
+ * construction plate can be zoomed and panned to read its points and thin lines. It falls back to the
+ * inline SVG if the drawing can't be parsed.
  */
 function AuthoredFigureView({ fig }: { fig: AuthoredFigure }) {
   return (
     <figure className="epure-figure">
-      {/* eslint-disable-next-line react/no-danger -- authored, checked-in SVG */}
-      <div className="epure-figure-svg" dangerouslySetInnerHTML={{ __html: fig.svg }} />
+      <EpurePlateViewer svg={fig.svg} />
+      <p className="note epure-hint">molette : zoom · glisser : déplacer · double-clic : recentrer</p>
       {fig.caption && <figcaption className="note">{fig.caption}</figcaption>}
       {fig.omissions && fig.omissions.length > 0 && (
         <p className="note">Non lus, laissés de côté plutôt que devinés : {fig.omissions.join(' ; ')}</p>
