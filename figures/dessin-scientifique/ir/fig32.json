@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 32,
+    "page": 25,
+    "blockId": "p25-b14",
+    "caption": "Épure E 82 : projections d'un quadrilatère ABCD. Le changement de plan et le point de percée dessinés sur la planche sont omis."
+  },
+  "units": "px",
+  "imageSize": { "width": 510, "height": 720 },
+  "groundLine": { "a": { "x": 150, "y": 393 }, "b": { "x": 380, "y": 393 } },
+  "points": [
+    { "id": "A", "v": { "x": 182, "y": 248 }, "h": { "x": 186, "y": 543 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 236, "y": 347 }, "h": { "x": 238, "y": 407 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 353, "y": 248 }, "h": { "x": 357, "y": 473 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 289, "y": 378 }, "h": { "x": 293, "y": 543 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "notes": [
+    "Quadrilatère ABCD relevé par point_projection. Coordonnées exprimées dans le repère externe de la planche (viewBox 510x720, rotation -90 appliquee) pour que la lecture se superpose au dessin ; la planche imprimee a une LT verticale, ici horizontale apres rotation. Chaque sommet apparie ses projections V et H par rappel (Δ ≤ 4 px). Contour A-B-C-D lu sur la polyligne epaisse fermee. Changement de plan (f, p^H/p^V, L'T', point de percee) omis."
+  ]
+}

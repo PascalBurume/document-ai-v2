@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 35,
+    "page": 28,
+    "blockId": "p28-b0",
+    "caption": "Épure E 86 : projections d'un quadrilatère ABCD situé dans un plan oblique. Ligne de terre verticale (LT), rabattements horizontaux ; double changement de plan (projections primées, vraie grandeur) omis."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 490 },
+  "groundLine": { "a": { "x": 362, "y": 20 }, "b": { "x": 362, "y": 470 } },
+  "points": [
+    { "id": "A", "v": { "x": 586, "y": 253 }, "h": { "x": 116, "y": 256 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 468, "y": 252 }, "h": { "x": 300, "y": 241 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 424, "y": 76 }, "h": { "x": 267, "y": 78 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 540, "y": 82 }, "h": { "x": 109, "y": 82 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "notes": [
+    "Quadrilatère ABCD relevé par point_projection. Cette épure est tournée : la ligne de terre LT est VERTICALE (droite quasi verticale x≈195) et les lignes de rappel sont HORIZONTALES — chaque sommet a même ordonnée en V et en H. Projection H (traits forts tiretés) à gauche : D^H(109,82) C^H(267,78) B^H(300,241) A^H(116,256) ; C^H et B^H tombent du côté V de la LT (conforme au tracé). Projection V (traits forts tiretés) à droite : D^V(540,82) C^V(424,76) B^V(468,252) A^V(586,253). groundLine placée verticale entre les deux amas (x=362) — ne fait que translater. Le sommet B est le plus dégradé : l'arête C^H-B^H s'arrête ~12 px au-dessus de l'arête basse A^H-B^H (garbling du scan), d'où le rappel B le plus large. Ignorés : le double changement de plan (quadrilatère plein A^V'D^V'C^V'B^V' et labels primés), le point auxiliaire O, la vraie grandeur et L'/L''/L'T'V. Étiquettes dupliquées/fusionnées (O^V ×2, C^H ×2, O^H'L^H') non retenues car hors des 4 sommets ABCD non primés."
+  ]
+}

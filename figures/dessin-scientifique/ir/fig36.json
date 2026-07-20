@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 36,
+    "page": 28,
+    "blockId": "p28-b1",
+    "caption": "Épure E 87 : projections d'un hexagone ABCDEF d'un plan oblique, appariées par rappels autour de la ligne de terre verticale (le double changement de plan vers la vraie grandeur est omis)."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 550 },
+  "groundLine": { "a": { "x": 508, "y": 17 }, "b": { "x": 508, "y": 530 } },
+  "points": [
+    { "id": "A", "v": { "x": 505, "y": 307 }, "h": { "x": 220, "y": 320 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 571, "y": 271 }, "h": { "x": 123, "y": 288 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 578, "y": 150 }, "h": { "x": 85, "y": 160 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 503, "y": 51 }, "h": { "x": 155, "y": 63 }, "role": "vertex" },
+    { "id": "F", "v": { "x": 426, "y": 92 }, "h": { "x": 268, "y": 104 }, "role": "vertex" },
+    { "id": "E", "v": { "x": 426, "y": 237 }, "h": { "x": 310, "y": 237 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "C", "view": "v" },
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "F", "view": "v" },
+    { "from": "F", "to": "E", "view": "v" },
+    { "from": "E", "to": "A", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D", "F", "E"] },
+  "notes": [
+    "Hexagone ABCDEF d'un plan oblique relevé par point_projection ; les deux contours épais (πH à gauche, long tirets ; πV à droite, long tirets) lisent proprement et s'apparient sommet à sommet par les rappels horizontaux autour de la ligne de terre verticale (x≈508). Ordre de parcours A-B-C-D-F-E lu sur le contour fermé de la projection verticale. Étiquettes dessinées cohérentes avec les rappels (F=(268,104)/(426,92), E=(310,237)/(426,237)) — aucun réétiquetage. Le décalage de rappel du sommet B (~17 px en y) reflète l'imprécision du tracé à la main, pas un mauvais appariement. Rabattement vrai (hexagone rabattu en traits forts) et double changement de plan L′/L″ omis."
+  ]
+}

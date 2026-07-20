@@ -63,13 +63,13 @@ test('plate numbers come from the caption, not the figure index', () => {
   // plate number from it would put "E 62" under two thirds of plate 61.
   assert.deepEqual(
     epureFiguresFor(doc()).map((f) => f.label),
-    ['E 61 (a)', 'E 61 (b)', 'E 61 (c)', 'E 61 (d)', 'E 62', 'E 63', 'E 64', 'E 65', 'E 66', 'E 67', 'E 68', 'E 69', 'E 70', 'E 71', 'E 72', 'E 73', 'E 74', 'E 75', 'E 76', 'E 77', 'fig 20', 'fig 29 (b)', 'fig 30', 'fig 31', 'fig 33', 'E 90', 'E 90', 'fig 43', 'fig 44', 'E 93', 'E 94', 'E 95', 'E 96', 'E 97', 'E 98', 'E 99', 'E 100', 'E 101', 'E 102', 'E 103', 'E 104', 'E 104', 'fig 62'],
+    ['E 61 (a)', 'E 61 (b)', 'E 61 (c)', 'E 61 (d)', 'E 62', 'E 63', 'E 64', 'E 65', 'E 66', 'E 67', 'E 68', 'E 69', 'E 70', 'E 71', 'E 72', 'E 73', 'E 74', 'E 75', 'E 76', 'E 77', 'fig 20', 'fig 29 (b)', 'fig 30', 'fig 31', 'E 82', 'fig 33', 'E 86', 'E 87', 'E 90', 'E 90', 'fig 43', 'fig 44', 'E 93', 'E 94', 'E 95', 'E 96', 'E 97', 'E 98', 'E 99', 'E 100', 'E 101', 'E 102', 'E 103', 'E 104', 'E 104', 'fig 62'],
   );
 });
 
 test('the catalog binds to the exact book, and answers before any OCR', () => {
   // No result on the doc at all — the IR and the plate are checked in, so the 3D needs no OCR.
-  assert.equal(epureFiguresFor(doc()).length, 43);
+  assert.equal(epureFiguresFor(doc()).length, 46);
   assert.equal(epureFiguresFor(doc({ pageCount: 50 })).length, 0, 'wrong page count is a different book');
   assert.equal(epureFiguresFor(doc({ name: 'notions-de-chimie-6.pdf' })).length, 0);
 });
