@@ -5,6 +5,7 @@ import { Line2 } from 'three/examples/jsm/lines/Line2.js';
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { parsePlate } from '../lib/plateScene';
+import type { PlateDiagPoint } from '../lib/plateDiagnostics';
 
 /**
  * A flat 2D plate, drawn in three.js so it can be zoomed and panned — the same canvas idea as the
@@ -17,7 +18,7 @@ import { parsePlate } from '../lib/plateScene';
  * The machinery (WebGL + CSS2D label overlay, on-demand render, ResizeObserver, dispose-on-unmount)
  * mirrors EpureViewer. If the SVG can't be parsed, it falls back to the crisp inline drawing.
  */
-export function EpurePlateViewer({ svg }: { svg: string }) {
+export function EpurePlateViewer({ svg, points }: { svg: string; points?: PlateDiagPoint[] }) {
   const hostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -109,6 +110,49 @@ export function EpurePlateViewer({ svg }: { svg: string }) {
       obj.center.set(0, 1); // SVG text anchors at the baseline-left, not the element centre
       obj.position.set(wx(lab.x), wy(lab.y), 0);
       scene.add(obj);
+    }
+
+    // Diagnostic points — the coordinates behind this plate's 3D fate, in red. found = solid dot,
+    // unpaired = hollow ring (V/H drawn but off the rappel), missing = ✕ (a projection never drawn).
+    // Shared geometries/materials, positioned per point; disposed with the scene below.
+    const diagMats: THREE.Material[] = [];
+    const diagGeos: THREE.BufferGeometry[] = [];
+    if (points && points.length) {
+      const RED = 0xd12f2f;
+      const dotMat = new THREE.MeshBasicMaterial({ color: RED });
+      const lineMat = new THREE.LineBasicMaterial({ color: RED });
+      diagMats.push(dotMat, lineMat);
+      const dotGeo = new THREE.CircleGeometry(0.12, 20);
+      const ringGeo = new THREE.BufferGeometry().setFromPoints(
+        Array.from({ length: 33 }, (_, i) => {
+          const a = (i / 32) * Math.PI * 2;
+          return new THREE.Vector3(Math.cos(a) * 0.17, Math.sin(a) * 0.17, 0);
+        }),
+      );
+      const crossGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(-0.16, -0.16, 0), new THREE.Vector3(0.16, 0.16, 0),
+        new THREE.Vector3(-0.16, 0.16, 0), new THREE.Vector3(0.16, -0.16, 0),
+      ]);
+      diagGeos.push(dotGeo, ringGeo, crossGeo);
+      for (const pt of points) {
+        const at = new THREE.Vector3(wx(pt.x), wy(pt.y), 0.02); // in front of the ink
+        const mark =
+          pt.kind === 'found'
+            ? new THREE.Mesh(dotGeo, dotMat)
+            : pt.kind === 'unpaired'
+              ? new THREE.LineLoop(ringGeo, lineMat)
+              : new THREE.LineSegments(crossGeo, lineMat);
+        mark.position.copy(at);
+        scene.add(mark);
+        const el = document.createElement('div');
+        el.className = `epure-plate-label diag ${pt.kind}`;
+        el.innerHTML = pt.label.replace(/\^([\w'′]+)/g, '<sup>$1</sup>');
+        if (pt.note) el.title = pt.note;
+        const obj = new CSS2DObject(el);
+        obj.center.set(0, 1);
+        obj.position.copy(at);
+        scene.add(obj);
+      }
     }
 
     // --- orthographic camera + 2D pan/zoom -----------------------------------------------------
@@ -210,11 +254,13 @@ export function EpurePlateViewer({ svg }: { svg: string }) {
         g?.dispose();
       });
       for (const m of materials.values()) m.dispose();
+      for (const m of diagMats) m.dispose();
+      for (const g of diagGeos) g.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === host) host.removeChild(renderer.domElement);
       if (labelRenderer.domElement.parentNode === host) host.removeChild(labelRenderer.domElement);
     };
-  }, [svg]);
+  }, [svg, points]);
 
   return <div ref={hostRef} className="epure-plate-viewer" />;
 }

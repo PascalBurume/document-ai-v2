@@ -1270,6 +1270,11 @@ mark.suspect.nav-focus {
 }
 .epure-plate-label sup { font-size: 0.7em; vertical-align: super; }
 .epure-plate-label sub { font-size: 0.7em; vertical-align: sub; }
+/* Red diagnostic point labels — the coordinates behind each plate's 3D fate. */
+.epure-plate-label.diag { color: #d12f2f; font-weight: 600; }
+.epure-plate-label.diag.missing { font-style: italic; }
+/* 2D-index chip for a lifted plate whose annotated plate carries the red points. */
+.epure-index-chip.flat.annot .dot { color: #d12f2f; font-size: 8px; vertical-align: middle; }
 
 /* "Voir en 3D" on a page rule — only where a reconstruction actually exists. */
 .page-rule .epure-jump {

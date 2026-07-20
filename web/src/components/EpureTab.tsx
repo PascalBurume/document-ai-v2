@@ -7,6 +7,7 @@ import { buildEpureScene } from '../lib/epureScene';
 import { ALL_LAYERS, EpureViewer, type EpureLayers, type EpureView } from './EpureViewer';
 import { EpurePlate } from './EpurePlate';
 import { EpurePlateViewer } from './EpurePlateViewer';
+import { plateDiagnosticsFor } from '../lib/plateDiagnostics';
 import { EpureStage, LEGEND } from './EpureStage';
 
 interface Props {
@@ -86,14 +87,17 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
   // stepping page to page. Nothing here is 3D — it is honest about which plates the geometry can't lift.
   const keys3d = useMemo(() => new Set(figures.map((f) => `${f.pageIndex}:${f.blockId}`)), [figures]);
   const figures2d = useMemo(() => {
-    if (!figSet) return [] as { key: string; pageIndex: number; label: string }[];
+    if (!figSet) return [] as { key: string; pageIndex: number; blockId: string; label: string; has3d: boolean }[];
     return Object.entries(figSet)
-      .filter(([k]) => !keys3d.has(k))
       .map(([k, f]) => {
         const pageIndex = Number(k.slice(0, k.indexOf(':')));
+        const blockId = k.slice(k.indexOf(':') + 1);
         const plate = /(?:Épures?|Planche)\s+(E\s*\d+)/.exec(f.caption ?? '')?.[1];
-        return { key: k, pageIndex, label: plate ?? '2D' };
+        return { key: k, pageIndex, blockId, label: plate ?? '2D', has3d: keys3d.has(k) };
       })
+      // A plate belongs in the 2D index if it has no 3D (its only view), OR it carries a red-point
+      // diagnostic worth zooming into even though it also reconstructs in 3D (E 82/86/87).
+      .filter((e) => !e.has3d || plateDiagnosticsFor(e.pageIndex, e.blockId))
       .sort((a, b) => a.pageIndex - b.pageIndex || a.label.localeCompare(b.label));
   }, [figSet, keys3d]);
   // A 2D plate the reader explicitly opened from the index. It is shown full even on a page that
@@ -169,21 +173,26 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
     </div>
   );
 
-  // The 2D companion index: every plate the geometry can't lift, clickable to open its hand redraw.
+  // The 2D companion index: every plate the geometry can't lift (clickable to its hand redraw), plus
+  // the three lifted plates whose annotated plate carries the red diagnostic points (marked ●).
   const index2d = figures2d.length > 0 && (
     <div className="epure-index epure-index-2d">
       <span className="muted">2D :</span>
       {figures2d.map((f) => (
         <button
           key={f.key}
-          className={`epure-index-chip flat${current2d?.key === f.key ? ' on' : ''}`}
+          className={`epure-index-chip flat${f.has3d ? ' annot' : ''}${current2d?.key === f.key ? ' on' : ''}`}
           onClick={() => {
             onPage(f.pageIndex + 1);
             onSelect(f.key);
           }}
-          title={`Planche 2D redessinée — pas de reconstruction 3D (page ${f.pageIndex + 1})`}
+          title={
+            f.has3d
+              ? `Planche annotée — coordonnées de la reconstruction 3D, en rouge (page ${f.pageIndex + 1})`
+              : `Planche 2D redessinée — pas de reconstruction 3D (page ${f.pageIndex + 1})`
+          }
         >
-          {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
+          {f.has3d && <span className="dot">●</span>} {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
         </button>
       ))}
     </div>
@@ -223,11 +232,20 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
           {stepper}
         </div>
         <p className="note epure-2d-note">
-          Planche redessinée à la main, à comparer au scan à gauche. Cette figure n’a <strong>pas</strong> de
-          reconstruction 3D : c’est une épure de construction (traces, faisceau, droite de profil, courbe) dont
-          la géométrie 3D n’est pas déterminée par ses deux projections — la reconstruire serait l’inventer.
+          {current2d?.has3d ? (
+            <>
+              Planche annotée. Les points <strong style={{ color: '#d12f2f' }}>rouges</strong> sont les
+              coordonnées relevées qui ont permis la reconstruction 3D — chaque sommet sur ses projections V et H.
+            </>
+          ) : (
+            <>
+              Planche redessinée à la main, à comparer au scan à gauche. Cette figure n’a <strong>pas</strong> de
+              reconstruction 3D. Les points <strong style={{ color: '#d12f2f' }}>rouges</strong> montrent où la
+              lecture bute : ● relevé, ○ projections V/H non concordantes, ✕ projection absente de la planche.
+            </>
+          )}
         </p>
-        <AuthoredFigureView fig={fig2d} />
+        <AuthoredFigureView fig={fig2d} pageIndex={current2d!.pageIndex} blockId={current2d!.key.slice(current2d!.key.indexOf(':') + 1)} />
       </div>
     );
   }
@@ -251,7 +269,7 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
               reconstruction 3D — seuls les rabattements et vraies grandeurs en ont une (les quatre sous « 3D »).
             </p>
             {pageFigures.map(([blockId, fig]) => (
-              <AuthoredFigureView key={blockId} fig={fig} />
+              <AuthoredFigureView key={blockId} fig={fig} pageIndex={page - 1} blockId={blockId} />
             ))}
           </>
         ) : (
@@ -454,10 +472,10 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
  * construction plate can be zoomed and panned to read its points and thin lines. It falls back to the
  * inline SVG if the drawing can't be parsed.
  */
-function AuthoredFigureView({ fig }: { fig: AuthoredFigure }) {
+function AuthoredFigureView({ fig, pageIndex, blockId }: { fig: AuthoredFigure; pageIndex: number; blockId: string }) {
   return (
     <figure className="epure-figure">
-      <EpurePlateViewer svg={fig.svg} />
+      <EpurePlateViewer svg={fig.svg} points={plateDiagnosticsFor(pageIndex, blockId)} />
       <p className="note epure-hint">molette : zoom · glisser : déplacer · double-clic : recentrer</p>
       {fig.caption && <figcaption className="note">{fig.caption}</figcaption>}
       {fig.omissions && fig.omissions.length > 0 && (
