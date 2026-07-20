@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import type { EpureScene } from '../lib/epureScene';
+import { pointOnLocus, type FigureAssumptions } from '../lib/epureAssumptions';
 import { rotateAboutAxis, type Vec3 } from '../lib/epureMath';
 
 /** Which of the épure's readings are on screen. */
@@ -31,8 +32,9 @@ export const ALL_LAYERS: EpureLayers = {
   labels: true,
 };
 
-/** `planche` = the printed sheet, square-on; `espace` = the opening view, free to orbit from. */
-export type EpureView = 'espace' | 'planche';
+/** Named camera homes. Every one remains free to orbit after the preset is applied. */
+export type EpureView = 'espace' | 'isometric' | 'front' | 'top' | 'planche';
+export type EpureInteractionMode = 'orbit' | 'pan' | 'zoom' | 'point' | null;
 
 interface Props {
   scene: EpureScene;
@@ -48,6 +50,11 @@ interface Props {
   recenter?: number;
   hoveredId: string | null;
   onHoverPoint?: (id: string | null) => void;
+  assumptions?: FigureAssumptions;
+  /** Dragging a red handle confirms that presentation-only position. */
+  onAssumptionChange?: (diagnosticId: string, t: number, confirmed: boolean) => void;
+  /** Lets the workspace teach the active mouse gesture without coupling UI into the renderer. */
+  onInteractionMode?: (mode: EpureInteractionMode) => void;
 }
 
 /**
@@ -68,7 +75,11 @@ interface Props {
  * hand-rolled (see below) rather than three's OrbitControls, so the mouse gets a 1:1 response with
  * no damping to settle and no frozen orbit axis to work around.
  */
-export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recenter, hoveredId, onHoverPoint }: Props) {
+export function EpureViewer({
+  scene, foldT, dihedralT, auxT, layers, view, recenter, hoveredId, onHoverPoint,
+  assumptions = {}, onAssumptionChange,
+  onInteractionMode,
+}: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   const rigRef = useRef<{
     setFold: (t: number) => void;
@@ -77,14 +88,19 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     setLayers: (l: EpureLayers) => void;
     setHovered: (id: string | null) => void;
     setView: (v: EpureView) => void;
+    setAssumptions: (a: FigureAssumptions) => void;
   } | null>(null);
 
   // Seed the rig from the current props without putting them in the build effect's deps — a
   // rebuild is for a new scene, not a new slider value.
-  const seed = useRef({ foldT, dihedralT, auxT, layers, view, hoveredId });
-  seed.current = { foldT, dihedralT, auxT, layers, view, hoveredId };
+  const seed = useRef({ foldT, dihedralT, auxT, layers, view, hoveredId, assumptions });
+  seed.current = { foldT, dihedralT, auxT, layers, view, hoveredId, assumptions };
   const onHoverRef = useRef(onHoverPoint);
   onHoverRef.current = onHoverPoint;
+  const onAssumptionRef = useRef(onAssumptionChange);
+  onAssumptionRef.current = onAssumptionChange;
+  const onInteractionRef = useRef(onInteractionMode);
+  onInteractionRef.current = onInteractionMode;
 
   useEffect(() => {
     const host = hostRef.current;
@@ -119,7 +135,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     // The auxiliary view is a THIRD projection; a violet keeps it apart from both original views.
     const AUX_INK = 0x7a4fa3;
     // Diagnostics — the read coordinates and, in red, the ones the plate never determined. Same red
-    // as the flat plate viewer (EpurePlateViewer), so the vocabulary reads the same in 2D and 3D.
+    // as EpurePlate's source overlay, so the vocabulary reads the same in 2D and 3D.
     const DIAG_RED = 0xd12f2f;
 
     const materials = {
@@ -131,7 +147,9 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       sectionEdge: new THREE.LineBasicMaterial({ color: SECTION_INK, transparent: true }),
       projectionAux: new THREE.LineBasicMaterial({ color: AUX_INK, transparent: true }),
     };
-    const diagRayMat = new THREE.LineBasicMaterial({ color: DIAG_RED, transparent: true });
+    const diagRayMat = new THREE.LineDashedMaterial({ color: DIAG_RED, dashSize: 0.22, gapSize: 0.14, transparent: true, opacity: 0.82 });
+    const diagEdgeMat = new THREE.LineDashedMaterial({ color: DIAG_RED, dashSize: 0.2, gapSize: 0.13, transparent: true });
+    const diagHandleWireMat = new THREE.MeshBasicMaterial({ color: DIAG_RED, transparent: true, wireframe: true });
     // `transparent` is set at construction and never flipped: toggling it forces a shader rebuild,
     // which is not something to do mid-drag.
     const dotMats: Record<string, THREE.MeshBasicMaterial> = {
@@ -191,6 +209,30 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     G.h.add(planeMesh(scene.planes.h.min, scene.planes.h.max, hPlaneMat, true));
     G.v.add(planeMesh(scene.planes.v.min, scene.planes.v.max, vPlaneMat, false));
 
+    // The reference design's restrained drafting grid makes the two projection planes legible as
+    // surfaces instead of flat colour cards. It follows each plane through the dihedral fold.
+    const planeGrid = (min: Vec3, max: Vec3, horizontal: boolean, color: number) => {
+      const vertices: THREE.Vector3[] = [];
+      const divisions = 10;
+      for (let i = 0; i <= divisions; i++) {
+        const t = i / divisions;
+        const x = min.x + (max.x - min.x) * t;
+        const q = horizontal ? min.y + (max.y - min.y) * t : min.z + (max.z - min.z) * t;
+        vertices.push(
+          horizontal ? new THREE.Vector3(x, min.y, 0.008) : new THREE.Vector3(x, 0.008, min.z),
+          horizontal ? new THREE.Vector3(x, max.y, 0.008) : new THREE.Vector3(x, 0.008, max.z),
+          horizontal ? new THREE.Vector3(min.x, q, 0.008) : new THREE.Vector3(min.x, 0.008, q),
+          horizontal ? new THREE.Vector3(max.x, q, 0.008) : new THREE.Vector3(max.x, 0.008, q),
+        );
+      }
+      return new THREE.LineSegments(
+        new THREE.BufferGeometry().setFromPoints(vertices),
+        new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.12, depthWrite: false }),
+      );
+    };
+    G.h.add(planeGrid(scene.planes.h.min, scene.planes.h.max, true, H_INK));
+    G.v.add(planeGrid(scene.planes.v.min, scene.planes.v.max, false, V_INK));
+
     // Ground line — the spine of the épure, drawn heavier than the projections. It stays at the
     // root: it belongs to both plates, and it is the axis everything else turns about.
     {
@@ -206,11 +248,43 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       hinge: G.hinge,
       sectionEdge: G.section,
     };
+    const spatialMeshMats: { material: THREE.MeshBasicMaterial; baseOpacity: number }[] = [];
     for (const s of scene.segments) {
       const geo = new THREE.BufferGeometry().setFromPoints([vec(s.a), vec(s.b)]);
       const line = new THREE.Line(geo, materials[s.kind]);
       if (s.kind === 'projector') line.computeLineDistances();
       SEG_GROUP[s.kind].add(line);
+      if (s.kind === 'spatial') {
+        const a = vec(s.a), b = vec(s.b), delta = b.clone().sub(a), length = delta.length();
+        if (length > 1e-6) {
+          const tubeMaterial = new THREE.MeshBasicMaterial({ color: INK, transparent: true });
+          spatialMeshMats.push({ material: tubeMaterial, baseOpacity: 1 });
+          const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, length, 8), tubeMaterial);
+          tube.position.copy(a).add(b).multiplyScalar(0.5);
+          tube.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize());
+          G.spatial.add(tube);
+        }
+      }
+    }
+    for (const face of scene.faces ?? []) {
+      if (face.points.length < 3) continue;
+      const positions: number[] = [];
+      for (let i = 1; i < face.points.length - 1; i++) {
+        for (const p of [face.points[0], face.points[i], face.points[i + 1]]) positions.push(p.x, p.y, p.z);
+      }
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.computeVertexNormals();
+      const opacity = face.quality === 'exact' ? 0.075 : 0.055;
+      const faceMaterial = new THREE.MeshBasicMaterial({
+        color: face.quality === 'exact' ? INK : TERRA,
+        transparent: true,
+        opacity,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      spatialMeshMats.push({ material: faceMaterial, baseOpacity: opacity });
+      G.spatial.add(new THREE.Mesh(geometry, faceMaterial));
     }
 
     // CSS2DRenderer's renderObject bails on the first ancestor with visible=false and hides the
@@ -253,21 +327,77 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       );
     }
 
+    // A true-length exercise is visually incomplete if it only shows the source segment. Draw a
+    // parallel dimension witness in the rabattement colour: it states the computed invariant while
+    // leaving the black A–M geometry untouched.
+    if (scene.trueLengthDimension) {
+      const d = scene.trueLengthDimension;
+      const offset = new THREE.Vector3(0.58, 0, 0);
+      const a = vec(d.a), b = vec(d.b), da = a.clone().add(offset), db = b.clone().add(offset);
+      const dimensionMaterial = new THREE.LineBasicMaterial({ color: TERRA, transparent: true });
+      const extensionMaterial = new THREE.LineDashedMaterial({ color: TERRA, dashSize: 0.12, gapSize: 0.1, transparent: true, opacity: 0.65 });
+      G.spatial.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([da, db]), dimensionMaterial));
+      for (const [source, dimension] of [[a, da], [b, db]] as const) {
+        const extension = new THREE.Line(new THREE.BufferGeometry().setFromPoints([source, dimension]), extensionMaterial);
+        extension.computeLineDistances();
+        G.spatial.add(extension);
+        G.spatial.add(new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints([
+            dimension.clone().add(new THREE.Vector3(-0.13, 0, 0)),
+            dimension.clone().add(new THREE.Vector3(0.13, 0, 0)),
+          ]),
+          dimensionMaterial,
+        ));
+      }
+      const midpoint = da.clone().add(db).multiplyScalar(0.5).add(new THREE.Vector3(0.22, 0, 0.22));
+      label(`${d.from}${d.to} · vraie grandeur ${Math.round(d.value)} px`, 'true-length', midpoint, G.spatial);
+    }
+
     // Diagnostics — red dots on the read vertices, and red locus RAYS for coordinates the plate never
     // determined (a missing view, or two views that disagree). The red vocabulary matches the flat
     // plate viewer; a CSS2D label rides each dot and each ray's midpoint.
+    const assumptionHandles = new Map<string, {
+      locus: NonNullable<EpureScene['diagnostics']>['loci'][number];
+      mesh: THREE.Mesh;
+      tag: CSS2DObject;
+      el: HTMLDivElement;
+    }>();
+    const diagnosticEdges: {
+      descriptor: NonNullable<EpureScene['diagnostics']>['edges'][number];
+      line: THREE.Line;
+      positions: THREE.BufferAttribute;
+    }[] = [];
     if (scene.diagnostics) {
       for (const d of scene.diagnostics.dots) {
         dot(vec(d.at), 'diagnostic', G.diagnostic, 0.11);
         if (d.label) label(d.label, 'diagnostic', vec(d.at).add(new THREE.Vector3(0, 0, 0.3)), G.diagnostic);
       }
-      for (const r of scene.diagnostics.rays) {
+      for (const r of scene.diagnostics.loci) {
         const geo = new THREE.BufferGeometry().setFromPoints([vec(r.a), vec(r.b)]);
-        G.diagnostic.add(new THREE.Line(geo, diagRayMat));
+        const locusLine = new THREE.Line(geo, diagRayMat);
+        locusLine.computeLineDistances();
+        G.diagnostic.add(locusLine);
         if (r.label) {
           const mid = vec(r.a).add(vec(r.b)).multiplyScalar(0.5);
-          label(r.label, 'diagnostic', mid.add(new THREE.Vector3(0, 0, 0.28)), G.diagnostic);
+          label(`${r.label} · ${r.source.toUpperCase()}`, 'diagnostic', mid.add(new THREE.Vector3(0, 0, 0.28)), G.diagnostic);
         }
+        const mesh = new THREE.Mesh(dotGeo, diagHandleWireMat);
+        mesh.scale.setScalar(0.15);
+        mesh.visible = false;
+        G.diagnostic.add(mesh);
+        const tag = label('À placer', 'diagnostic assumption', new THREE.Vector3(), G.diagnostic);
+        tag.visible = false;
+        tag.userData.assumptionLocus = r.id;
+        assumptionHandles.set(r.id, { locus: r, mesh, tag, el: tag.element as HTMLDivElement });
+      }
+      for (const descriptor of scene.diagnostics.edges) {
+        const geometry = new THREE.BufferGeometry();
+        const positions = new THREE.BufferAttribute(new Float32Array(6), 3);
+        geometry.setAttribute('position', positions);
+        const line = new THREE.Line(geometry, diagEdgeMat);
+        line.visible = false;
+        G.diagnostic.add(line);
+        diagnosticEdges.push({ descriptor, line, positions });
       }
     }
 
@@ -453,6 +583,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     // ---- state the bridge methods share -------------------------------------------------------
     let curLayers: EpureLayers = seed.current.layers;
     let curDihedral = seed.current.dihedralT;
+    let curAssumptions: FigureAssumptions = seed.current.assumptions;
 
     const ss = THREE.MathUtils.smoothstep;
     /** How present the 3D-only content is. It has no meaning on a flat sheet. */
@@ -470,7 +601,46 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       G.h.visible = curLayers.h;
       G.hinge.visible = curLayers.hinge;
       G.rabattu.visible = curLayers.rabattu;
-      for (const l of allLabels) l.visible = curLayers.labels;
+      for (const l of allLabels) {
+        const locusId = l.userData.assumptionLocus as string | undefined;
+        l.visible = curLayers.labels && (!locusId || Boolean(assumptionHandles.get(locusId)?.mesh.visible));
+      }
+    };
+
+    const setAssumptions = (next: FigureAssumptions) => {
+      curAssumptions = next;
+      const byLocus = new Map(Object.values(next).map((entry) => [entry.locusId, entry]));
+      const confirmedPositions = new Map<string, THREE.Vector3>();
+      for (const [locusId, handle] of assumptionHandles) {
+        const assumption = byLocus.get(locusId);
+        handle.mesh.visible = Boolean(assumption);
+        if (!assumption) {
+          handle.tag.visible = false;
+          continue;
+        }
+        const at = pointOnLocus(handle.locus, assumption.t);
+        handle.mesh.position.copy(vec(at));
+        handle.mesh.material = assumption.confirmed ? dotMats.diagnostic : diagHandleWireMat;
+        handle.tag.position.copy(vec(at).add(new THREE.Vector3(0, 0, 0.34)));
+        handle.el.textContent = assumption.confirmed ? `${handle.locus.label} · Hypothèse utilisateur` : `${handle.locus.label} · À placer`;
+        if (assumption.confirmed) confirmedPositions.set(handle.locus.diagnosticId, vec(at));
+      }
+      const exactPositions = new Map(scene.points.map((point) => [point.id, vec(point.p)]));
+      const resolveEndpoint = (endpoint: { kind: 'point' | 'diagnostic'; id: string }) =>
+        endpoint.kind === 'point' ? exactPositions.get(endpoint.id) : confirmedPositions.get(endpoint.id);
+      for (const edge of diagnosticEdges) {
+        const a = resolveEndpoint(edge.descriptor.from);
+        const b = resolveEndpoint(edge.descriptor.to);
+        edge.line.visible = Boolean(a && b);
+        if (!a || !b) continue;
+        edge.positions.setXYZ(0, a.x, a.y, a.z);
+        edge.positions.setXYZ(1, b.x, b.y, b.z);
+        edge.positions.needsUpdate = true;
+        edge.line.geometry.computeBoundingSphere();
+        edge.line.computeLineDistances();
+      }
+      applyVisibility();
+      render();
     };
 
     const setDihedral = (t: number) => {
@@ -486,6 +656,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       const solid = solidity();
       materials.spatial.opacity = solid;
       dotMats.spatial.opacity = solid;
+      for (const entry of spatialMeshMats) entry.material.opacity = entry.baseOpacity * solid;
       materials.projector.opacity = solid * 0.85;
       // CSS2D labels are DOM: no material, no fade. They ride the visibility cliff in
       // applyVisibility instead, which lands while everything around them is already at ~0.
@@ -518,6 +689,17 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
         cam.theta = -Math.PI / 2;
         cam.phi = Math.PI / 2;
         cam.radius = THREE.MathUtils.clamp(dist, RADIUS.min, RADIUS.max);
+      } else if (v === 'front') {
+        cam.target.copy(home.target);
+        cam.theta = -Math.PI / 2;
+        cam.phi = Math.PI / 2;
+        cam.radius = home.radius;
+      } else if (v === 'top') {
+        cam.target.copy(home.target);
+        cam.theta = -Math.PI / 2;
+        // Stay a hair off the pole so orbiting away never flips the camera.
+        cam.phi = 0.055;
+        cam.radius = home.radius;
       } else {
         cam.target.copy(home.target);
         cam.theta = home.theta;
@@ -553,6 +735,19 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       return best?.id ?? null;
     };
 
+    const pickAssumptionAt = (px: number, py: number): string | null => {
+      let best: { id: string; d2: number } | null = null;
+      for (const [id, handle] of assumptionHandles) {
+        if (!shown(handle.mesh)) continue;
+        handle.mesh.getWorldPosition(_wp).project(camera);
+        const dx = (_wp.x * 0.5 + 0.5) * width - px;
+        const dy = (-_wp.y * 0.5 + 0.5) * height - py;
+        const d2 = dx * dx + dy * dy;
+        if (d2 <= 18 * 18 && (!best || d2 < best.d2)) best = { id, d2 };
+      }
+      return best?.id ?? null;
+    };
+
     let applied: string | null = null;
     const setHovered = (id: string | null) => {
       if (id === applied) return;
@@ -568,24 +763,49 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     // ---- interaction: drag orbits, right-drag pans, wheel zooms ------------------------------
     // A hand-rolled controller answering the mouse 1:1. `drag` is the held button: 0 orbit, 2 pan,
     // null idle (when the same pointermove does hover picking instead).
-    let drag: number | null = null;
+    let drag: 'orbit' | 'pan' | null = null;
+    let assumptionDrag: string | null = null;
+    let assumptionDragT = 0.5;
     let px = 0;
     let py = 0;
     const _right = new THREE.Vector3();
     const _up = new THREE.Vector3();
 
     const onDown = (e: PointerEvent) => {
-      if (e.button !== 0 && e.button !== 2) return;
-      drag = e.button;
+      if (e.button !== 0 && e.button !== 1 && e.button !== 2) return;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const pickedAssumption = e.button === 0 ? pickAssumptionAt(e.clientX - rect.left, e.clientY - rect.top) : null;
+      if (pickedAssumption) {
+        assumptionDrag = pickedAssumption;
+        const handle = assumptionHandles.get(pickedAssumption);
+        assumptionDragT = handle ? curAssumptions[handle.locus.diagnosticId]?.t ?? 0.5 : 0.5;
+        renderer.domElement.setPointerCapture(e.pointerId);
+        onInteractionRef.current?.('point');
+        e.preventDefault();
+        return;
+      }
+      drag = e.button === 0 && !e.shiftKey ? 'orbit' : 'pan';
       px = e.clientX;
       py = e.clientY;
       renderer.domElement.setPointerCapture(e.pointerId);
+      renderer.domElement.style.cursor = 'grabbing';
+      onInteractionRef.current?.(drag);
       e.preventDefault();
     };
     const onUp = (e: PointerEvent) => {
+      if (assumptionDrag) {
+        const handle = assumptionHandles.get(assumptionDrag);
+        if (handle) onAssumptionRef.current?.(handle.locus.diagnosticId, assumptionDragT, true);
+        assumptionDrag = null;
+        if (renderer.domElement.hasPointerCapture(e.pointerId)) renderer.domElement.releasePointerCapture(e.pointerId);
+        onInteractionRef.current?.(null);
+        return;
+      }
       if (drag === null) return;
       drag = null;
-      renderer.domElement.releasePointerCapture(e.pointerId);
+      if (renderer.domElement.hasPointerCapture(e.pointerId)) renderer.domElement.releasePointerCapture(e.pointerId);
+      renderer.domElement.style.cursor = '';
+      onInteractionRef.current?.(null);
     };
 
     // Report only — the highlight comes back as the hoveredId prop, so the plate and the 3D read
@@ -599,17 +819,38 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     };
 
     const onMove = (e: PointerEvent) => {
+      if (assumptionDrag) {
+        const handle = assumptionHandles.get(assumptionDrag);
+        if (!handle) return;
+        const rect = renderer.domElement.getBoundingClientRect();
+        const ndc = new THREE.Vector2(
+          ((e.clientX - rect.left) / rect.width) * 2 - 1,
+          -((e.clientY - rect.top) / rect.height) * 2 + 1,
+        );
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(ndc, camera);
+        const a = vec(handle.locus.a), b = vec(handle.locus.b), closest = new THREE.Vector3();
+        raycaster.ray.distanceSqToSegment(a, b, undefined, closest);
+        const ab = b.clone().sub(a);
+        const t = THREE.MathUtils.clamp(closest.sub(a).dot(ab) / Math.max(ab.lengthSq(), 1e-9), 0, 1);
+        assumptionDragT = t;
+        onAssumptionRef.current?.(handle.locus.diagnosticId, t, true);
+        return;
+      }
       if (drag === null) {
         // Idle: pick the dot under the cursor.
         const r = renderer.domElement.getBoundingClientRect();
-        report(pickAt(e.clientX - r.left, e.clientY - r.top));
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        const handle = pickAssumptionAt(x, y);
+        report(pickAt(x, y));
+        if (handle) renderer.domElement.style.cursor = 'grab';
         return;
       }
       const dx = e.clientX - px;
       const dy = e.clientY - py;
       px = e.clientX;
       py = e.clientY;
-      if (drag === 0) {
+      if (drag === 'orbit') {
         // Orbit. phi is kept off both poles so the view never gimbal-flips.
         cam.theta -= dx * 0.006;
         cam.phi = THREE.MathUtils.clamp(cam.phi - dy * 0.006, 0.05, Math.PI - 0.05);
@@ -625,14 +866,20 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       place();
       render();
     };
-    const onLeave = () => report(null);
+    const onLeave = () => {
+      if (!assumptionDrag) report(null);
+    };
 
     // Wheel zooms by pulling the camera in/out along radius, clamped so the figure can be neither
     // pushed through the near plane nor shrunk to a speck. `passive: false` + preventDefault so the
     // wheel drives the 3D and never scrolls the pane underneath — anywhere over the canvas box.
+    let zoomIdle = 0;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       cam.radius = THREE.MathUtils.clamp(cam.radius * Math.exp(e.deltaY * 0.001), RADIUS.min, RADIUS.max);
+      onInteractionRef.current?.('zoom');
+      window.clearTimeout(zoomIdle);
+      zoomIdle = window.setTimeout(() => onInteractionRef.current?.(null), 180);
       place();
       render();
     };
@@ -642,13 +889,14 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     renderer.domElement.addEventListener('pointerdown', onDown);
     renderer.domElement.addEventListener('pointermove', onMove);
     renderer.domElement.addEventListener('pointerup', onUp);
+    renderer.domElement.addEventListener('pointercancel', onUp);
     renderer.domElement.addEventListener('pointerleave', onLeave);
     renderer.domElement.addEventListener('contextmenu', onContext);
     host.addEventListener('wheel', onWheel, { passive: false });
 
     // Orbiting is exploration; getting lost shouldn't be permanent. Double-click puts the camera
     // back where the scene opened.
-    const resetView = () => setView('espace');
+    const resetView = () => setView('isometric');
     renderer.domElement.addEventListener('dblclick', resetView);
 
     const ro = new ResizeObserver(() => {
@@ -671,8 +919,9 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     setDihedral(seed.current.dihedralT);
     setView(seed.current.view);
     setHovered(seed.current.hoveredId);
+    setAssumptions(seed.current.assumptions);
 
-    rigRef.current = { setFold, setDihedral, setAux, setLayers, setHovered, setView };
+    rigRef.current = { setFold, setDihedral, setAux, setLayers, setHovered, setView, setAssumptions };
     render();
 
     return () => {
@@ -682,9 +931,12 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       renderer.domElement.removeEventListener('pointerdown', onDown);
       renderer.domElement.removeEventListener('pointermove', onMove);
       renderer.domElement.removeEventListener('pointerup', onUp);
+      renderer.domElement.removeEventListener('pointercancel', onUp);
       renderer.domElement.removeEventListener('pointerleave', onLeave);
       renderer.domElement.removeEventListener('contextmenu', onContext);
       host.removeEventListener('wheel', onWheel);
+      window.clearTimeout(zoomIdle);
+      onInteractionRef.current?.(null);
       // Materials and geometries are shared across layers now, so collect before disposing.
       const mats = new Set<THREE.Material>();
       const geos = new Set<THREE.BufferGeometry>();
@@ -721,6 +973,9 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
   useEffect(() => {
     rigRef.current?.setHovered(hoveredId);
   }, [scene, hoveredId]);
+  useEffect(() => {
+    rigRef.current?.setAssumptions(assumptions);
+  }, [scene, assumptions]);
 
   return <div ref={hostRef} className="epure-canvas" />;
 }

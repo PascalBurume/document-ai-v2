@@ -21,7 +21,7 @@ export interface FigureRedraw {
   isChart?: boolean;
   /** What the crop actually is — present only when `isChart` is false. */
   reason?: string;
-  /** True when the server returned the keyless stub (no XAI_API_KEY yet). */
+  /** True when the server returned the keyless stub (no OPENAI_API_KEY yet). */
   stub?: boolean;
   /** Served from the server's disk cache — no API call, no cost. */
   cached?: boolean;

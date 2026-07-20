@@ -61,7 +61,7 @@ export function DocBar({ docs, active, pages, flash, onSelect }: Props) {
               className="chip chunks"
               title={
                 `The document was split into ${result.chunks} requests and stitched back together. ` +
-                `Large single uploads to Mistral get their connection reset, so only the pages being ` +
+                `Large single OCR uploads can lose their connection, so only the pages being ` +
                 `OCR'd are sent, a few MB at a time. Page numbers are remapped to the original document.`
               }
             >

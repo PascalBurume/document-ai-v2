@@ -26,7 +26,7 @@ import type { OcrConfig } from './types.js';
  *
  * What this is NOT: a queue, an approval, a `verified` state. A row records "this document was
  * processed on this machine", nothing more. That loop belongs to Relire's Review, and its absence
- * here is the point (CLAUDE.md). This is a filing cabinet, not a verdict.
+ * here is the point (the project inspection contract). This is a filing cabinet, not a verdict.
  */
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../.library');
@@ -78,7 +78,7 @@ let dbPath: string | null = null;
 /**
  * Open lazily, reading the path at CALL time — never at module load. This repo has already been
  * bitten once by a module-level `process.env` read capturing a value before `dotenv.config()` ran
- * (the GROK_VISION_MODEL trap in figure.ts). It also lets a test point `LIBRARY_DB` at a throwaway
+ * (the model-environment import-order trap). It also lets a test point `LIBRARY_DB` at a throwaway
  * file instead of the real store.
  */
 function getDb(): DatabaseSync {

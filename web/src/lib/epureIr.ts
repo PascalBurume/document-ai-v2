@@ -144,6 +144,13 @@ export interface EpureIR {
    *  - missing  : one view never drawn; a red locus ray along the undetermined axis (no invented point).
    */
   diagnostics?: DiagnosticEntry[];
+  /**
+   * Presentation topology for incomplete figures. Endpoints use `point:A` for a deterministic
+   * lifted point and `diag:B` for a user-placeable diagnostic. These edges never enter the
+   * reconstruction: they are drawn red and dashed only after every diagnostic endpoint has been
+   * explicitly confirmed by the user.
+   */
+  diagnosticEdges?: DiagnosticEdge[];
   notes?: string[];
 }
 
@@ -154,6 +161,11 @@ export interface DiagnosticEntry {
   v?: Vec2 | null;
   h?: Vec2 | null;
   note?: string;
+}
+
+export interface DiagnosticEdge {
+  from: `point:${string}` | `diag:${string}`;
+  to: `point:${string}` | `diag:${string}`;
 }
 
 export interface IrIssue {
@@ -399,6 +411,58 @@ export function validateEpureIr(x: unknown): Validation {
         if ((d.kind === 'found' || d.kind === 'unpaired') && has !== 2)
           errors.push({ path: p, message: `'${d.kind}' needs both v and h` });
       });
+  }
+
+  if (x.diagnosticEdges !== undefined) {
+    if (!Array.isArray(x.diagnosticEdges)) {
+      errors.push({ path: 'diagnosticEdges', message: 'must be an array' });
+    } else {
+      const diagnosticLabels = new Set(
+        Array.isArray(x.diagnostics)
+          ? x.diagnostics.filter(isObj).map((d) => d.label).filter((label): label is string => typeof label === 'string')
+          : [],
+      );
+      const validateEndpoint = (endpoint: unknown, path: string) => {
+        if (typeof endpoint !== 'string') return errors.push({ path, message: 'must be point:<id> or diag:<label>' });
+        const split = endpoint.indexOf(':');
+        const kind = endpoint.slice(0, split);
+        const id = endpoint.slice(split + 1);
+        if (!id || (kind !== 'point' && kind !== 'diag')) {
+          return errors.push({ path, message: 'must be point:<id> or diag:<label>' });
+        }
+        if (kind === 'point' && !ids.has(id)) errors.push({ path, message: `references unknown point "${id}"` });
+        if (kind === 'diag' && !diagnosticLabels.has(id)) errors.push({ path, message: `references unknown diagnostic "${id}"` });
+      };
+      x.diagnosticEdges.forEach((edge, i) => {
+        if (!isObj(edge)) return errors.push({ path: `diagnosticEdges[${i}]`, message: 'needs { from, to }' });
+        validateEndpoint(edge.from, `diagnosticEdges[${i}].from`);
+        validateEndpoint(edge.to, `diagnosticEdges[${i}].to`);
+        if (edge.from === edge.to) errors.push({ path: `diagnosticEdges[${i}]`, message: 'edge endpoints must differ' });
+      });
+    }
+  }
+
+  // The source overlay uses imageSize as its SVG viewBox. A coordinate in the rotated inner frame
+  // can still reconstruct perfectly while appearing hundreds of pixels away from the source point;
+  // refuse that silent visual corruption at the data boundary.
+  if (isObj(size) && Number.isFinite(size.width) && Number.isFinite(size.height)) {
+    const visitPixels = (value: unknown, path: string) => {
+      if (Array.isArray(value)) return value.forEach((entry, index) => visitPixels(entry, `${path}[${index}]`));
+      if (!isObj(value)) return;
+      if (Number.isFinite(value.x) && Number.isFinite(value.y)) {
+        const px = value.x as number, py = value.y as number;
+        if (px < 0 || py < 0 || px > (size.width as number) || py > (size.height as number)) {
+          errors.push({ path, message: `coordinate (${px}, ${py}) lies outside imageSize ${size.width}×${size.height}` });
+        }
+        return;
+      }
+      for (const [key, entry] of Object.entries(value)) visitPixels(entry, path ? `${path}.${key}` : key);
+    };
+    visitPixels(x.groundLine, 'groundLine');
+    visitPixels(x.points, 'points');
+    visitPixels(x.operation, 'operation');
+    visitPixels(x.labels, 'labels');
+    visitPixels(x.diagnostics, 'diagnostics');
   }
 
   return errors.length ? { ok: false, errors } : { ok: true, ir: x as unknown as EpureIR };

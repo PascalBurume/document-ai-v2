@@ -12,7 +12,7 @@ import {
 const redraw = (over: Partial<FigureRedraw> = {}): FigureRedraw => ({
   svg: '<svg viewBox="0 0 720 480"></svg>',
   caption: 'Courbe de dosage',
-  model: 'grok-4.5',
+  model: 'gpt-5.6',
   reading: 'x: V 0-20 ml, ticks 0,5,10,15,20; y: pH 0-14…',
   isChart: true,
   ...over,
@@ -22,7 +22,7 @@ const verdict = (over: Partial<FigureCompare> = {}): FigureCompare => ({
   faithful: false,
   problems: ['La graduation 18 manque.'],
   summary: 'Un écart.',
-  model: 'grok-4.5',
+  model: 'gpt-5.6',
   ...over,
 });
 
@@ -48,7 +48,7 @@ test('checked patch: merges the verdict onto the redraw', () => {
   assert.equal(p.redrawChecked, true);
   assert.equal(p.redrawFaithful, false);
   assert.deepEqual(p.redrawProblems, ['La graduation 18 manque.']);
-  assert.equal(p.redrawCheckModel, 'grok-4.5');
+  assert.equal(p.redrawCheckModel, 'gpt-5.6');
 });
 
 test('checked patch: no critique leaves the figure UNCHECKED — absence is not a pass', () => {

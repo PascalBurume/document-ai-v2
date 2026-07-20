@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 22, "sub": "a", "page": 20, "blockId": "p20-b7", "caption": "Planche E 80 (a) : vraie grandeur de la droite d portant A, B et M, relevée depuis ses deux projections." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 2000 },
+  "groundLine": { "a": { "x": 32, "y": 552 }, "b": { "x": 704, "y": 552 } },
+  "points": [
+    { "id": "A", "v": { "x": 381, "y": 207 }, "h": { "x": 381, "y": 609 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 380, "y": 385 }, "h": { "x": 380, "y": 747 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 377, "y": 503 }, "h": { "x": 377, "y": 838 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "v" },
+    { "from": "B", "to": "M", "view": "v" },
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "M", "view": "h" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "A", "to": "M" },
+  "notes": [
+    "Les projections V et H sont les repères portés par l'axe d^HV. Leurs abscisses communes sont conservées ; les courbes à droite sont les reports rabattus, pas de nouvelles coordonnées spatiales.",
+    "La ligne de terre est placée entre les deux groupes de projections : sa hauteur ne change que la translation du segment dans le dièdre, jamais sa vraie longueur."
+  ]
+}

@@ -77,8 +77,8 @@ app.get('/api/health', (_req, res) => {
     ok: true,
     keyConfigured: MOCK || Boolean(process.env.MISTRAL_API_KEY),
     mock: MOCK,
-    // Drives the Convert tab's stub notice: figure redraws are mocked until this key exists.
-    xaiConfigured: Boolean(process.env.XAI_API_KEY),
+    // Drives OpenAI-powered visual reading, reconstruction, critique, and teaching features.
+    openaiConfigured: Boolean(process.env.OPENAI_API_KEY),
   });
 });
 
@@ -136,9 +136,9 @@ app.post('/api/vision', async (req, res) => {
 });
 
 /**
- * "Redraw this figure" with xAI Grok: a faithful, clean SVG recreation of a chart cropped from
+ * "Redraw this figure" with OpenAI vision: a faithful, clean SVG recreation cropped from
  * the scan (see figure.ts). GENERATED content, rendered as a labelled AI recreation — never a
- * substitute for the original. Stubs automatically until XAI_API_KEY is set, so the Convert view
+ * substitute for the original. Stubs automatically until OPENAI_API_KEY is set, so the Convert view
  * is fully usable with no key and no spend; adding the key flips it live with no code change.
  * Live results are disk-cached by image content (a redraw is paid; the same crop never changes).
  * Stub results are deliberately NOT cached, so they can't shadow real ones once the key exists.
@@ -152,7 +152,7 @@ app.post('/api/figure', async (req, res) => {
       feedback?: string;
     };
     if (!image) throw new HttpError(400, 'A figure image is required.');
-    if (MOCK || !process.env.XAI_API_KEY) return void res.json(mockFigure());
+    if (MOCK || !process.env.OPENAI_API_KEY) return void res.json(mockFigure());
 
     // `force` (mirroring /api/ocr) bypasses only the READ — the write below still lands on the
     // same key, so the newest (possibly feedback-corrected) redraw becomes THE cached entry for
@@ -187,7 +187,7 @@ app.post('/api/figure/compare', async (req, res) => {
   try {
     const { original, redraw, context } = req.body as { original?: string; redraw?: string; context?: string };
     if (!original || !redraw) throw new HttpError(400, 'Both the original crop and the redraw render are required.');
-    if (MOCK || !process.env.XAI_API_KEY) return void res.json(mockFigureCompare(redraw));
+    if (MOCK || !process.env.OPENAI_API_KEY) return void res.json(mockFigureCompare(redraw));
 
     const key = figureCompareCacheKey(original, redraw);
     const hit = readFigureCompareCache<FigureCompare>(key);
@@ -212,7 +212,7 @@ app.post('/api/figure/classify', async (req, res) => {
   try {
     const { image, context } = req.body as { image?: string; context?: string };
     if (!image) throw new HttpError(400, 'A figure image is required.');
-    if (MOCK || !process.env.XAI_API_KEY) return void res.json(mockFigureClass());
+    if (MOCK || !process.env.OPENAI_API_KEY) return void res.json(mockFigureClass());
 
     const key = figureClassCacheKey(image);
     const hit = readFigureClassCache<FigureClass>(key);
@@ -439,9 +439,7 @@ function fail(res: express.Response, err: unknown) {
   // tells the user nothing. Dig the real cause out and say it.
   const cause = (err as { cause?: { code?: string; message?: string } })?.cause;
   if (message === 'fetch failed' && cause) {
-    // This helper serves both the Mistral OCR endpoints and the Grok figure-redraw endpoint,
-    // so don't name a specific provider — an EPIPE from xAI mislabelled "Mistral" is what sent
-    // us down the wrong trail once already.
+    // This helper serves more than one upstream API, so keep the network error provider-neutral.
     message = `Could not reach the upstream API: ${cause.code ?? cause.message ?? 'network error'}.`;
   }
 

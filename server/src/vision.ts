@@ -1,9 +1,7 @@
-import { HttpError, withRetry } from './mistral.js';
-
-const API = 'https://api.mistral.ai/v1';
+import { callOpenAIVision, openaiVisionModelName } from './openai.js';
 
 /**
- * The "second reading". Mistral's OCR silently edits the page — it invents accents that are not
+ * The "second reading". The OCR pass can silently normalize the page — for example, adding accents not
  * printed and reports nothing (the exact failure this repo exists to catch). Text alone cannot
  * expose that: there is only one reading to trust or doubt.
  *
@@ -14,10 +12,8 @@ const API = 'https://api.mistral.ai/v1';
  * This stays an INSPECTION aid on purpose, in keeping with what this tab is: it never rewrites
  * the page, it produces no flags, no queue, and no `verified` state. It shows you where to look.
  */
-// Read lazily, not at module load: index.ts imports this file before it calls dotenv.config(), so
-// a module-level const would capture the default and never see VISION_MODEL from .env (the same
-// import-order trap that stuck the figure redraw on a retired model). A getter reads it at call time.
-export const visionModelName = () => process.env.VISION_MODEL || 'pixtral-12b-2409';
+// Keep this public name because cache keys and stored results consume it throughout the app.
+export const visionModelName = openaiVisionModelName;
 
 const PROMPT = `You are shown a scanned page image and the text an OCR system produced from it.
 Read the page yourself, from the image only. Report ONLY the places where the OCR text differs
@@ -63,36 +59,15 @@ export interface VisionResult {
  * One vision call: the prompt (with the OCR context already appended) plus the image. Shared by
  * the page "second opinion" and the per-figure label investigator — both are the same move (read
  * the image independently, report where it disagrees with the OCR) at different scales. Exported
- * so the figure-explanation route can fall back to it when the Grok account is dry.
+ * through the OpenAI Responses API.
  */
 export async function callVision(prompt: string, image: string): Promise<string> {
-  const k = process.env.MISTRAL_API_KEY;
-  if (!k) throw new HttpError(500, 'MISTRAL_API_KEY is not set on the server.');
-  if (!image?.startsWith('data:image')) throw new HttpError(400, 'An image (data:image/...) is required.');
-
-  const res = await withRetry('reading an image with the vision model', 3, () =>
-    fetch(`${API}/chat/completions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${k}` },
-      body: JSON.stringify({
-        model: visionModelName(),
-        temperature: 0,
-        response_format: { type: 'json_object' },
-        messages: [{ role: 'user', content: [{ type: 'text', text: prompt }, { type: 'image_url', image_url: image }] }],
-      }),
-    }),
+  return callOpenAIVision(
+    'Read the supplied textbook image carefully. Follow the requested output format exactly and never invent unreadable content.',
+    prompt,
+    image,
+    4000,
   );
-
-  const data = (await res.json().catch(() => ({}))) as {
-    choices?: { message?: { content?: string } }[];
-    message?: string;
-    error?: { message?: string };
-  };
-  if (!res.ok) {
-    const detail = data?.message || data?.error?.message || JSON.stringify(data).slice(0, 300);
-    throw new HttpError(res.status, `Vision model failed (${res.status}): ${detail}`);
-  }
-  return data?.choices?.[0]?.message?.content ?? '';
 }
 
 /** Normalise the model's `notes` array into VisionNote[], defensively (any shape, capped). */

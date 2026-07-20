@@ -6,10 +6,10 @@
  * other document's figure.
  */
 
-import type { DocFile } from './types';
+import type { Block, DocFile } from './types';
 import type { EpureIR } from './epureIr';
 import { matchesDessinScientifique } from './authoredFigures';
-import { DESSIN_SCIENTIFIQUE_IR } from './figures/dessinScientifiqueIr';
+import { DESSIN_SCIENTIFIQUE_IR, DESSIN_SCIENTIFIQUE_STATUS } from './figures/dessinScientifiqueIr';
 import { reconstruct } from './epureReconstruct';
 import { dist } from './epureMath';
 
@@ -74,9 +74,51 @@ export function epureFiguresFor(doc: DocFile): EpureFigure[] {
   return out.sort((a, b) => a.pageIndex - b.pageIndex || a.label.localeCompare(b.label));
 }
 
+/**
+ * Resolve a source-region selection to the figure(s) reconstructed from that region.
+ *
+ * OCR exposes extracted pictures twice: once as the layout block (`p40-b1`) and once as the
+ * extracted-image payload (`p40-i1`). The IDs differ even though both buttons cover the same
+ * pixels. Catalog bindings use the layout ID, so exact-ID lookup alone makes the duplicate appear
+ * disconnected. A page-local bounding-box match safely joins those aliases back together.
+ */
+export function epureFiguresForSourceBlock(
+  doc: DocFile,
+  pageIndex: number,
+  blockId: string,
+  blocks: Block[],
+): EpureFigure[] {
+  const onPage = epureFiguresFor(doc).filter((figure) => figure.pageIndex === pageIndex);
+  const exact = onPage.filter((figure) => figure.blockId === blockId);
+  if (exact.length) return exact;
+
+  const selected = blocks.find((block) => block.id === blockId);
+  if (!selected) return [];
+  return onPage.filter((figure) => {
+    const candidate = blocks.find((block) => block.id === figure.blockId);
+    if (!candidate) return false;
+    const a = selected.bbox;
+    const b = candidate.bbox;
+    return a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h;
+  });
+}
+
 /** True when the document has any reconstructable épure — gates the Épure tab. */
 export function docHasEpures(doc: DocFile): boolean {
   return epureFiguresFor(doc).length > 0;
+}
+
+export interface EpureCoverage {
+  status: 'exact' | 'partial' | 'two_d_only';
+  operation: string;
+  reason: string;
+}
+
+/** Honest availability for one authored plate; the generated status inventory is authoritative. */
+export function epureCoverageFor(doc: DocFile, pageIndex: number, blockId: string): EpureCoverage | null {
+  if (!matchesDessinScientifique(doc)) return null;
+  const row = DESSIN_SCIENTIFIQUE_STATUS.find((entry) => entry.pageIndex === pageIndex && entry.blockId === blockId);
+  return row ? { status: row.status, operation: row.opKind, reason: row.note } : null;
 }
 
 // The inputs are static (shipped IRs), so whether a block's reconstructions are usable is

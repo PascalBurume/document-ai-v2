@@ -38,7 +38,7 @@ export function transientCode(err: unknown): string | null {
  * Node's fetch reports every one of these as the useless message "fetch failed". Retry the
  * transient socket-level ones with exponential backoff; rethrow anything else untouched. Shared by
  * the OCR, vision and figure-redraw calls — all upload multi-MB bodies to a flaky connection.
- * Provider-neutral on purpose: it wraps both Mistral (OCR/vision) and xAI (figure) calls.
+ * Provider-neutral on purpose: OCR and OpenAI visual reasoning both upload large request bodies.
  */
 export async function withRetry<T>(label: string, attempts: number, fn: () => Promise<T>): Promise<T> {
   let lastCode = '';

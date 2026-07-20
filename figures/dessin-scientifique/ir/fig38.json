@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 38, "page": 29, "blockId": "p29-b11", "caption": "Épure de deux droites a et b : points C, D et E appariés par leurs rappels ; vraie grandeur de CE." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1110 },
+  "groundLine": { "a": { "x": 30, "y": 331 }, "b": { "x": 662, "y": 331 } },
+  "points": [
+    { "id": "E", "v": { "x": 315, "y": 250 }, "h": { "x": 315, "y": 898 }, "role": "vertex" },
+    { "id": "D", "v": { "x": 354, "y": 331 }, "h": { "x": 354, "y": 812 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 409, "y": 150 }, "h": { "x": 409, "y": 838 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "C", "to": "D", "view": "v" },
+    { "from": "D", "to": "E", "view": "v" },
+    { "from": "C", "to": "D", "view": "h" },
+    { "from": "D", "to": "E", "view": "h" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "C", "to": "E" },
+  "notes": [
+    "C, D et E sont les trois paires explicitement reliées par les rappels de la planche. Les abscisses ont été calées au milieu de chaque rappel incliné afin de conserver une seule abscisse spatiale sans modifier cote ni éloignement.",
+    "A et B ne sont pas élevés : leurs reports supplémentaires V' ne fournissent pas une paire originale non ambiguë."
+  ]
+}

@@ -40,6 +40,8 @@ test('E61(a) scene: planes, hinge, fold, labels — and it survives JSON round-t
   assert.ok(scene.segments.some((s) => s.kind === 'hinge'));
   assert.ok(scene.segments.some((s) => s.kind === 'projector'));
   assert.ok(scene.segments.some((s) => s.kind === 'projectionV'));
+  assert.deepEqual(scene.faces?.[0].ids, ['A', 'B', 'C'], 'the authored plane polygon becomes a translucent spatial face');
+  assert.equal(scene.faces?.[0].quality, 'exact');
 
   const fold = scene.fold!;
   assert.ok(Math.abs(fold.angle) > 0.1);
@@ -155,6 +157,58 @@ test('recall segments are 2D bookkeeping and never reach the scene', () => {
   assert.equal(after, before);
 });
 
+test('E80(a) keeps full projection planes for a profile line and exposes its true-length dimension', () => {
+  const ir = DESSIN_SCIENTIFIQUE_IR['20:p20-b7'][0];
+  const scene = buildEpureScene(ir, reconstruct(ir));
+  assert.ok(scene.planes.h.max.x - scene.planes.h.min.x >= 13, 'πH does not collapse around the near-zero x-span');
+  assert.ok(scene.planes.v.max.x - scene.planes.v.min.x >= 13, 'πV does not collapse around the near-zero x-span');
+  assert.deepEqual(
+    { from: scene.trueLengthDimension?.from, to: scene.trueLengthDimension?.to },
+    { from: 'A', to: 'M' },
+  );
+  assert.ok(Math.abs((scene.trueLengthDimension?.value ?? 0) - 374.263) < 0.01);
+});
+
+test('closed tetrahedra render as four honest triangular faces instead of an ambiguous wireframe', () => {
+  const cases = [
+    ['E72', '13:p13-b4'],
+    ['E100', '43:p43-b0'],
+    ['fig62', '49:p49-b6'],
+  ] as const;
+
+  for (const [label, key] of cases) {
+    const ir = DESSIN_SCIENTIFIQUE_IR[key][0];
+    const scene = buildEpureScene(ir, reconstruct(ir));
+    assert.equal(scene.faces?.length, 4, `${label} must expose all four tetrahedron faces`);
+    assert.ok(scene.faces?.every((face) => face.ids.length === 3), `${label} faces must be triangles`);
+    assert.equal(
+      new Set(scene.faces?.flatMap((face) => face.ids)).size,
+      4,
+      `${label} faces must cover its four spatial vertices`,
+    );
+    assert.ok(scene.segments.filter((segment) => segment.kind === 'spatial').length >= 6,
+      `${label} keeps the six structural edges behind the translucent faces`);
+  }
+});
+
+test('E101 exposes the genuinely missing apex as a placeable red locus and preserves its pyramid topology', () => {
+  const ir = DESSIN_SCIENTIFIQUE_IR['44:p44-b23'][0];
+  const recon = reconstruct(ir);
+  const scene = buildEpureScene(ir, recon);
+
+  assert.ok(recon.warnings.some((warning) => warning.code === 'incomplete'));
+  assert.equal(scene.faces?.length, 1, 'the exact ABC base remains visible');
+  assert.deepEqual(scene.faces?.[0].ids, ['A', 'B', 'C']);
+  assert.equal(scene.diagnostics?.loci.length, 1, 'S has one free-depth locus, not an invented coordinate');
+  assert.equal(scene.diagnostics?.loci[0].label, 'S');
+  assert.equal(scene.diagnostics?.loci[0].source, 'v', 'the drawn vertical projection S^V is preserved');
+  assert.equal(scene.diagnostics?.edges.length, 3, 'placing S completes the three red lateral pyramid edges');
+  assert.deepEqual(
+    scene.diagnostics?.edges.map((edge) => edge.from.kind === 'point' ? edge.from.id : edge.to.kind === 'point' ? edge.to.id : '').sort(),
+    ['A', 'B', 'C'],
+  );
+});
+
 test('a change_of_plane scene carries a serializable auxiliary and stays in the ~10-unit box', () => {
   // A minimal synthetic change of frontal plane, built directly (no plate needed): three points
   // and an L′ drawn in πH. The scene must serialize byte-for-byte and expose the aux construction.
@@ -247,6 +301,7 @@ test('diagnostics: a found vertex is a dot, a missing projection is a locus ray 
       // B has only its V projection → depth (y axis) is undetermined ⇒ a ray, not a point.
       { label: 'B', kind: 'missing', v: { x: 360, y: 300 }, note: 'B^H non tracée' },
     ],
+    diagnosticEdges: [{ from: 'point:A', to: 'diag:B' }],
   };
   const val = validateEpureIr(ir);
   assert.ok(val.ok, val.ok ? '' : JSON.stringify(val.errors));
@@ -255,8 +310,18 @@ test('diagnostics: a found vertex is a dot, a missing projection is a locus ray 
   const scene = buildEpureScene(ir, recon);
   assert.deepEqual(JSON.parse(JSON.stringify(scene)), scene); // serializes byte-for-byte
   assert.equal(scene.diagnostics?.dots.length, 1, 'one found dot');
-  assert.equal(scene.diagnostics?.rays.length, 1, 'one locus ray');
-  const ray = scene.diagnostics!.rays[0];
+  assert.equal(scene.diagnostics?.loci.length, 1, 'one locus ray');
+  assert.deepEqual(scene.diagnostics?.edges, [{
+    from: { kind: 'point', id: 'A' },
+    to: { kind: 'diagnostic', id: 'd1' },
+  }], 'partial topology resolves labels to stable diagnostic ids');
+  const ray = scene.diagnostics!.loci[0];
+  assert.equal(ray.id, 'd1:v');
+  assert.equal(ray.source, 'v', 'the vertical projection is the coordinate this locus preserves');
+  assert.deepEqual(ray.plate.known, { view: 'v', at: { x: 360, y: 300 } });
+  assert.equal(ray.plate.assumed.view, 'h');
+  assert.ok(Math.abs(ray.plate.assumed.a.x - 360) < 1e-9 && Math.abs(ray.plate.assumed.b.x - 360) < 1e-9,
+    'every selectable depth back-projects to the same recall column');
   // The undetermined axis (depth = y) varies; the determined axes (x, z) are fixed along the ray.
   assert.ok(Math.abs(ray.a.y - ray.b.y) > 0.5, 'ray spans the free (depth) axis');
   assert.ok(Math.abs(ray.a.x - ray.b.x) < 1e-6 && Math.abs(ray.a.z - ray.b.z) < 1e-6, 'ray is fixed on the drawn axes');

@@ -100,7 +100,7 @@ test('sanitize: prose around the svg and a missing svg tag return only the svg /
 
 test('converted page: a redrawn figure replaces its image ref, labelled as AI', () => {
   const p = page('Before\n\n![img-0.jpeg](img-0.jpeg)\n\nAfter $x^2$', [
-    figureBlock({ redrawnSvg: '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>', redrawnModel: 'grok-2-vision' }),
+    figureBlock({ redrawnSvg: '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>', redrawnModel: 'gpt-5.6' }),
   ]);
   const html = renderConverted(p);
   assert.ok(html.includes('class="ai-figure"'));
@@ -119,7 +119,7 @@ test('converted page: a bbox image block whose text is the full ![ref](file) sti
       text: '![img-0.jpeg](img-0.jpeg)',
       imageBase64: undefined,
       redrawnSvg: '<svg><rect/></svg>',
-      redrawnModel: 'grok-2-vision',
+      redrawnModel: 'gpt-5.6',
     }),
   ]);
   const html = renderConverted(p);
@@ -129,7 +129,7 @@ test('converted page: a bbox image block whose text is the full ![ref](file) sti
 
 test('converted page (compare): the scan crop renders side by side with the AI redraw', () => {
   const p = page('![img-0.jpeg](img-0.jpeg)', [
-    figureBlock({ redrawnSvg: '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>', redrawnModel: 'grok-2-vision' }),
+    figureBlock({ redrawnSvg: '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>', redrawnModel: 'gpt-5.6' }),
   ]);
   const html = renderConverted(p, { compare: true });
   assert.ok(html.includes('fig-pair'), 'two-column comparison');
@@ -140,7 +140,7 @@ test('converted page (compare): the scan crop renders side by side with the AI r
 });
 
 test('exports keep the clean redraw, not the scan-vs-redraw comparison', () => {
-  const d = doc([page('![img-0.jpeg](img-0.jpeg)', [figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'grok-2-vision' })])]);
+  const d = doc([page('![img-0.jpeg](img-0.jpeg)', [figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'gpt-5.6' })])]);
   const html = buildHtml(d);
   assert.ok(!html.includes('fig-pair'), 'no side-by-side in the exported artifact');
   assert.ok(!html.includes('base64,AAAA'), 'the scan crop is not embedded in the export');
@@ -156,7 +156,7 @@ test('converted page: without a redraw the original crop renders, exactly as the
 
 test('converted page: a stub redraw says it is a stub, never a real AI redraw', () => {
   const p = page('![img-0.jpeg](img-0.jpeg)', [
-    figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnStub: true, redrawnModel: 'stub-grok' }),
+    figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnStub: true, redrawnModel: 'stub-openai' }),
   ]);
   const html = renderConverted(p);
   assert.ok(html.includes('Stub example'));
@@ -165,7 +165,7 @@ test('converted page: a stub redraw says it is a stub, never a real AI redraw', 
 
 test('markdown export: redrawn figures inline as labelled <figure>, others keep their ref', () => {
   const d = doc([
-    page('![img-0.jpeg](img-0.jpeg)', [figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'grok-2-vision' })]),
+    page('![img-0.jpeg](img-0.jpeg)', [figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'gpt-5.6' })]),
     page('![img-1.jpeg](img-1.jpeg)', [figureBlock({ id: 'p1-i0', text: 'img-1.jpeg' })], 1),
   ]);
   const md = buildMarkdown(d);
@@ -192,11 +192,11 @@ test('critic notes render under the figure, escaped, with the [[FIG?]] badge', (
   const p = page('![img-0.jpeg](img-0.jpeg)', [
     figureBlock({
       redrawnSvg: '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>',
-      redrawnModel: 'grok-4.5',
+      redrawnModel: 'gpt-5.6',
       redrawChecked: true,
       redrawFaithful: false,
       redrawProblems: ['La courbe monte au lieu de descendre <b>é'],
-      redrawCheckModel: 'grok-4.5',
+      redrawCheckModel: 'gpt-5.6',
     }),
   ]);
   const html = renderConverted(p, { compare: true });
@@ -209,7 +209,7 @@ test('critic notes render under the figure, escaped, with the [[FIG?]] badge', (
 test('critic notes travel into the export; the model reading does not', () => {
   const block = figureBlock({
     redrawnSvg: '<svg viewBox="0 0 720 480"><rect/></svg>',
-    redrawnModel: 'grok-4.5',
+    redrawnModel: 'gpt-5.6',
     redrawChecked: true,
     redrawFaithful: false,
     redrawProblems: ['La graduation 18 manque.'],
@@ -229,7 +229,7 @@ test('a checked, faithful figure carries no critic markup — clean is silent', 
   const p = page('![img-0.jpeg](img-0.jpeg)', [
     figureBlock({
       redrawnSvg: '<svg viewBox="0 0 720 480"><rect/></svg>',
-      redrawnModel: 'grok-4.5',
+      redrawnModel: 'gpt-5.6',
       redrawChecked: true,
       redrawFaithful: true,
       redrawProblems: [],
@@ -284,9 +284,9 @@ test('the exported book still typesets the radical it was given', () => {
 test('explanation: renders labelled under a redrawn figure, with LaTeX typeset', () => {
   const b: Block = {
     id: 'b1', type: 'image', text: 'img-0.jpeg', bbox: { x: 0, y: 0, w: 1, h: 1 },
-    redrawnSvg: '<svg viewBox="0 0 10 10"></svg>', redrawnModel: 'grok-4.5',
+    redrawnSvg: '<svg viewBox="0 0 10 10"></svg>', redrawnModel: 'gpt-5.6',
     explanation: "**L'idée clé** — au point équivalent $N_aV_a = N_bV_b$.",
-    explainModel: 'grok-4.5',
+    explainModel: 'gpt-5.6',
   } as Block;
   const html = renderConverted(page('![img-0.jpeg](img-0.jpeg)', [b]));
   assert.ok(html.includes('ai-explain'));
@@ -300,7 +300,7 @@ test('explanation: a never-redrawn figure keeps its scan and still shows the not
     id: 'b1', type: 'image', text: 'img-0.jpeg', bbox: { x: 0, y: 0, w: 1, h: 1 },
     imageBase64: 'data:image/jpeg;base64,xx',
     explanation: 'Comment lire la figure, pas à pas.',
-    explainModel: 'grok-4.5',
+    explainModel: 'gpt-5.6',
   } as Block;
   const p = page('![img-0.jpeg](img-0.jpeg)', [b]);
   const html = renderConverted(p);

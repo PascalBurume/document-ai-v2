@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 46,
+    "page": 33,
+    "blockId": "p33-b2",
+    "caption": "Courbes a et b autour de P^HV : le repère possède un ancrage certain ; A, B, P et Q restent des reports non appariés, indiqués en rouge."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1110 },
+  "groundLine": { "a": { "x": 403, "y": 25 }, "b": { "x": 384, "y": 1095 } },
+  "points": [
+    { "id": "T", "v": { "x": 385, "y": 1052 }, "h": { "x": 385, "y": 1052 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "A", "kind": "unpaired", "v": { "x": 401, "y": 335 }, "h": { "x": 394, "y": 615 }, "note": "A^V/A^H sont des intersections de courbes sans rappel concordant" },
+    { "label": "B", "kind": "unpaired", "v": { "x": 400, "y": 208 }, "h": { "x": 400, "y": 830 }, "note": "B^V/B^H sont des intersections de courbes sans rappel concordant" },
+    { "label": "Q", "kind": "unpaired", "v": { "x": 399, "y": 240 }, "h": { "x": 400, "y": 772 }, "note": "Q^V/Q^H sont des reports de construction, pas une paire Monge" },
+    { "label": "P", "kind": "unpaired", "v": { "x": 396, "y": 424 }, "h": { "x": 385, "y": 900 }, "note": "P^V/P^H sont des reports de construction, pas une paire Monge" }
+  ],
+  "notes": [
+    "La ligne P^HV définit le repère vertical de cette planche. T est l'intersection lisible avec la trace β^HV.",
+    "Le moteur segmentaire ne transforme pas les courbes en sommets. Les positions incompatibles sont donc conservées comme loci rouges."
+  ]
+}

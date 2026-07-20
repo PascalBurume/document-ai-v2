@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import type { EpureIR } from '../lib/epureIr';
+import type { EpureScene } from '../lib/epureScene';
+import { pointOnPlateLocus, type FigureAssumptions } from '../lib/epureAssumptions';
 import type { DocFile } from '../lib/types';
 import { figureSetFor } from '../lib/authoredFigures';
 
@@ -10,6 +12,8 @@ interface Props {
   blockId: string;
   hoveredId: string | null;
   onHoverPoint: (id: string | null) => void;
+  scene?: EpureScene;
+  assumptions?: FigureAssumptions;
 }
 
 /**
@@ -23,7 +27,7 @@ interface Props {
  *
  * Nothing here is computed: these are the coordinates as written in the IR.
  */
-export function EpurePlate({ doc, ir, pageIndex, blockId, hoveredId, onHoverPoint }: Props) {
+export function EpurePlate({ doc, ir, pageIndex, blockId, hoveredId, onHoverPoint, scene, assumptions = {} }: Props) {
   const fig = figureSetFor(doc)?.[`${pageIndex}:${blockId}`];
   const { width, height } = ir.imageSize;
 
@@ -35,6 +39,16 @@ export function EpurePlate({ doc, ir, pageIndex, blockId, hoveredId, onHoverPoin
     }
     return out;
   }, [ir]);
+
+  const assumptionMarks = useMemo(() => {
+    const loci = scene?.diagnostics?.loci ?? [];
+    const byId = new Map(loci.map((locus) => [locus.id, locus]));
+    return Object.values(assumptions).flatMap((assumption) => {
+      const locus = byId.get(assumption.locusId);
+      if (!locus) return [];
+      return [{ assumption, locus, missing: pointOnPlateLocus(locus, assumption.t) }];
+    });
+  }, [assumptions, scene]);
 
   const rabattu = ir.operation.kind === 'rabattement_plane' ? ir.operation.rabattu : undefined;
   // Radius scales with the plate so the target stays the same size whatever the viewBox.
@@ -79,6 +93,25 @@ export function EpurePlate({ doc, ir, pageIndex, blockId, hoveredId, onHoverPoin
           >
             <title>{`${m.id}${m.view === 'v' ? 'ᵛ' : 'ᴴ'} — lu à (${m.x}, ${m.y})`}</title>
           </circle>
+        ))}
+        {assumptionMarks.map(({ assumption, locus, missing }) => (
+          <g key={locus.diagnosticId} className={`pl-assumption${assumption.confirmed ? ' confirmed' : ''}`}>
+            <line
+              className="pl-assumption-line"
+              x1={locus.plate.known.at.x}
+              y1={locus.plate.known.at.y}
+              x2={missing.x}
+              y2={missing.y}
+            />
+            <circle className="pl-assumption-known" cx={locus.plate.known.at.x} cy={locus.plate.known.at.y} r={r * 0.75} />
+            <circle className="pl-assumption-point" cx={missing.x} cy={missing.y} r={r}>
+              <title>
+                {assumption.confirmed
+                  ? `${locus.label} — hypothèse utilisateur, projection ${locus.plate.assumed.view.toUpperCase()}`
+                  : `${locus.label} — position à choisir sur le locus rouge`}
+              </title>
+            </circle>
+          </g>
         ))}
       </svg>
     </div>

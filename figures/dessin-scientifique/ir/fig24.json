@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 24, "sub": "d", "page": 20, "blockId": "p20-b12", "caption": "Planche E 80 (d) : points D, A, C, B et I de la droite p, relevés depuis leurs deux projections." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1030 },
+  "groundLine": { "a": { "x": 41, "y": 725 }, "b": { "x": 630, "y": 725 } },
+  "points": [
+    { "id": "D", "v": { "x": 281, "y": 234 }, "h": { "x": 281, "y": 627 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 283, "y": 308 }, "h": { "x": 283, "y": 909 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 282, "y": 412 }, "h": { "x": 282, "y": 725 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 280, "y": 551 }, "h": { "x": 280, "y": 796 }, "role": "vertex" },
+    { "id": "I", "v": { "x": 279, "y": 575 }, "h": { "x": 279, "y": 767 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "D", "to": "A", "view": "v" },
+    { "from": "A", "to": "C", "view": "v" },
+    { "from": "C", "to": "B", "view": "v" },
+    { "from": "B", "to": "I", "view": "v" },
+    { "from": "D", "to": "A", "view": "h" },
+    { "from": "A", "to": "C", "view": "h" },
+    { "from": "C", "to": "B", "view": "h" },
+    { "from": "B", "to": "I", "view": "h" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["D", "A", "C", "B", "I"] },
+  "notes": [
+    "Les cinq points sont lus sur la projection confondue p^HV. Leurs rabattus et les quatre traces a/b sont conservés sur la planche source mais ne remplacent aucune projection.",
+    "C^H se trouve sur la ligne de terre ; sa profondeur est donc nulle."
+  ]
+}

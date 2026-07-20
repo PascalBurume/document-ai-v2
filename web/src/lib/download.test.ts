@@ -69,7 +69,7 @@ async function zipOf(d: DocFile): Promise<JSZip> {
 
 test('the zip carries the recreated figure — book.html, book.md and its own SVG file', async () => {
   const svg = '<svg viewBox="0 0 720 480"><path d="M0 0"/></svg>';
-  const zip = await zipOf(doc([figureBlock({ redrawnSvg: svg, redrawnModel: 'grok-4.5' })]));
+  const zip = await zipOf(doc([figureBlock({ redrawnSvg: svg, redrawnModel: 'gpt-5.6' })]));
 
   const names = Object.keys(zip.files);
   assert.ok(names.some((n) => n.endsWith('book.html')), 'the assembled book is in the archive');
@@ -85,7 +85,7 @@ test('the zip carries the recreated figure — book.html, book.md and its own SV
 });
 
 test('the raw OCR evidence and the scan are still archived alongside the book', async () => {
-  const zip = await zipOf(doc([figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'grok-4.5' })]));
+  const zip = await zipOf(doc([figureBlock({ redrawnSvg: '<svg><rect/></svg>', redrawnModel: 'gpt-5.6' })]));
   const names = Object.keys(zip.files);
   assert.ok(names.some((n) => n.endsWith('result.json')), 'the immutable API response');
   assert.ok(names.some((n) => n.endsWith('document.md')), 'the transcription');

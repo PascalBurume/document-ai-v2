@@ -119,7 +119,7 @@ export function mockFigureCheck() {
 
 /** Stub for the classify-only re-check: pretends every figure is a chart, so keyless demos are inert. */
 export function mockFigureClass() {
-  return { isChart: true, reason: '', model: 'stub-grok' };
+  return { isChart: true, reason: '', model: 'stub-openai' };
 }
 
 /**
@@ -135,7 +135,7 @@ export function mockFigureCompare(redraw?: string) {
   if (n === 1) {
     return {
       faithful: false,
-      model: 'stub-grok',
+      model: 'stub-openai',
       problems: [
         'La courbe atteint pH 12 au lieu de 14 en fin de dosage.',
         "La graduation « 18 » manque sur l'axe des volumes.",
@@ -146,12 +146,12 @@ export function mockFigureCompare(redraw?: string) {
   if (n === 2) {
     return {
       faithful: false,
-      model: 'stub-grok',
+      model: 'stub-openai',
       problems: ["La graduation « 18 » manque toujours sur l'axe des volumes."],
       summary: 'Un écart subsiste après la reprise. (fixture)',
     };
   }
-  return { faithful: true, model: 'stub-grok', problems: [], summary: 'La recréation correspond au scan. (fixture)' };
+  return { faithful: true, model: 'stub-openai', problems: [], summary: 'La recréation correspond au scan. (fixture)' };
 }
 
 /** Stub for "recover text from an image region": a small transcription with LaTeX, for keyless demos. */
@@ -166,14 +166,14 @@ export function mockFigureText() {
 }
 
 /**
- * Stub for the "redraw this figure" feature, returned when no XAI_API_KEY is set (or MOCK_OCR is
+ * Stub for the "redraw this figure" feature, returned when no OPENAI_API_KEY is set (or MOCK_OCR is
  * on). A titration-curve chart in the target style — clean axes, dashed reference lines, blue
  * curve, French labels — so the whole Convert view works with no key and no spend.
  */
 export function mockFigure() {
   return {
     stub: true,
-    model: 'stub-grok',
+    model: 'stub-openai',
     caption: "Courbe de neutralisation : pH en fonction du volume V_E de NaOH ajouté (stub — figure d'exemple).",
     svg:
       '<svg viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="14">' +

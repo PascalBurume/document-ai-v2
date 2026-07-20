@@ -2,12 +2,9 @@
  * Diagnostic points overlaid, in RED, on a plate in the zoomable viewer — so you can SEE the exact
  * coordinates behind each figure's 3D fate. This is documentation of a reading, not a reconstruction.
  *
- * Two kinds of plate carry these:
- *  - the three plates just lifted to 3D (E 82 / E 86 / E 87): every vertex projection we read and used
- *    — the coordinates that MADE the reconstruction, shown on the drawing;
- *  - the four that stayed 2D (E 85 / E 88 / E 91 / E 92): the projections we could NOT use — the ones
- *    whose V and H don't line up on the rappel, or that were never drawn at all. A red marker here is
- *    a diagnosis of the gap, not a path to 3D: the missing point isn't on the plate to read.
+ * Exact and partial plates carry these: every usable projection is a solid red point; every absent
+ * or incompatible coordinate is a cross/ring. A diagnostic marker documents the gap and feeds the
+ * red 3D locus shown by the workspace; it never supplies an invented coordinate.
  *
  * COORDINATES ARE IN EACH PLATE'S OUTER viewBox FRAME — the frame SVGLoader bakes transforms into, and
  * the frame `EpurePlateViewer` maps to world. For a plate drawn under a root rotate, the reads are
@@ -32,6 +29,70 @@ export interface PlateDiagPoint {
 
 /** Keyed `page:blockId` (0-based page, as `figureSetFor`). */
 export const PLATE_DIAGNOSTICS: Record<string, PlateDiagPoint[]> = {
+  // ── fig21 — triangle + centres. S₁/S₂/S′ have only a horizontal projection. ──
+  '19:p19-b17': [
+    { label: 'A^V', x: 100, y: 245, kind: 'found' },
+    { label: 'A^H', x: 113, y: 620, kind: 'found' },
+    { label: 'B^V', x: 305, y: 245, kind: 'found' },
+    { label: 'B^H', x: 317, y: 705, kind: 'found' },
+    { label: 'C^V', x: 655, y: 244, kind: 'found' },
+    { label: 'C^H', x: 650, y: 460, kind: 'found' },
+    { label: 'S^V', x: 188, y: 90, kind: 'found' },
+    { label: 'S^H', x: 195, y: 468, kind: 'found' },
+    { label: 'I^V', x: 353, y: 245, kind: 'found' },
+    { label: 'I^H', x: 363, y: 672, kind: 'found' },
+    { label: 'S₁^V', x: 30, y: 245, kind: 'missing', note: 'seule S₁^H est tracée' },
+    { label: 'S₂^V', x: 547, y: 243, kind: 'missing', note: 'seule S₂^H est tracée' },
+    { label: "S′^V", x: 327, y: 244, kind: 'missing', note: "projection verticale partenaire non identifiée" },
+  ],
+  // ── fig41 — trace α : pairs are construction reports, not common recalls. ──
+  '31:p31-b1': [
+    { label: 'A^V', x: 318, y: 246, kind: 'unpaired' },
+    { label: 'A^H', x: 314, y: 937, kind: 'unpaired' },
+    { label: 'B^V', x: 317, y: 460, kind: 'unpaired' },
+    { label: 'B^H', x: 296, y: 850, kind: 'unpaired' },
+    { label: 'C^V', x: 306, y: 589, kind: 'unpaired' },
+    { label: 'C^H', x: 303, y: 723, kind: 'unpaired' },
+    { label: 'D^V', x: 314, y: 374, kind: 'unpaired' },
+    { label: 'D^H', x: 290, y: 1073, kind: 'unpaired' },
+    { label: 'I^V', x: 296, y: 536, kind: 'unpaired' },
+    { label: 'I^H', x: 299, y: 805, kind: 'unpaired' },
+  ],
+  // ── fig42 — trace β : all labelled pairs sit on an oblique construction trace. ──
+  '31:p31-b4': [
+    { label: 'A^V', x: 332, y: 142, kind: 'unpaired' },
+    { label: 'A^H', x: 300, y: 788, kind: 'unpaired' },
+    { label: 'B^V', x: 320, y: 377, kind: 'unpaired' },
+    { label: 'B^H', x: 301, y: 610, kind: 'unpaired' },
+    { label: 'C^V', x: 328, y: 236, kind: 'unpaired' },
+    { label: 'C^H', x: 302, y: 504, kind: 'unpaired' },
+    { label: 'D^V', x: 322, y: 329, kind: 'unpaired' },
+    { label: 'D^H', x: 296, y: 715, kind: 'unpaired' },
+    { label: 'I^V', x: 323, y: 317, kind: 'unpaired' },
+    { label: 'I^H', x: 299, y: 652, kind: 'unpaired' },
+  ],
+  // ── fig45 — outer coordinates after the plate's rotate(-90). ──
+  '32:p32-b9': [
+    { label: 'P^V', x: 221, y: 303, kind: 'unpaired' },
+    { label: 'P^H', x: 221, y: 487, kind: 'unpaired' },
+    { label: 'Q^V', x: 221, y: 354, kind: 'unpaired' },
+    { label: 'Q^H', x: 221, y: 447, kind: 'unpaired' },
+    { label: 'A^V', x: 221, y: 154, kind: 'unpaired' },
+    { label: 'A^H', x: 221, y: 416, kind: 'unpaired' },
+    { label: 'B^V', x: 221, y: 258, kind: 'unpaired' },
+    { label: 'B^H', x: 221, y: 560, kind: 'unpaired' },
+  ],
+  // ── fig46 — curves a/b: labelled intersections are reports without a common recall. ──
+  '33:p33-b2': [
+    { label: 'A^V', x: 401, y: 335, kind: 'unpaired' },
+    { label: 'A^H', x: 394, y: 615, kind: 'unpaired' },
+    { label: 'B^V', x: 400, y: 208, kind: 'unpaired' },
+    { label: 'B^H', x: 400, y: 830, kind: 'unpaired' },
+    { label: 'Q^V', x: 399, y: 240, kind: 'unpaired' },
+    { label: 'Q^H', x: 400, y: 772, kind: 'unpaired' },
+    { label: 'P^V', x: 396, y: 424, kind: 'unpaired' },
+    { label: 'P^H', x: 385, y: 900, kind: 'unpaired' },
+  ],
   // ── E 82 (fig32) — quadrilatère ABCD lifted to 3D. Outer frame 510×720 (rotate(-90) applied). ──
   '25:p25-b14': [
     { label: 'A^V', x: 182, y: 248, kind: 'found' },

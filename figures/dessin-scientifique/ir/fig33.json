@@ -8,33 +8,125 @@
     "caption": "E 84 — Changement de plan : le plan (OBK) est projeté sur un nouveau plan horizontal πH'. πV est retenu (hauteurs conservées), la nouvelle ligne de terre L'T'V'/H' est tracée parmi les projections verticales ; la projection auxiliaire H' (O^H', B^H', K^H') donne la nouvelle vue."
   },
   "units": "px",
-  "imageSize": { "width": 530, "height": 720 },
-  "groundLine": { "a": { "x": 188, "y": 14 }, "b": { "x": 188, "y": 518 } },
+  "imageSize": {
+    "width": 530,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 14,
+      "y": 532
+    },
+    "b": {
+      "x": 518,
+      "y": 532
+    }
+  },
   "points": [
-    { "id": "O", "v": { "x": 500, "y": 181 }, "h": { "x": 185, "y": 181 }, "role": "vertex" },
-    { "id": "B", "v": { "x": 473, "y": 353 }, "h": { "x": 270, "y": 347 }, "role": "vertex" },
-    { "id": "K", "v": { "x": 573, "y": 476 }, "h": { "x": 193, "y": 474 }, "role": "vertex" }
+    {
+      "id": "O",
+      "v": {
+        "x": 181,
+        "y": 220
+      },
+      "h": {
+        "x": 181,
+        "y": 535
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B",
+      "v": {
+        "x": 353,
+        "y": 247
+      },
+      "h": {
+        "x": 347,
+        "y": 450
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "K",
+      "v": {
+        "x": 476,
+        "y": 147
+      },
+      "h": {
+        "x": 474,
+        "y": 527
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "O", "to": "B", "view": "v" },
-    { "from": "B", "to": "K", "view": "v" },
-    { "from": "K", "to": "O", "view": "v" },
-    { "from": "O", "to": "B", "view": "h" },
-    { "from": "B", "to": "K", "view": "h" },
-    { "from": "K", "to": "O", "view": "h" }
+    {
+      "from": "O",
+      "to": "B",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "K",
+      "view": "v"
+    },
+    {
+      "from": "K",
+      "to": "O",
+      "view": "v"
+    },
+    {
+      "from": "O",
+      "to": "B",
+      "view": "h"
+    },
+    {
+      "from": "B",
+      "to": "K",
+      "view": "h"
+    },
+    {
+      "from": "K",
+      "to": "O",
+      "view": "h"
+    }
   ],
   "operation": {
     "kind": "change_of_plane",
     "replaced": "h",
-    "newGroundLine": { "a": { "x": 20, "y": 206 }, "b": { "x": 708, "y": 88 } },
-    "points": ["O", "B", "K"],
+    "newGroundLine": {
+      "a": {
+        "x": 206,
+        "y": 700
+      },
+      "b": {
+        "x": 88,
+        "y": 12
+      }
+    },
+    "points": [
+      "O",
+      "B",
+      "K"
+    ],
     "auxiliary": {
-      "O": { "x": 494, "y": 120 },
-      "B": { "x": 457, "y": 214 },
-      "K": { "x": 506, "y": 132 }
+      "O": {
+        "x": 120,
+        "y": 226
+      },
+      "B": {
+        "x": 214,
+        "y": 263
+      },
+      "K": {
+        "x": 132,
+        "y": 214
+      }
     }
   },
   "notes": [
-    "Changement de plan remplaçant πH : πV retenu, nouvelle ligne de terre L'T'V'/H' oblique. Les points O, B, K se lisent en projection sur les lignes de rappel horizontales (y≈181, 350, 475) de part et d'autre de la LT principale (tracée verticale, redressée). La projection auxiliaire H' authoréе (O^H', B^H', K^H') est reproduite par la reconstruction à moins de 10px/point."
+    "Changement de plan remplaçant πH : πV retenu, nouvelle ligne de terre L'T'V'/H' oblique. Les points O, B, K se lisent en projection sur les lignes de rappel horizontales (y≈181, 350, 475) de part et d'autre de la LT principale (tracée verticale, redressée). La projection auxiliaire H' authoréе (O^H', B^H', K^H') est reproduite par la reconstruction à moins de 10px/point.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

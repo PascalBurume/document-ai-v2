@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 27, "page": 22, "blockId": "p22-b9", "caption": "Épure (f) : points P, Q et B relevés de leurs deux projections ; vraie grandeur de PB." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 920 },
+  "groundLine": { "a": { "x": 28, "y": 169 }, "b": { "x": 697, "y": 145 } },
+  "points": [
+    { "id": "Q", "v": { "x": 278, "y": 270 }, "h": { "x": 293, "y": 687 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 279, "y": 315 }, "h": { "x": 294, "y": 730 }, "role": "vertex" },
+    { "id": "P", "v": { "x": 279, "y": 383 }, "h": { "x": 287, "y": 608 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "P", "to": "Q", "view": "v" },
+    { "from": "Q", "to": "B", "view": "v" },
+    { "from": "P", "to": "Q", "view": "h" },
+    { "from": "Q", "to": "B", "view": "h" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "P", "to": "B" },
+  "notes": [
+    "P, Q et B sont appariés par le rappel central. La ligne de terre est inclinée d'environ 2° alors que ce rappel est dessiné vertical ; les abscisses H sont calées sur l'abscisse curviligne V correspondante (déplacement 8–15px), sans changer cote ni éloignement.",
+    "P_R, Q_R et B_R servent de contrôle graphique du rabattement, mais la vraie grandeur PB est calculée directement depuis le lift 3D."
+  ]
+}

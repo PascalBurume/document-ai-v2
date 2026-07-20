@@ -31,7 +31,7 @@ export const DEFAULT_CONFIG: OcrConfig = {
   annotationPrompt: '',
 };
 
-export const MODELS = [{ id: 'mistral-ocr-latest', label: 'Mistral OCR Latest' }];
+export const MODELS = [{ id: 'mistral-ocr-latest', label: 'Document OCR · high accuracy' }];
 
 /** Region kinds we colour and label. Anything else falls back to "other". */
 export type BlockType =

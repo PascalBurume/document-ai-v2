@@ -51,19 +51,19 @@ test('critic cache key: stable for the same pair, distinct when either image cha
   assert.notEqual(figureCompareCacheKey(a, b), figureCompareCacheKey(b, a));
 });
 
-test('critic cache key: a model change re-bills rather than serving a stale verdict', () => {
+test('critic cache key: an OpenAI model change re-bills rather than serving a stale verdict', () => {
   const a = 'data:image/png;base64,AAAA';
   const b = 'data:image/png;base64,BBBB';
-  const before = process.env.GROK_VISION_MODEL;
+  const before = process.env.OPENAI_VISION_MODEL;
   try {
-    process.env.GROK_VISION_MODEL = 'grok-test-one';
+    process.env.OPENAI_VISION_MODEL = 'gpt-test-one';
     const k1 = figureCompareCacheKey(a, b);
-    process.env.GROK_VISION_MODEL = 'grok-test-two';
+    process.env.OPENAI_VISION_MODEL = 'gpt-test-two';
     const k2 = figureCompareCacheKey(a, b);
     assert.notEqual(k1, k2);
   } finally {
-    if (before === undefined) delete process.env.GROK_VISION_MODEL;
-    else process.env.GROK_VISION_MODEL = before;
+    if (before === undefined) delete process.env.OPENAI_VISION_MODEL;
+    else process.env.OPENAI_VISION_MODEL = before;
   }
 });
 

@@ -8,24 +8,113 @@
     "caption": "Épure E 94 : les deux projections du tétraèdre ABCD (planche imprimée de côté)."
   },
   "units": "px",
-  "imageSize": { "width": 720, "height": 420 },
-  "groundLine": { "a": { "x": 390, "y": 7 }, "b": { "x": 390, "y": 416 } },
+  "imageSize": {
+    "width": 420,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 7,
+      "y": 330
+    },
+    "b": {
+      "x": 416,
+      "y": 330
+    }
+  },
   "points": [
-    { "id": "A", "v": { "x": 421, "y": 353 }, "h": { "x": 291, "y": 353 }, "role": "vertex" },
-    { "id": "B", "v": { "x": 483, "y": 106 }, "h": { "x": 236, "y": 106 }, "role": "vertex" },
-    { "id": "C", "v": { "x": 620, "y": 298 }, "h": { "x": 101, "y": 298 }, "role": "vertex" },
-    { "id": "D", "v": { "x": 667, "y": 254 }, "h": { "x": 362, "y": 254 }, "role": "vertex" }
+    {
+      "id": "A",
+      "v": {
+        "x": 353,
+        "y": 299
+      },
+      "h": {
+        "x": 353,
+        "y": 429
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B",
+      "v": {
+        "x": 106,
+        "y": 237
+      },
+      "h": {
+        "x": 106,
+        "y": 484
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "C",
+      "v": {
+        "x": 298,
+        "y": 100
+      },
+      "h": {
+        "x": 298,
+        "y": 619
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "D",
+      "v": {
+        "x": 254,
+        "y": 53
+      },
+      "h": {
+        "x": 254,
+        "y": 358
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "A", "to": "B", "view": "v" },
-    { "from": "A", "to": "C", "view": "v" },
-    { "from": "A", "to": "D", "view": "v" },
-    { "from": "B", "to": "C", "view": "v" },
-    { "from": "B", "to": "D", "view": "v" },
-    { "from": "C", "to": "D", "view": "v" }
+    {
+      "from": "A",
+      "to": "B",
+      "view": "v"
+    },
+    {
+      "from": "A",
+      "to": "C",
+      "view": "v"
+    },
+    {
+      "from": "A",
+      "to": "D",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "D",
+      "view": "v"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "view": "v"
+    }
   ],
-  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "operation": {
+    "kind": "point_projection",
+    "points": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
   "notes": [
-    "Tétraèdre ABCD reconstruit par point_projection. Planche imprimée de côté (rotate dans le SVG) : coordonnées lues dans le repère interne 720×420, ligne de terre verticale, rappels horizontaux, sommets appariés par les rappels."
+    "Tétraèdre ABCD reconstruit par point_projection. Planche imprimée de côté (rotate dans le SVG) : coordonnées lues dans le repère interne 720×420, ligne de terre verticale, rappels horizontaux, sommets appariés par les rappels.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

@@ -27,6 +27,11 @@
     { "label": "M", "kind": "found", "v": { "x": 306, "y": 391 }, "h": { "x": 310, "y": 693 } },
     { "label": "B", "kind": "missing", "v": { "x": 381, "y": 395 }, "note": "B^H non tracée → profondeur indéterminée" }
   ],
+  "diagnosticEdges": [
+    { "from": "point:S", "to": "diag:B" },
+    { "from": "point:A", "to": "diag:B" },
+    { "from": "point:M", "to": "diag:B" }
+  ],
   "notes": [
     "Lift partiel par point_projection : apex S + base A, M (LT horizontale, rappels verticaux). Le 3e sommet de base B n'a que sa projection verticale B^V(381,395) ; B^H n'est pas tracée sur la planche, donc la profondeur de B est libre — représentée par une droite rouge (lieu des positions possibles). C, N, K sont des points de section, non des sommets de base."
   ]

@@ -32,8 +32,16 @@ export interface ReconWarning {
 
 /** A red marker on the 3D scene: a lifted dot (found), or a locus ray for an undetermined coordinate. */
 export interface ReconDiagnostics {
-  dots: { label: string; at: Vec3; kind: 'found' | 'unpaired' | 'missing' }[];
-  rays: { label: string; a: Vec3; b: Vec3; kind: 'unpaired' | 'missing' }[];
+  dots: { diagnosticId: string; label: string; at: Vec3; kind: 'found' }[];
+  rays: {
+    id: string;
+    diagnosticId: string;
+    label: string;
+    source: 'v' | 'h';
+    a: Vec3;
+    b: Vec3;
+    kind: 'unpaired' | 'missing';
+  }[];
 }
 
 export interface Reconstruction {
@@ -168,16 +176,17 @@ export function reconstruct(ir: EpureIR, opts: ReconOptions = {}): Reconstructio
     };
     const [yLo, yHi] = span(ys);
     const [zLo, zHi] = span(zs);
-    for (const d of ir.diagnostics) {
+    for (const [index, d] of ir.diagnostics.entries()) {
+      const diagnosticId = `d${index}`;
       if (d.kind === 'found' && d.v && d.h) {
-        dots.push({ label: d.label, kind: 'found', at: v3((u(frame, d.v) + u(frame, d.h)) / 2, s(frame, d.h), -s(frame, d.v)) });
+        dots.push({ diagnosticId, label: d.label, kind: 'found', at: v3((u(frame, d.v) + u(frame, d.h)) / 2, s(frame, d.h), -s(frame, d.v)) });
       } else if (d.kind === 'missing') {
-        if (d.v) rays.push({ label: d.label, kind: 'missing', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
-        else if (d.h) rays.push({ label: d.label, kind: 'missing', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
+        if (d.v) rays.push({ id: `${diagnosticId}:v`, diagnosticId, label: d.label, source: 'v', kind: 'missing', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
+        else if (d.h) rays.push({ id: `${diagnosticId}:h`, diagnosticId, label: d.label, source: 'h', kind: 'missing', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
         warnings.push({ code: 'incomplete', message: `${d.label} : ${d.note ?? 'projection non tracée — coordonnée indéterminée'}` });
       } else if (d.kind === 'unpaired' && d.v && d.h) {
-        rays.push({ label: d.label, kind: 'unpaired', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
-        rays.push({ label: '', kind: 'unpaired', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
+        rays.push({ id: `${diagnosticId}:v`, diagnosticId, label: d.label, source: 'v', kind: 'unpaired', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
+        rays.push({ id: `${diagnosticId}:h`, diagnosticId, label: d.label, source: 'h', kind: 'unpaired', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
         warnings.push({ code: 'incomplete', message: `${d.label} : ${d.note ?? 'projections V/H incohérentes'}` });
       }
     }

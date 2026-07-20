@@ -65,7 +65,7 @@ export async function shrinkImage(dataUri: string, maxDim = 1000, quality = 0.82
 }
 
 /**
- * Ask the server (xAI Grok) to recreate one figure as a clean, faithful SVG chart — axes,
+ * Ask the server (OpenAI vision) to recreate one figure as a clean, faithful SVG chart — axes,
  * curves, reference lines and French labels reproduced from the crop. Generated content: the
  * caller renders it with a visible AI label, next to (never instead of) the original.
  * `force` deliberately bypasses the server cache (billed); `feedback` carries the critic's

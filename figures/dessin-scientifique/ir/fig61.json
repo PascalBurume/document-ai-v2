@@ -8,27 +8,117 @@
     "caption": "Épure E 104 (même planche, tirage plus net) : projections horizontale et verticale du solide ABC avec les points de la section KMNL."
   },
   "units": "px",
-  "imageSize": { "width": 720, "height": 510 },
-  "groundLine": { "a": { "x": 398, "y": 14 }, "b": { "x": 410, "y": 500 } },
+  "imageSize": {
+    "width": 510,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 14,
+      "y": 322
+    },
+    "b": {
+      "x": 500,
+      "y": 310
+    }
+  },
   "points": [
-    { "id": "A", "v": { "x": 491, "y": 179 }, "h": { "x": 312, "y": 178 }, "role": "vertex" },
-    { "id": "B", "v": { "x": 560, "y": 303 }, "h": { "x": 191, "y": 316 }, "role": "vertex" },
-    { "id": "C", "v": { "x": 492, "y": 403 }, "h": { "x": 246, "y": 414 }, "role": "vertex" },
-    { "id": "O", "v": { "x": 495, "y": 230 }, "h": { "x": 83, "y": 244 }, "role": "vertex" }
+    {
+      "id": "A",
+      "v": {
+        "x": 179,
+        "y": 229
+      },
+      "h": {
+        "x": 178,
+        "y": 408
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B",
+      "v": {
+        "x": 303,
+        "y": 160
+      },
+      "h": {
+        "x": 316,
+        "y": 529
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "C",
+      "v": {
+        "x": 403,
+        "y": 228
+      },
+      "h": {
+        "x": 414,
+        "y": 474
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "O",
+      "v": {
+        "x": 230,
+        "y": 225
+      },
+      "h": {
+        "x": 244,
+        "y": 637
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "A", "to": "C", "view": "v" },
-    { "from": "O", "to": "A", "view": "v" },
-    { "from": "C", "to": "O", "view": "v", "style": "hidden" },
-    { "from": "B", "to": "A", "view": "v" },
-    { "from": "B", "to": "C", "view": "v" },
-    { "from": "B", "to": "O", "view": "v" }
+    {
+      "from": "A",
+      "to": "C",
+      "view": "v"
+    },
+    {
+      "from": "O",
+      "to": "A",
+      "view": "v"
+    },
+    {
+      "from": "C",
+      "to": "O",
+      "view": "v",
+      "style": "hidden"
+    },
+    {
+      "from": "B",
+      "to": "A",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "O",
+      "view": "v"
+    }
   ],
-  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "O"] },
+  "operation": {
+    "kind": "point_projection",
+    "points": [
+      "A",
+      "B",
+      "C",
+      "O"
+    ]
+  },
   "notes": [
     "Solide E104 (tétraèdre) : base triangulaire A-C-O et sommet B, relu sur le tirage plus net. Chaque sommet est élevé depuis ses deux projections (point_projection) ; aucun gold, le rappel V↔H apparié est le garde-fou.",
     "Cette planche est un épure tourné (rotate(-90) interne) : dans le repère de l'IR la projection horizontale est à gauche (x~83-312), la verticale à droite (x~491-560), et les lignes de rappel sont horizontales. La ligne de terre est donc verticale.",
     "Ligne de terre prise très légèrement inclinée (pente ~0,025) pour épouser l'inclinaison à main levée des rappels : sur ce tracé chaque sommet a bien V et H de même abscisse (écart max ~5px), sans déplacer aucun point lu.",
-    "Points K, M, N, L = section du plan sécant (construction, hors solide) — ignorés. Arête de fond C-O (base) non tracée sur la planche : marquée hidden."
+    "Points K, M, N, L = section du plan sécant (construction, hors solide) — ignorés. Arête de fond C-O (base) non tracée sur la planche : marquée hidden.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

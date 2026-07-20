@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 23, "sub": "c", "page": 20, "blockId": "p20-b8", "caption": "Planche E 80 (c) : points D, B, I et C dans le plan de profil porté par l'axe ch." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1070 },
+  "groundLine": { "a": { "x": 45, "y": 145 }, "b": { "x": 706, "y": 145 } },
+  "points": [
+    { "id": "D", "v": { "x": 179, "y": 270 }, "h": { "x": 179, "y": 926 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 177, "y": 355 }, "h": { "x": 177, "y": 631 }, "role": "vertex" },
+    { "id": "I", "v": { "x": 176, "y": 414 }, "h": { "x": 176, "y": 603 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 175, "y": 459 }, "h": { "x": 175, "y": 546 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "D", "to": "B", "view": "v" },
+    { "from": "B", "to": "I", "view": "v" },
+    { "from": "I", "to": "C", "view": "v" },
+    { "from": "D", "to": "B", "view": "h" },
+    { "from": "B", "to": "I", "view": "h" },
+    { "from": "I", "to": "C", "view": "h" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["D", "B", "I", "C"] },
+  "notes": [
+    "Lecture sur l'axe ch^V/ch^H : chaque paire partage le même rappel. Les traits vers D_R, B_R, I_R et C_R sont des constructions rabattues, non des arêtes supplémentaires.",
+    "La planche détermine exactement les quatre points dans l'espace ; aucun contour de solide n'est supposé."
+  ]
+}

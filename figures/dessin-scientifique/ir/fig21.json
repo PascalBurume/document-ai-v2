@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 21,
+    "page": 19,
+    "blockId": "p19-b17",
+    "caption": "Triangle ABC et centre S relevés en 3D. Les centres auxiliaires S₁, S₂ et S′ n'ont qu'une projection lisible : leur coordonnée libre est montrée en rouge."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 950 },
+  "groundLine": { "a": { "x": 4, "y": 245 }, "b": { "x": 716, "y": 242 } },
+  "points": [
+    { "id": "A", "v": { "x": 100, "y": 245 }, "h": { "x": 113, "y": 620 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 305, "y": 245 }, "h": { "x": 317, "y": 705 }, "role": "vertex" },
+    { "id": "C", "v": { "x": 655, "y": 244 }, "h": { "x": 650, "y": 460 }, "role": "vertex" },
+    { "id": "S", "v": { "x": 188, "y": 90 }, "h": { "x": 195, "y": 468 }, "role": "vertex" },
+    { "id": "I", "v": { "x": 353, "y": 245 }, "h": { "x": 363, "y": 672 }, "role": "aux" }
+  ],
+  "segments": [
+    { "from": "A", "to": "B", "view": "h" },
+    { "from": "B", "to": "C", "view": "h" },
+    { "from": "C", "to": "A", "view": "h" },
+    { "from": "S", "to": "A", "view": "h" },
+    { "from": "S", "to": "I", "view": "h" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "S", "I"] },
+  "diagnostics": [
+    { "label": "S₁", "kind": "missing", "h": { "x": 30, "y": 828 }, "note": "S₁^V n'est pas tracée : hauteur indéterminée" },
+    { "label": "S₂", "kind": "missing", "h": { "x": 547, "y": 907 }, "note": "S₂^V n'est pas tracée : hauteur indéterminée" },
+    { "label": "S′", "kind": "missing", "h": { "x": 327, "y": 350 }, "note": "la projection verticale partenaire de S′ n'est pas identifiée" }
+  ],
+  "diagnosticEdges": [
+    { "from": "point:A", "to": "diag:S₁" },
+    { "from": "point:S", "to": "diag:S₂" },
+    { "from": "point:S", "to": "diag:S′" }
+  ],
+  "notes": [
+    "A, B, C, S et I sont reliés par des rappels explicites. Les légers écarts d'abscisse viennent du tracé manuel.",
+    "Les trois droites rouges sont les lieux possibles des centres dont une projection manque ; aucune hauteur arbitraire n'est ajoutée."
+  ]
+}

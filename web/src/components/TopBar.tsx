@@ -28,10 +28,6 @@ interface Props {
   dirty: boolean;
   hasResults: boolean;
   canForce: boolean;
-  /** Glanceable state that used to be buried behind Configure. */
-  model: string;
-  mock: boolean;
-  keyMissing: boolean;
 }
 
 export function TopBar(props: Props) {
@@ -51,22 +47,6 @@ export function TopBar(props: Props) {
           <IconDoc />
         </span>
         <h1>Document AI</h1>
-      </button>
-
-      <button
-        className="model-chip"
-        onClick={props.onConfigure}
-        title={
-          props.keyMissing
-            ? 'No API key on the server — click to configure'
-            : props.mock
-              ? 'Mock mode: canned fixtures, no API calls — click to configure'
-              : 'Click to configure'
-        }
-      >
-        <span className={`dot ${props.keyMissing ? 'err' : props.mock ? 'mock' : 'ok'}`} />
-        {props.model}
-        {props.mock && <span className="muted"> · mock</span>}
       </button>
 
       <div className="spacer" />
@@ -172,7 +152,7 @@ function OverflowMenu(props: Props) {
               role="menuitem"
               onClick={pick(props.onForceRun)}
               disabled={!props.canRun}
-              title="Ignore the cache and send this document to Mistral again. This is billed."
+              title="Ignore the cache and send this document to the OCR service again. This is billed."
             >
               <IconRefresh /> Force re-run
             </button>

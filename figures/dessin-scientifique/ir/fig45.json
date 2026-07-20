@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 45,
+    "page": 32,
+    "blockId": "p32-b9",
+    "caption": "Trace φ^HV : l'intersection T est relevée ; A, B, P et Q sont des reports de construction non appariés, affichés en rouge."
+  },
+  "units": "px",
+  "imageSize": { "width": 560, "height": 720 },
+  "groundLine": { "a": { "x": 28, "y": 564 }, "b": { "x": 530, "y": 580 } },
+  "points": [
+    { "id": "T", "v": { "x": 221, "y": 570 }, "h": { "x": 221, "y": 570 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "P", "kind": "unpaired", "v": { "x": 221, "y": 303 }, "h": { "x": 221, "y": 487 }, "note": "P^V/P^H sont deux reports sur φ^HV, pas un rappel concordant" },
+    { "label": "Q", "kind": "unpaired", "v": { "x": 221, "y": 354 }, "h": { "x": 221, "y": 447 }, "note": "Q^V/Q^H sont deux reports sur φ^HV, pas un rappel concordant" },
+    { "label": "A", "kind": "unpaired", "v": { "x": 221, "y": 154 }, "h": { "x": 221, "y": 416 }, "note": "A^V/A^H ne déterminent pas une paire dans le repère courant" },
+    { "label": "B", "kind": "unpaired", "v": { "x": 221, "y": 258 }, "h": { "x": 221, "y": 560 }, "note": "B^V/B^H ne déterminent pas une paire dans le repère courant" }
+  ],
+  "notes": [
+    "Les coordonnées sont exprimées dans le repère externe après la rotation de la planche.",
+    "Les reports H′ appartiennent au changement de plan. Les loci rouges conservent l'ambiguïté sans inventer de sommet."
+  ]
+}

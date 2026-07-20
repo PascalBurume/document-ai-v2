@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 41,
+    "page": 31,
+    "blockId": "p31-b1",
+    "caption": "Plan projetant α : l'intersection T avec la ligne de terre est certaine ; A, B, C, D et I restent des couples de reports incompatibles, matérialisés en rouge."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1150 },
+  "groundLine": { "a": { "x": 20, "y": 962 }, "b": { "x": 706, "y": 944 } },
+  "points": [
+    { "id": "T", "v": { "x": 295, "y": 955 }, "h": { "x": 295, "y": 955 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "A", "kind": "unpaired", "v": { "x": 318, "y": 246 }, "h": { "x": 314, "y": 937 }, "note": "A^V/A^H suivent la trace oblique α, pas un même rappel du repère" },
+    { "label": "I", "kind": "unpaired", "v": { "x": 296, "y": 536 }, "h": { "x": 299, "y": 805 }, "note": "I^V/I^H appartiennent à la construction de trace et ne définissent pas une paire Monge" },
+    { "label": "C", "kind": "unpaired", "v": { "x": 306, "y": 589 }, "h": { "x": 303, "y": 723 }, "note": "C^V/C^H appartiennent à la construction de trace et ne définissent pas une paire Monge" },
+    { "label": "B", "kind": "unpaired", "v": { "x": 317, "y": 460 }, "h": { "x": 296, "y": 850 }, "note": "B^V et B^H ne partagent pas le même rappel dans cette construction" },
+    { "label": "D", "kind": "unpaired", "v": { "x": 314, "y": 374 }, "h": { "x": 290, "y": 1073 }, "note": "D^V et D^H ne partagent pas le même rappel dans cette construction" }
+  ],
+  "notes": [
+    "T est l'intersection déterminée de α^HV et de la ligne de terre. Les reports H′ servent à la construction du plan et ne sont pas assimilés à une profondeur.",
+    "Pour A, B, C, D et I, les deux familles de positions admissibles sont affichées en rouge."
+  ]
+}

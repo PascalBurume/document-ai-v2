@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
  *
  * What this is NOT: a `verified` state. A row records "a human typed this", nothing more — no
  * approval, no queue, no flags. That loop belongs to Relire's Review, and its absence here is the
- * point (CLAUDE.md). This is a durable working copy, not a verdict.
+ * point (the project inspection contract). This is a durable working copy, not a verdict.
  *
  * Keyed by CONTENT (the same document hash the browser library uses), so corrections follow the
  * document: the same scan re-dropped, another browser, another machine, a cleared IndexedDB — the
@@ -45,7 +45,7 @@ let dbPath: string | null = null;
 /**
  * Open lazily, reading the path at CALL time — never at module load. This repo has already been bitten
  * once by a module-level `process.env` read capturing a value before `dotenv.config()` ran (the
- * GROK_VISION_MODEL trap in figure.ts). It also lets a test point `EDITS_DB` at a throwaway file
+ * model-environment import-order trap). It also lets a test point `EDITS_DB` at a throwaway file
  * instead of the real store.
  */
 function getDb(): DatabaseSync {

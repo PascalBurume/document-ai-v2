@@ -1,67 +1,564 @@
 {
-  "_comment": "Triage of all 62 authored figures against the P0 operation set (point_projection, line_true_length, rabattement_plane). opKind names the handler a future IR would route to; 'authored' lists the sub-figure IRs that exist. Everything else degrades gracefully: the authored 2D SVG is shown, the 3D button simply does not appear. Re-derive nothing — this file IS the worklist.",
+  "_comment": "Generated coverage inventory. Edit notes only; authored/opKind/status are synchronized by npm run build:epure-ir. exact = warning-free deterministic lift, partial = unresolved coordinate or geometric consistency warning shown in the workspace, two_d_only = no unique 3D reading.",
   "figures": [
-    { "n": 1, "opKind": "rabattement_plane", "authored": ["fig01a"], "note": "E61(a) — horizontal hinge through A. The flagship gold figure." },
-    { "n": 2, "opKind": "rabattement_plane", "authored": ["fig02b", "fig02c"], "note": "E61(b) frontal hinge in πV; (c) de-bout hinge drawn vertical. One sheet, two IRs." },
-    { "n": 3, "opKind": "rabattement_plane", "authored": [], "note": "E61(d) — projecting plane (H projections collinear); rabattement still applies." },
-    { "n": 4, "opKind": "unsupported", "authored": [], "note": "E62 tetrahedron — solid; point lifting works but the operation is beyond P0." },
-    { "n": 5, "opKind": "unsupported", "authored": [], "note": "E63 five-vertex solid." },
-    { "n": 6, "opKind": "rabattement_plane", "authored": [], "note": "E64 triangle OAB with plane traces." },
-    { "n": 7, "opKind": "rabattement_plane", "authored": ["fig07"], "note": "E65 triangle OAB about ch^V (frontal hinge, O on the hinge). Authored; ~8.5px coplanarity residual surfaced as a chip (the redraw spreads A^V over ~10px)." },
-    { "n": 8, "opKind": "rabattement_plane", "authored": [], "note": "E66 quadrilateral ABCD with centre O." },
-    { "n": 9, "opKind": "rabattement_plane", "authored": [], "note": "E67 regular hexagon in an oblique plane — best-looking candidate for the next IR." },
-    { "n": 10, "opKind": "unsupported", "authored": [], "note": "E68 pyramid — solid." },
-    { "n": 11, "opKind": "rabattement_plane", "authored": [], "note": "E69 quadrilateral in a projecting plane." },
-    { "n": 12, "opKind": "point_projection", "authored": [], "note": "E70 triangle + point S with true sizes." },
-    { "n": 13, "opKind": "unsupported", "authored": [], "note": "E71 hexagonal prism — solid." },
-    { "n": 14, "opKind": "rabattement_plane", "authored": [], "note": "E72 quadrilateral face folded about a vertical." },
-    { "n": 15, "opKind": "point_projection", "authored": [], "note": "E73 quadrilateral diagonals, construction point." },
-    { "n": 16, "opKind": "unsupported", "authored": [], "note": "E74 parallelepiped with section — solid." },
-    { "n": 17, "opKind": "unsupported", "authored": [], "note": "E75 tetrahedron, side-by-side views (non-standard layout)." },
-    { "n": 18, "opKind": "unsupported", "authored": [], "note": "E76 bipyramid — solid." },
-    { "n": 19, "opKind": "unsupported", "authored": [], "note": "E77 solid crossed by the ground line." },
-    { "n": 20, "opKind": "unsupported", "authored": [], "note": "Pyramid with auxiliary centres." },
-    { "n": 21, "opKind": "unsupported", "authored": [], "note": "Rays from several centres — construction plate." },
-    { "n": 22, "opKind": "rabattement_plane", "authored": [], "note": "E80 (a)(b) — line in a plane, rabattement with reported points." },
-    { "n": 23, "opKind": "rabattement_plane", "authored": [], "note": "E80 (c) — about the vertical axis ch^V–ch^H." },
-    { "n": 24, "opKind": "rabattement_plane", "authored": [], "note": "E80 (d) — plane by its traces." },
-    { "n": 25, "opKind": "line_true_length", "authored": [], "note": "Two vertical lines, rabattus d_R and p_R." },
-    { "n": 26, "opKind": "line_true_length", "authored": [], "note": "Parallel rabattus of a vertical line." },
-    { "n": 27, "opKind": "rabattement_plane", "authored": [], "note": "Plane by a vertical and two obliques." },
-    { "n": 28, "opKind": "rabattement_plane", "authored": [], "note": "Vertical hinge ch with lines a, b." },
-    { "n": 29, "opKind": "unsupported", "authored": [], "note": "Changement de plan (a)(b) — different operation family." },
-    { "n": 30, "opKind": "unsupported", "authored": [], "note": "Changement de plan (c)." },
-    { "n": 31, "opKind": "unsupported", "authored": [], "note": "Changement de plan (P)." },
-    { "n": 32, "opKind": "unsupported", "authored": [], "note": "E82 changement de plan." },
-    { "n": 33, "opKind": "unsupported", "authored": [], "note": "E84 changement de plan." },
-    { "n": 34, "opKind": "unsupported", "authored": [], "note": "E85 changement de plan." },
-    { "n": 35, "opKind": "unsupported", "authored": [], "note": "E86 changement de plan (two recall systems)." },
-    { "n": 36, "opKind": "unsupported", "authored": [], "note": "E87 hexagon under changement de plan." },
-    { "n": 37, "opKind": "unsupported", "authored": [], "note": "E88 pencil of lines — construction plate." },
-    { "n": 38, "opKind": "rabattement_plane", "authored": [], "note": "Two lines a, b folded about the ground line itself." },
-    { "n": 39, "opKind": "line_true_length", "authored": [], "note": "E90 (a) oblique + vertical line with A, B, M." },
-    { "n": 40, "opKind": "line_true_length", "authored": [], "note": "E90 (b) mirror of (a)." },
-    { "n": 41, "opKind": "unsupported", "authored": [], "note": "Projecting-plane trace constructions." },
-    { "n": 42, "opKind": "unsupported", "authored": [], "note": "Parallel-line trace constructions." },
-    { "n": 43, "opKind": "unsupported", "authored": [], "note": "Changement de plan e(i)." },
-    { "n": 44, "opKind": "unsupported", "authored": [], "note": "Changement de plan e(ii)." },
-    { "n": 45, "opKind": "unsupported", "authored": [], "note": "Trace φ^HV constructions." },
-    { "n": 46, "opKind": "unsupported", "authored": [], "note": "Curves a, b — beyond the segment-based IR." },
-    { "n": 47, "opKind": "rabattement_plane", "authored": [], "note": "E91 hatched rabattu triangle — good next candidate." },
-    { "n": 48, "opKind": "rabattement_plane", "authored": [], "note": "E92 rabattement with trace pencil." },
-    { "n": 49, "opKind": "unsupported", "authored": [], "note": "E93 tetrahedron (partial rabattement of B, C) — solid." },
-    { "n": 50, "opKind": "unsupported", "authored": [], "note": "E94 tetrahedron with traces — solid." },
-    { "n": 51, "opKind": "unsupported", "authored": [], "note": "E95 hexagonal solid." },
-    { "n": 52, "opKind": "rabattement_plane", "authored": [], "note": "E96 quadrilateral NMIK with lines." },
-    { "n": 53, "opKind": "unsupported", "authored": [], "note": "E97 parallelepiped — solid, no operation." },
-    { "n": 54, "opKind": "rabattement_plane", "authored": [], "note": "E98 figure with rabattu K'L'M'." },
-    { "n": 55, "opKind": "rabattement_plane", "authored": [], "note": "E99 quadrilateral SDEF with rabattu K'L'M'." },
-    { "n": 56, "opKind": "unsupported", "authored": [], "note": "E100 tetrahedron section — solid_section, a P2 handler." },
-    { "n": 57, "opKind": "unsupported", "authored": [], "note": "E101 non-standard split layout." },
-    { "n": 58, "opKind": "rabattement_plane", "authored": [], "note": "E102 quadrilateral about trace α^V." },
-    { "n": 59, "opKind": "rabattement_plane", "authored": [], "note": "E103 pentagon with rabattements." },
-    { "n": 60, "opKind": "unsupported", "authored": [], "note": "E104 solid with two views." },
-    { "n": 61, "opKind": "unsupported", "authored": [], "note": "E104 duplicate plate (cleaner print)." },
-    { "n": 62, "opKind": "rabattement_plane", "authored": [], "note": "Triangle ABC + S about a hinge with trace." }
+    {
+      "n": 1,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig01a"
+      ],
+      "note": "E61(a) — horizontal hinge through A. The flagship gold figure.",
+      "status": "exact"
+    },
+    {
+      "n": 2,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig02b",
+        "fig02c"
+      ],
+      "note": "E61(b) frontal hinge in πV; (c) de-bout hinge drawn vertical. One sheet, two IRs.",
+      "status": "exact"
+    },
+    {
+      "n": 3,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig03"
+      ],
+      "note": "E61(d) — projecting plane (H projections collinear); rabattement still applies.",
+      "status": "exact"
+    },
+    {
+      "n": 4,
+      "opKind": "point_projection",
+      "authored": [
+        "fig04"
+      ],
+      "note": "E62 tetrahedron — solid; point lifting works but the operation is beyond P0.",
+      "status": "exact"
+    },
+    {
+      "n": 5,
+      "opKind": "point_projection",
+      "authored": [
+        "fig05"
+      ],
+      "note": "E63 five-vertex solid.",
+      "status": "exact"
+    },
+    {
+      "n": 6,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig6"
+      ],
+      "note": "E64 triangle OAB with plane traces.",
+      "status": "exact"
+    },
+    {
+      "n": 7,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig07"
+      ],
+      "note": "E65 triangle OAB about ch^V (frontal hinge, O on the hinge). Authored; ~8.5px coplanarity residual surfaced as a chip (the redraw spreads A^V over ~10px).",
+      "status": "partial"
+    },
+    {
+      "n": 8,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig08"
+      ],
+      "note": "E66 quadrilateral ABCD with centre O.",
+      "status": "partial"
+    },
+    {
+      "n": 9,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig09"
+      ],
+      "note": "E67 regular hexagon in an oblique plane — best-looking candidate for the next IR.",
+      "status": "partial"
+    },
+    {
+      "n": 10,
+      "opKind": "point_projection",
+      "authored": [
+        "fig10"
+      ],
+      "note": "E68 pyramid — solid.",
+      "status": "exact"
+    },
+    {
+      "n": 11,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig11"
+      ],
+      "note": "E69 quadrilateral in a projecting plane.",
+      "status": "exact"
+    },
+    {
+      "n": 12,
+      "opKind": "point_projection",
+      "authored": [
+        "fig12"
+      ],
+      "note": "E70 triangle + point S with true sizes.",
+      "status": "exact"
+    },
+    {
+      "n": 13,
+      "opKind": "point_projection",
+      "authored": [
+        "fig13"
+      ],
+      "note": "E71 hexagonal prism — solid.",
+      "status": "partial"
+    },
+    {
+      "n": 14,
+      "opKind": "point_projection",
+      "authored": [
+        "fig14"
+      ],
+      "note": "E72 quadrilateral face folded about a vertical.",
+      "status": "partial"
+    },
+    {
+      "n": 15,
+      "opKind": "point_projection",
+      "authored": [
+        "fig15"
+      ],
+      "note": "E73 quadrilateral diagonals, construction point.",
+      "status": "partial"
+    },
+    {
+      "n": 16,
+      "opKind": "solid_section",
+      "authored": [
+        "fig16"
+      ],
+      "note": "E74 parallelepiped with section — solid.",
+      "status": "exact"
+    },
+    {
+      "n": 17,
+      "opKind": "point_projection",
+      "authored": [
+        "fig17"
+      ],
+      "note": "E75 tetrahedron, side-by-side views (non-standard layout).",
+      "status": "exact"
+    },
+    {
+      "n": 18,
+      "opKind": "point_projection",
+      "authored": [
+        "fig18"
+      ],
+      "note": "E76 bipyramid — solid.",
+      "status": "exact"
+    },
+    {
+      "n": 19,
+      "opKind": "point_projection",
+      "authored": [
+        "fig19"
+      ],
+      "note": "E77 solid crossed by the ground line.",
+      "status": "exact"
+    },
+    {
+      "n": 20,
+      "opKind": "point_projection",
+      "authored": [
+        "fig20"
+      ],
+      "note": "Pyramid with auxiliary centres.",
+      "status": "exact"
+    },
+    {
+      "n": 21,
+      "opKind": "point_projection",
+      "authored": [
+        "fig21"
+      ],
+      "note": "Triangle and main centre lifted; S₁, S₂ and S′ remain red missing-coordinate loci.",
+      "status": "partial"
+    },
+    {
+      "n": 22,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig22"
+      ],
+      "note": "E80 (a)(b) — line in a plane, rabattement with reported points.",
+      "status": "exact"
+    },
+    {
+      "n": 23,
+      "opKind": "point_projection",
+      "authored": [
+        "fig23"
+      ],
+      "note": "E80 (c) — about the vertical axis ch^V–ch^H.",
+      "status": "exact"
+    },
+    {
+      "n": 24,
+      "opKind": "point_projection",
+      "authored": [
+        "fig24"
+      ],
+      "note": "E80 (d) — plane by its traces.",
+      "status": "exact"
+    },
+    {
+      "n": 25,
+      "opKind": "point_projection",
+      "authored": [
+        "fig25"
+      ],
+      "note": "Two vertical lines, rabattus d_R and p_R.",
+      "status": "partial"
+    },
+    {
+      "n": 26,
+      "opKind": "point_projection",
+      "authored": [
+        "fig26"
+      ],
+      "note": "Parallel rabattus of a vertical line.",
+      "status": "partial"
+    },
+    {
+      "n": 27,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig27"
+      ],
+      "note": "Plane by a vertical and two obliques.",
+      "status": "exact"
+    },
+    {
+      "n": 28,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig28"
+      ],
+      "note": "Vertical hinge ch with lines a, b.",
+      "status": "partial"
+    },
+    {
+      "n": 29,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig29"
+      ],
+      "note": "Changement de plan (a)(b) — different operation family.",
+      "status": "exact"
+    },
+    {
+      "n": 30,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig30"
+      ],
+      "note": "Changement de plan (c).",
+      "status": "exact"
+    },
+    {
+      "n": 31,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig31"
+      ],
+      "note": "Changement de plan (P).",
+      "status": "exact"
+    },
+    {
+      "n": 32,
+      "opKind": "point_projection",
+      "authored": [
+        "fig32"
+      ],
+      "note": "E82 changement de plan.",
+      "status": "exact"
+    },
+    {
+      "n": 33,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig33"
+      ],
+      "note": "E84 changement de plan.",
+      "status": "exact"
+    },
+    {
+      "n": 34,
+      "opKind": "point_projection",
+      "authored": [
+        "fig34"
+      ],
+      "note": "E85 changement de plan.",
+      "status": "partial"
+    },
+    {
+      "n": 35,
+      "opKind": "point_projection",
+      "authored": [
+        "fig35"
+      ],
+      "note": "E86 changement de plan (two recall systems).",
+      "status": "partial"
+    },
+    {
+      "n": 36,
+      "opKind": "point_projection",
+      "authored": [
+        "fig36"
+      ],
+      "note": "E87 hexagon under changement de plan.",
+      "status": "partial"
+    },
+    {
+      "n": 37,
+      "opKind": "point_projection",
+      "authored": [
+        "fig37"
+      ],
+      "note": "E88 pencil of lines — construction plate.",
+      "status": "partial"
+    },
+    {
+      "n": 38,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig38"
+      ],
+      "note": "Two lines a, b folded about the ground line itself.",
+      "status": "exact"
+    },
+    {
+      "n": 39,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig39"
+      ],
+      "note": "E90 (a) oblique + vertical line with A, B, M.",
+      "status": "exact"
+    },
+    {
+      "n": 40,
+      "opKind": "line_true_length",
+      "authored": [
+        "fig40"
+      ],
+      "note": "E90 (b) mirror of (a).",
+      "status": "exact"
+    },
+    {
+      "n": 41,
+      "opKind": "point_projection",
+      "authored": [
+        "fig41"
+      ],
+      "note": "Trace α anchored in 3D; incompatible construction reports remain red loci.",
+      "status": "partial"
+    },
+    {
+      "n": 42,
+      "opKind": "point_projection",
+      "authored": [
+        "fig42"
+      ],
+      "note": "Trace β anchored in 3D; A–D and I remain red incompatible-coordinate loci.",
+      "status": "partial"
+    },
+    {
+      "n": 43,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig43"
+      ],
+      "note": "Changement de plan e(i).",
+      "status": "exact"
+    },
+    {
+      "n": 44,
+      "opKind": "change_of_plane",
+      "authored": [
+        "fig44"
+      ],
+      "note": "Changement de plan e(ii).",
+      "status": "exact"
+    },
+    {
+      "n": 45,
+      "opKind": "point_projection",
+      "authored": [
+        "fig45"
+      ],
+      "note": "Trace φ^HV anchored in 3D; A, B, P and Q remain red construction loci.",
+      "status": "partial"
+    },
+    {
+      "n": 46,
+      "opKind": "point_projection",
+      "authored": [
+        "fig46"
+      ],
+      "note": "Curved construction anchored in 3D; labelled curve intersections remain red loci.",
+      "status": "partial"
+    },
+    {
+      "n": 47,
+      "opKind": "point_projection",
+      "authored": [
+        "fig47"
+      ],
+      "note": "E91 partial pyramid: S, A and M lift; missing B^H remains a red locus.",
+      "status": "partial"
+    },
+    {
+      "n": 48,
+      "opKind": "point_projection",
+      "authored": [
+        "fig48"
+      ],
+      "note": "E92 rabattement with trace pencil.",
+      "status": "partial"
+    },
+    {
+      "n": 49,
+      "opKind": "point_projection",
+      "authored": [
+        "fig49"
+      ],
+      "note": "E93 tetrahedron (partial rabattement of B, C) — solid.",
+      "status": "exact"
+    },
+    {
+      "n": 50,
+      "opKind": "point_projection",
+      "authored": [
+        "fig50"
+      ],
+      "note": "E94 tetrahedron with traces — solid.",
+      "status": "exact"
+    },
+    {
+      "n": 51,
+      "opKind": "point_projection",
+      "authored": [
+        "fig51"
+      ],
+      "note": "E95 hexagonal solid.",
+      "status": "exact"
+    },
+    {
+      "n": 52,
+      "opKind": "point_projection",
+      "authored": [
+        "fig52"
+      ],
+      "note": "E96 quadrilateral NMIK with lines.",
+      "status": "exact"
+    },
+    {
+      "n": 53,
+      "opKind": "point_projection",
+      "authored": [
+        "fig53"
+      ],
+      "note": "E97 parallelepiped — solid, no operation.",
+      "status": "exact"
+    },
+    {
+      "n": 54,
+      "opKind": "point_projection",
+      "authored": [
+        "fig54"
+      ],
+      "note": "E98 figure with rabattu K'L'M'.",
+      "status": "exact"
+    },
+    {
+      "n": 55,
+      "opKind": "point_projection",
+      "authored": [
+        "fig55"
+      ],
+      "note": "E99 quadrilateral SDEF with rabattu K'L'M'.",
+      "status": "exact"
+    },
+    {
+      "n": 56,
+      "opKind": "solid_section",
+      "authored": [
+        "fig56"
+      ],
+      "note": "E100 tetrahedron section — solid_section, a P2 handler.",
+      "status": "partial"
+    },
+    {
+      "n": 57,
+      "opKind": "point_projection",
+      "authored": [
+        "fig57"
+      ],
+      "note": "E101 non-standard split layout.",
+      "status": "partial"
+    },
+    {
+      "n": 58,
+      "opKind": "point_projection",
+      "authored": [
+        "fig58"
+      ],
+      "note": "E102 quadrilateral about trace α^V.",
+      "status": "exact"
+    },
+    {
+      "n": 59,
+      "opKind": "rabattement_plane",
+      "authored": [
+        "fig59"
+      ],
+      "note": "E103 pentagon with rabattements.",
+      "status": "partial"
+    },
+    {
+      "n": 60,
+      "opKind": "point_projection",
+      "authored": [
+        "fig60"
+      ],
+      "note": "E104 solid with two views.",
+      "status": "exact"
+    },
+    {
+      "n": 61,
+      "opKind": "point_projection",
+      "authored": [
+        "fig61"
+      ],
+      "note": "E104 duplicate plate (cleaner print).",
+      "status": "exact"
+    },
+    {
+      "n": 62,
+      "opKind": "point_projection",
+      "authored": [
+        "fig62"
+      ],
+      "note": "Triangle ABC + S about a hinge with trace.",
+      "status": "partial"
+    }
   ]
 }

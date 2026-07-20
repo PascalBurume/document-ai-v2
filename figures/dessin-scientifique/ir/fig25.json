@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 25, "page": 21, "blockId": "p21-b1", "caption": "Épure e (i) : reconstruction partielle — les reports A/M ne forment pas des paires V/H concordantes." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 950 },
+  "groundLine": { "a": { "x": 63, "y": 344 }, "b": { "x": 717, "y": 317 } },
+  "points": [
+    { "id": "T", "v": { "x": 238, "y": 337 }, "h": { "x": 238, "y": 337 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "A", "kind": "unpaired", "v": { "x": 243, "y": 187 }, "h": { "x": 229, "y": 784 }, "note": "les marques A^V/A^H n'appartiennent pas au même rappel dans cette construction de traces" },
+    { "label": "M", "kind": "unpaired", "v": { "x": 464, "y": 415 }, "h": { "x": 460, "y": 656 }, "note": "les marques M^V/M^H ne définissent pas une paire Monge concordante" }
+  ],
+  "notes": [
+    "T est l'intersection déterminée de la trace d avec la ligne de terre. Les autres marques sont des reports dans une construction de traces, pas des couples V/H partageant un rappel.",
+    "Aucune vraie grandeur 3D n'est affichée : les deux droites rouges par marque montrent les familles de positions incompatibles au lieu d'en choisir une."
+  ]
+}

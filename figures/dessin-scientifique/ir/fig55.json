@@ -8,22 +8,103 @@
     "caption": "Épure E 99 : projections du quadrilatère SDEF (le rabattement change-de-plan de la planche n'est pas reconstruit ; seul le quadrilatère est relevé)."
   },
   "units": "px",
-  "imageSize": { "width": 720, "height": 470 },
-  "groundLine": { "a": { "x": 445, "y": 10 }, "b": { "x": 445, "y": 460 } },
+  "imageSize": {
+    "width": 470,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 10,
+      "y": 275
+    },
+    "b": {
+      "x": 460,
+      "y": 275
+    }
+  },
   "points": [
-    { "id": "S", "v": { "x": 443, "y": 139 }, "h": { "x": 243, "y": 141 }, "role": "vertex" },
-    { "id": "D", "v": { "x": 558, "y": 282 }, "h": { "x": 405, "y": 284 }, "role": "vertex" },
-    { "id": "E", "v": { "x": 557, "y": 342 }, "h": { "x": 342, "y": 342 }, "role": "vertex" },
-    { "id": "F", "v": { "x": 450, "y": 409 }, "h": { "x": 416, "y": 409 }, "role": "vertex" }
+    {
+      "id": "S",
+      "v": {
+        "x": 139,
+        "y": 277
+      },
+      "h": {
+        "x": 141,
+        "y": 477
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "D",
+      "v": {
+        "x": 282,
+        "y": 162
+      },
+      "h": {
+        "x": 284,
+        "y": 315
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "E",
+      "v": {
+        "x": 342,
+        "y": 163
+      },
+      "h": {
+        "x": 342,
+        "y": 378
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "F",
+      "v": {
+        "x": 409,
+        "y": 270
+      },
+      "h": {
+        "x": 409,
+        "y": 304
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "S", "to": "D", "view": "v" },
-    { "from": "D", "to": "E", "view": "v" },
-    { "from": "E", "to": "F", "view": "v" },
-    { "from": "F", "to": "S", "view": "v" }
+    {
+      "from": "S",
+      "to": "D",
+      "view": "v"
+    },
+    {
+      "from": "D",
+      "to": "E",
+      "view": "v"
+    },
+    {
+      "from": "E",
+      "to": "F",
+      "view": "v"
+    },
+    {
+      "from": "F",
+      "to": "S",
+      "view": "v"
+    }
   ],
-  "operation": { "kind": "point_projection", "points": ["S", "D", "E", "F"] },
+  "operation": {
+    "kind": "point_projection",
+    "points": [
+      "S",
+      "D",
+      "E",
+      "F"
+    ]
+  },
   "notes": [
-    "Quadrilatère SDEF relevé par point_projection (plaque tournée, ligne de terre verticale x≈445 ; projection verticale à droite, horizontale à gauche, rappels horizontaux). Le rabattement K'L'M' de la planche est une construction combinée changement-de-plan + rabattement que le reconstructeur mono-opération ne modélise pas ; il est volontairement omis."
+    "Quadrilatère SDEF relevé par point_projection (plaque tournée, ligne de terre verticale x≈445 ; projection verticale à droite, horizontale à gauche, rappels horizontaux). Le rabattement K'L'M' de la planche est une construction combinée changement-de-plan + rabattement que le reconstructeur mono-opération ne modélise pas ; il est volontairement omis.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 28, "page": 22, "blockId": "p22-b18", "caption": "Épure (g) : points A, Q et B sur la droite de profil ch ; vraie grandeur de QB." },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1010 },
+  "groundLine": { "a": { "x": 37, "y": 346 }, "b": { "x": 690, "y": 330 } },
+  "points": [
+    { "id": "A", "v": { "x": 414, "y": 337 }, "h": { "x": 414, "y": 558 }, "role": "vertex" },
+    { "id": "Q", "v": { "x": 415, "y": 275 }, "h": { "x": 415, "y": 627 }, "role": "vertex" },
+    { "id": "B", "v": { "x": 416, "y": 230 }, "h": { "x": 416, "y": 673 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "A", "to": "Q", "view": "v" },
+    { "from": "Q", "to": "B", "view": "v" },
+    { "from": "A", "to": "Q", "view": "h" },
+    { "from": "Q", "to": "B", "view": "h" }
+  ],
+  "operation": { "kind": "line_true_length", "from": "Q", "to": "B" },
+  "notes": [
+    "A, Q et B sont les points à double projection portés par ch. P n'a pas de projection V lisible et n'est donc pas élevé : aucune coordonnée n'est inventée.",
+    "Les points Q_R et B_R appartiennent à la construction rabattue ι_R ; QB est calculé depuis les deux vues originales."
+  ]
+}

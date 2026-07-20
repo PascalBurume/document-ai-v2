@@ -88,7 +88,7 @@ function recoveredHtml(block: Block): string {
   const model = block.recoveredModel ? ` (${escapeHtml(block.recoveredModel)})` : '';
   return (
     '<div class="recovered-text"><p class="recovered-head"><span class="ai-badge">text recovered</span> ' +
-    `Read from this image region by a second reading${model} — Mistral had captured it only as a ` +
+    `Read from this image region by an OpenAI second reading${model} — the OCR pass had captured it only as a ` +
     'picture. A recovery, not the original OCR evidence.</p>' +
     `<div class="recovered-body">${renderMarkdown(block.recoveredText, new Map())}</div></div>`
   );
@@ -159,7 +159,7 @@ function figureHtml(block: Block, crop?: string, compare = false): string {
   }
 
   const label = block.redrawnStub
-    ? 'Stub example — set XAI_API_KEY for a real AI redraw of this figure.'
+    ? 'Stub example — set OPENAI_API_KEY for a real OpenAI redraw of this figure.'
     : `Figure recreated by AI (${block.redrawnModel ?? 'vision model'}) from the scanned original — not part of the transcription.`;
 
   if (compare && crop) {

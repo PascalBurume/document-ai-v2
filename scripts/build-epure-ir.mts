@@ -83,6 +83,47 @@ const body = [...byKey.entries()]
   })
   .join('\n');
 
+type StatusRow = {
+  n: number;
+  opKind: string;
+  authored: string[];
+  note: string;
+  status?: 'exact' | 'partial' | 'two_d_only';
+};
+const statusPath = path.join(IR_DIR, 'status.json');
+const statusFile: { _comment?: string; figures: StatusRow[] } = JSON.parse(readFileSync(statusPath, 'utf8'));
+const entryByN = new Map<number, typeof entries>();
+for (const entry of entries) {
+  const list = entryByN.get(entry.ir.source.n) ?? [];
+  list.push(entry);
+  entryByN.set(entry.ir.source.n, list);
+}
+for (const row of statusFile.figures) {
+  const authored = entryByN.get(row.n) ?? [];
+  row.authored = authored.map((entry) => path.basename(entry.file, '.json'));
+  if (!authored.length) {
+    row.status = 'two_d_only';
+    continue;
+  }
+  const kinds = [...new Set(authored.map((entry) => entry.ir.operation.kind))];
+  row.opKind = kinds.join('+');
+  row.status = authored.some((entry) => reconstruct(entry.ir).warnings.length > 0)
+    ? 'partial'
+    : 'exact';
+}
+statusFile._comment =
+  'Generated coverage inventory. Edit notes only; authored/opKind/status are synchronized by npm run build:epure-ir. exact = warning-free deterministic lift, partial = unresolved coordinate or geometric consistency warning shown in the workspace, two_d_only = no unique 3D reading.';
+writeFileSync(statusPath, `${JSON.stringify(statusFile, null, 2)}\n`);
+
+const statusBody = statusFile.figures.map((row) => {
+  const manifestRow = byN.get(row.n)!;
+  return {
+    ...row,
+    pageIndex: manifestRow.page,
+    blockId: manifestRow.blockId,
+  };
+});
+
 const out = `import type { EpureIR } from '../epureIr';
 
 /**
@@ -98,6 +139,19 @@ const out = `import type { EpureIR } from '../epureIr';
 export const DESSIN_SCIENTIFIQUE_IR: Record<string, EpureIR[]> = {
 ${body}
 };
+
+export interface DessinScientifiqueFigureStatus {
+  n: number;
+  pageIndex: number;
+  blockId: string;
+  opKind: string;
+  authored: string[];
+  note: string;
+  status: 'exact' | 'partial' | 'two_d_only';
+}
+
+/** Coverage generated from ir/status.json, keyed back to the exact authored figure block. */
+export const DESSIN_SCIENTIFIQUE_STATUS: DessinScientifiqueFigureStatus[] = ${JSON.stringify(statusBody)};
 `;
 
 const dest = path.resolve('web/src/lib/figures/dessinScientifiqueIr.ts');

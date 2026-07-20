@@ -23,6 +23,12 @@
     { "label": "L", "kind": "unpaired", "v": { "x": 494, "y": 369 }, "h": { "x": 282, "y": 242 }, "note": "V et H incohérents (Δ127px)" },
     { "label": "K", "kind": "missing", "h": { "x": 362, "y": 208 }, "note": "K^V non tracée → hauteur indéterminée" }
   ],
+  "diagnosticEdges": [
+    { "from": "point:A", "to": "diag:B" },
+    { "from": "diag:B", "to": "diag:K" },
+    { "from": "diag:K", "to": "diag:L" },
+    { "from": "diag:L", "to": "point:O" }
+  ],
   "notes": [
     "Lift partiel : O et A se relèvent (LT verticale, rappels horizontaux, ils partagent leur ordonnée). B et L ont leurs deux projections tracées mais décalées sur le rappel (39 et 127px) — chacune donne une droite rouge, les deux ne se coupent pas. K n'a que K^H ; K^V (seul K^V′ rabattu existe) n'est pas tracée, la hauteur de K est libre (droite rouge)."
   ]

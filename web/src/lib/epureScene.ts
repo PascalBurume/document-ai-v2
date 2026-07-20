@@ -11,7 +11,8 @@
 
 import type { EpureIR } from './epureIr';
 import type { Reconstruction, ReconWarning } from './epureReconstruct';
-import { add, cross, dot, normalize, scale, sub, type Vec3, v3 } from './epureMath';
+import type { DiagnosticLocus } from './epureAssumptions';
+import { add, cross, dot, normalize, scale, sub, toPixelH, toPixelV, type Vec3, v3 } from './epureMath';
 
 export type SegmentKind = 'spatial' | 'projectionV' | 'projectionH' | 'projector' | 'hinge' | 'sectionEdge' | 'projectionAux';
 
@@ -23,6 +24,8 @@ export interface EpureScene {
   /** Each point in space, with its image in each projection plane (`pv` in πV, `ph` in πH). */
   points: { id: string; p: Vec3; pv: Vec3; ph: Vec3 }[];
   segments: { a: Vec3; b: Vec3; kind: SegmentKind }[];
+  /** Planar faces that can be filled without inventing topology (authored polygon or one closed loop). */
+  faces?: { ids: string[]; points: Vec3[]; quality: 'exact' | 'approximate' }[];
   fold?: {
     axisPoint: Vec3;
     axisDir: Vec3;
@@ -39,6 +42,8 @@ export interface EpureScene {
     onto: 'h' | 'v';
   };
   trueLength?: number;
+  /** Dimension presentation for a line_true_length operation; geometry remains the original line. */
+  trueLengthDimension?: { from: string; to: string; a: Vec3; b: Vec3; value: number };
   /**
    * A solid cut by a plane. `polygon` is the section face (already drawn as `sectionEdge` segments
    * too); `quad` is the cutting plane itself, a rectangle spanning the solid so the viewer can wash
@@ -70,8 +75,13 @@ export interface EpureScene {
   labels: { text: string; at: Vec3; kind: 'spatial' | 'v' | 'h'; pointId: string }[];
   /** Red annotations, rescaled into the scene box: dots on read vertices, locus rays for the missing. */
   diagnostics?: {
-    dots: { at: Vec3; label: string; kind: 'found' | 'unpaired' | 'missing' }[];
-    rays: { a: Vec3; b: Vec3; label: string; kind: 'unpaired' | 'missing' }[];
+    dots: { diagnosticId: string; at: Vec3; label: string; kind: 'found' }[];
+    loci: DiagnosticLocus[];
+    /** Red dashed topology, visible only when its diagnostic endpoints are user-confirmed. */
+    edges: {
+      from: { kind: 'point' | 'diagnostic'; id: string };
+      to: { kind: 'point' | 'diagnostic'; id: string };
+    }[];
   };
   warnings: ReconWarning[];
 }
@@ -116,9 +126,14 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
   const pad = 0.15 * 10;
   const lo = map(min);
   const hi = map(max);
+  // Projection planes are reference planes, not tight object bounding boxes. A profile line has
+  // almost no x-span; using only its bounds collapses πH/πV into ribbons and makes correct 3D look
+  // wrong. Keep a classroom-sized ground-line span even for that degenerate but common case.
+  const xHalf = Math.max(Math.abs(lo.x), Math.abs(hi.x)) + pad;
+  const planeXHalf = Math.max(xHalf, 6.5);
   const planes = {
-    h: { min: v3(lo.x - pad, Math.min(lo.y, 0) - pad, 0), max: v3(hi.x + pad, hi.y + pad, 0) },
-    v: { min: v3(lo.x - pad, 0, Math.min(lo.z, 0) - pad), max: v3(hi.x + pad, 0, hi.z + pad) },
+    h: { min: v3(-planeXHalf, Math.min(lo.y, 0) - pad, 0), max: v3(planeXHalf, hi.y + pad, 0) },
+    v: { min: v3(-planeXHalf, 0, Math.min(lo.z, 0) - pad), max: v3(planeXHalf, 0, hi.z + pad) },
   };
 
   const points = pts.map(([id, p]) => {
@@ -152,6 +167,71 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
     labels.push({ text: id, at: p, kind: 'spatial', pointId: id });
     labels.push({ text: `${id}${SUP.v}`, at: pv, kind: 'v', pointId: id });
     labels.push({ text: `${id}${SUP.h}`, at: ph, kind: 'h', pointId: id });
+  }
+
+  // A light face wash materially improves depth perception. The topology must still be authored or
+  // mathematically unambiguous: a plane polygon, one closed loop, or all four triangular faces of a
+  // complete tetrahedron. Approximate readings receive a distinct presentation quality downstream.
+  const faceCandidates: string[][] = [];
+  if (ir.operation.kind === 'rabattement_plane') {
+    faceCandidates.push(ir.operation.planePoints);
+  } else {
+    const tetraIds = ir.operation.kind === 'solid_section'
+      ? ir.operation.solid
+      : ir.operation.kind === 'point_projection'
+        ? ir.operation.points
+        : [];
+    if (tetraIds.length === 4) {
+      const pairs = tetraIds.flatMap((from, i) => tetraIds.slice(i + 1).map((to) => [from, to] as const));
+      if (pairs.every(([from, to]) => seen.has([from, to].sort().join('→')))) {
+        faceCandidates.push(
+          [tetraIds[0], tetraIds[1], tetraIds[2]],
+          [tetraIds[0], tetraIds[1], tetraIds[3]],
+          [tetraIds[0], tetraIds[2], tetraIds[3]],
+          [tetraIds[1], tetraIds[2], tetraIds[3]],
+        );
+      }
+    }
+  }
+  if (!faceCandidates.length && ir.operation.kind !== 'solid_section') {
+    const adjacency = new Map<string, Set<string>>();
+    for (const s of ir.segments) {
+      if (s.style === 'recall' || !at.has(s.from) || !at.has(s.to)) continue;
+      adjacency.set(s.from, new Set([...(adjacency.get(s.from) ?? []), s.to]));
+      adjacency.set(s.to, new Set([...(adjacency.get(s.to) ?? []), s.from]));
+    }
+    const candidates = [...adjacency.keys()];
+    if (candidates.length >= 3 && candidates.every((id) => adjacency.get(id)?.size === 2)) {
+      const ordered = [candidates[0]];
+      let previous = '';
+      let current = candidates[0];
+      while (ordered.length <= candidates.length) {
+        const next = [...adjacency.get(current)!].find((id) => id !== previous);
+        if (!next || next === ordered[0]) break;
+        if (ordered.includes(next)) break;
+        ordered.push(next);
+        previous = current;
+        current = next;
+      }
+      if (ordered.length === candidates.length && adjacency.get(current)?.has(ordered[0])) faceCandidates.push(ordered);
+    }
+  }
+  const faces: NonNullable<EpureScene['faces']> = [];
+  for (const ids of faceCandidates) {
+    const facePoints = ids.map((id) => at.get(id)!).filter(Boolean);
+    if (facePoints.length !== ids.length || facePoints.length < 3) continue;
+    const faceNormal = cross(sub(facePoints[1], facePoints[0]), sub(facePoints[2], facePoints[0]));
+    const normalLength = Math.sqrt(dot(faceNormal, faceNormal));
+    const maxDeviation = facePoints.length === 3 || normalLength < 1e-9
+      ? 0
+      : Math.max(...facePoints.map((point) => Math.abs(dot(faceNormal, sub(point, facePoints[0])) / normalLength)));
+    const authoredPlane = ir.operation.kind === 'rabattement_plane';
+    if (!authoredPlane && maxDeviation > 0.55) continue;
+    faces.push({
+      ids,
+      points: facePoints,
+      quality: recon.warnings.length || maxDeviation >= 0.12 ? 'approximate' : 'exact',
+    });
   }
 
   let fold: EpureScene['fold'];
@@ -304,14 +384,54 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
     warnings: recon.warnings,
   };
   if (ir.source.caption !== undefined) scene.caption = ir.source.caption;
+  if (faces.length) scene.faces = faces;
   if (fold) scene.fold = fold;
   if (recon.trueLength !== undefined) scene.trueLength = recon.trueLength;
+  if (recon.trueLength !== undefined && ir.operation.kind === 'line_true_length') {
+    const a = at.get(ir.operation.from), b = at.get(ir.operation.to);
+    if (a && b) scene.trueLengthDimension = {
+      from: ir.operation.from,
+      to: ir.operation.to,
+      a,
+      b,
+      value: recon.trueLength,
+    };
+  }
   if (section) scene.section = section;
   if (changePlane) scene.changePlane = changePlane;
   if (recon.diagnostics && (recon.diagnostics.dots.length || recon.diagnostics.rays.length)) {
+    const diagnosticIdByLabel = new Map(
+      (ir.diagnostics ?? []).map((diagnostic, index) => [diagnostic.label, `d${index}`]),
+    );
+    const endpoint = (ref: string) => {
+      const split = ref.indexOf(':');
+      const kind = ref.slice(0, split);
+      const id = ref.slice(split + 1);
+      return kind === 'point'
+        ? { kind: 'point' as const, id }
+        : { kind: 'diagnostic' as const, id: diagnosticIdByLabel.get(id)! };
+    };
     scene.diagnostics = {
-      dots: recon.diagnostics.dots.map((d) => ({ at: map(d.at), label: d.label, kind: d.kind })),
-      rays: recon.diagnostics.rays.map((r) => ({ a: map(r.a), b: map(r.b), label: r.label, kind: r.kind })),
+      dots: recon.diagnostics.dots.map((d) => ({ diagnosticId: d.diagnosticId, at: map(d.at), label: d.label, kind: d.kind })),
+      loci: recon.diagnostics.rays.map((r) => {
+        const known = r.source === 'v' ? toPixelV(recon.frame, r.a) : toPixelH(recon.frame, r.a);
+        const assumedA = r.source === 'v' ? toPixelH(recon.frame, r.a) : toPixelV(recon.frame, r.a);
+        const assumedB = r.source === 'v' ? toPixelH(recon.frame, r.b) : toPixelV(recon.frame, r.b);
+        return {
+          id: r.id,
+          diagnosticId: r.diagnosticId,
+          label: r.label,
+          kind: r.kind,
+          source: r.source,
+          a: map(r.a),
+          b: map(r.b),
+          plate: {
+            known: { view: r.source, at: known },
+            assumed: { view: r.source === 'v' ? 'h' : 'v', a: assumedA, b: assumedB },
+          },
+        };
+      }),
+      edges: (ir.diagnosticEdges ?? []).map((edge) => ({ from: endpoint(edge.from), to: endpoint(edge.to) })),
     };
   }
   return scene;

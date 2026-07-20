@@ -15,9 +15,15 @@
   "operation": { "kind": "point_projection", "points": ["A"] },
   "diagnostics": [
     { "label": "A", "kind": "found", "v": { "x": 377, "y": 210 }, "h": { "x": 370, "y": 822 } },
-    { "label": "coin②", "kind": "missing", "v": { "x": 216, "y": 698 }, "note": "coin sans partenaire H → profondeur indéterminée" },
-    { "label": "coin③", "kind": "missing", "h": { "x": 330, "y": 508 }, "note": "coin sans partenaire V → hauteur indéterminée" },
-    { "label": "coin④", "kind": "missing", "h": { "x": 497, "y": 632 }, "note": "coin sans partenaire V → hauteur indéterminée" }
+    { "label": "B", "kind": "missing", "v": { "x": 216, "y": 698 }, "note": "coin sans partenaire H → profondeur indéterminée" },
+    { "label": "C", "kind": "missing", "h": { "x": 330, "y": 508 }, "note": "coin sans partenaire V → hauteur indéterminée" },
+    { "label": "D", "kind": "missing", "h": { "x": 497, "y": 632 }, "note": "coin sans partenaire V → hauteur indéterminée" }
+  ],
+  "diagnosticEdges": [
+    { "from": "point:A", "to": "diag:B" },
+    { "from": "diag:B", "to": "diag:C" },
+    { "from": "diag:C", "to": "diag:D" },
+    { "from": "diag:D", "to": "point:A" }
   ],
   "notes": [
     "Lift partiel : un seul coin A du quadrilatère a ses deux projections dans la même colonne de rappel (LT horizontale). Les trois autres coins n'ont pas de partenaire opposé dans leur colonne — chacun donne une droite rouge (axe manquant libre). Le reste de la planche est un faisceau de droites concurrentes + un rabattement, non des points."

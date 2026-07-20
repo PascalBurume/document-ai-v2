@@ -1,21 +1,25 @@
-# Document AI — Mistral OCR playground
+# Document AI — OpenAI visual intelligence + deterministic 2D → 3D
 
-A thin, flexible UI over Mistral's OCR REST API: upload a document, run OCR, inspect the
-result down to the word. The API key lives on the server and never reaches the browser.
+An evidence-first learning workspace for scanned textbooks. OpenAI visual reasoning reads and
+critiques figures, recreates them as inspectable SVG, recovers trapped text, and explains them to
+students. A deterministic descriptive-geometry engine reconstructs defensible 3D from 2D épures;
+uncertain coordinates remain explicit red user assumptions rather than model guesses.
+
+OCR is an upstream ingestion layer. Provider keys live on the server and never reach the browser.
 
 **Something broken? Read [RUNBOOK.md](RUNBOOK.md) first** — every failure hit while building
 this is in there with its diagnosis ("fetch failed" on large PDFs, missing key, dead ports,
 a shimmering canvas, a feature that silently does nothing).
 
 ```
-server/   Express + TypeScript. Holds MISTRAL_API_KEY, calls POST /v1/ocr, Files API for large uploads.
+server/   Express + TypeScript. OCR ingestion plus OpenAI Responses API visual reasoning.
 web/      Vite + React + TypeScript. Two-pane viewer, config panel, JSON-Schema builder.
 ```
 
 ## Run
 
 ```bash
-cp .env.example .env      # add your MISTRAL_API_KEY
+cp .env.example .env      # add MISTRAL_API_KEY for OCR and OPENAI_API_KEY for visual intelligence
 npm install
 npm run dev               # server :8787, web :5174
 ```
@@ -120,8 +124,8 @@ figures that have an épure IR, the reconstruction's exact numbers (fold angle, 
 cotes/éloignements) ride along in the prompt, so the model teaches from arithmetic instead of
 re-guessing the drawing. The note renders in a green box under the figure (Convert, Book, and
 exports), always labelled as AI teaching material — it never grades the OCR and is a different
-register from the amber inspection flags. Grok first, Mistral vision as automatic fallback when
-the xAI account is dry; results disk-cache as `exp-<sha>.json`, so an explanation is paid once.
+register from the amber inspection flags. OpenAI vision performs the grounded explanation through
+the Responses API; results disk-cache as `exp-<sha>.json`, so an explanation is paid once.
 
 ## Nothing you have processed has to be processed twice
 

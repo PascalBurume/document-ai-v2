@@ -1,14 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { DocFile } from '../lib/types';
-import { epureFacts, epureFiguresFor } from '../lib/epureCatalog';
-import { figureSetFor, type AuthoredFigure } from '../lib/authoredFigures';
+import { epureCoverageFor, epureFacts, epureFiguresFor } from '../lib/epureCatalog';
 import { reconstruct } from '../lib/epureReconstruct';
 import { buildEpureScene } from '../lib/epureScene';
+import {
+  chooseLocus,
+  defaultAssumptions,
+  updateAssumption,
+  type AssumptionStore,
+  type DiagnosticLocus,
+  type FigureAssumptions,
+} from '../lib/epureAssumptions';
 import { ALL_LAYERS, EpureViewer, type EpureLayers, type EpureView } from './EpureViewer';
 import { EpurePlate } from './EpurePlate';
-import { EpurePlateViewer } from './EpurePlateViewer';
-import { plateDiagnosticsFor } from '../lib/plateDiagnostics';
 import { EpureStage, LEGEND } from './EpureStage';
+import { summarizeReconstructionWarnings } from '../lib/epureWorkspace';
 
 interface Props {
   doc: DocFile;
@@ -33,11 +39,6 @@ interface Props {
  * lengths, so it has to be read square-on. Orbiting there by hand lands near the plan view, and
  * near is a foreshortening the eye cannot see but the check depends on.
  */
-const ENDS = {
-  plate: { d: 0, f: 1, view: 'planche' as EpureView },
-  space: { d: 1, f: 0, view: 'espace' as EpureView },
-};
-
 /**
  * The épure workbench: the reading on its plate, the 3D it determines, and the numbers that come
  * out — computed, never asserted. Nothing on this screen came from a model. The épure fully
@@ -64,58 +65,24 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
   const onThisPage = useMemo(() => figures.filter((f) => f.pageIndex === page - 1), [figures, page]);
   const current = onThisPage.find((f) => f.key === selected) ?? onThisPage[0] ?? null;
 
-  // Every hand-redrawn figure in the book, keyed `pageIndex:blockId`. Most figures have a clean
-  // redraw but NOT a 3D reconstruction (only rabattements/true-lengths do); the redraw is the
-  // visualization we show beside the scan so that every figure page has something to compare, not
-  // just the four with 3D.
-  const figSet = useMemo(() => figureSetFor(doc), [doc.name, doc.pageCount]); // eslint-disable-line react-hooks/exhaustive-deps
   const figurePages = useMemo(() => {
-    const s = new Set<number>();
-    if (figSet) for (const k of Object.keys(figSet)) s.add(Number(k.slice(0, k.indexOf(':'))));
-    return [...s].sort((a, b) => a - b);
-  }, [figSet]);
-  const pageFigures = useMemo<[string, AuthoredFigure][]>(() => {
-    if (!figSet) return [];
-    return Object.entries(figSet)
-      .filter(([k]) => Number(k.slice(0, k.indexOf(':'))) === page - 1)
-      .map(([k, f]) => [k.slice(k.indexOf(':') + 1), f]);
-  }, [figSet, page]);
-
-  // Every plate the book draws that has NO 3D reconstruction — construction plates (traces,
-  // faisceaux), profile lines, curves, degenerate épures. They are still redrawn by hand and shown
-  // in 2D beside the scan; this second index makes each one reachable directly, instead of only by
-  // stepping page to page. Nothing here is 3D — it is honest about which plates the geometry can't lift.
-  const keys3d = useMemo(() => new Set(figures.map((f) => `${f.pageIndex}:${f.blockId}`)), [figures]);
-  const figures2d = useMemo(() => {
-    if (!figSet) return [] as { key: string; pageIndex: number; blockId: string; label: string; has3d: boolean }[];
-    return Object.entries(figSet)
-      .map(([k, f]) => {
-        const pageIndex = Number(k.slice(0, k.indexOf(':')));
-        const blockId = k.slice(k.indexOf(':') + 1);
-        const plate = /(?:Épures?|Planche)\s+(E\s*\d+)/.exec(f.caption ?? '')?.[1];
-        return { key: k, pageIndex, blockId, label: plate ?? '2D', has3d: keys3d.has(k) };
-      })
-      // A plate belongs in the 2D index if it has no 3D (its only view), OR it carries a red-point
-      // diagnostic worth zooming into even though it also reconstructs in 3D (E 82/86/87).
-      .filter((e) => !e.has3d || plateDiagnosticsFor(e.pageIndex, e.blockId))
-      .sort((a, b) => a.pageIndex - b.pageIndex || a.label.localeCompare(b.label));
-  }, [figSet, keys3d]);
-  // A 2D plate the reader explicitly opened from the index. It is shown full even on a page that
-  // also carries a 3D figure, so a construction plate sharing a sheet with a rabattement is still
-  // reachable. Gated by page so paging away drops back to the normal behaviour.
-  const current2d = figures2d.find((f) => f.key === selected && f.pageIndex === page - 1) ?? null;
-  const fig2d = current2d && figSet ? figSet[current2d.key] : null;
+    return [...new Set(figures.map((figure) => figure.pageIndex))].sort((a, b) => a - b);
+  }, [figures]);
 
   const [foldT, setFoldT] = useState(1);
   const [dihedralT, setDihedralT] = useState(0);
   /** The change-of-plane unfold: 1 = auxiliary in space, 0 = swung flat (the drawn auxiliary). */
   const [auxT, setAuxT] = useState(1);
-  /** Which end the scene is resting at (or heading to). The camera follows it — it is not its own state. */
-  const [end, setEnd] = useState<keyof typeof ENDS>('space');
+  const [view, setView] = useState<EpureView>('isometric');
   const [layers, setLayers] = useState<EpureLayers>(ALL_LAYERS);
   const [hovered, setHovered] = useState<string | null>(null);
   /** Full-screen stage. Same state throughout, so it opens and closes exactly where the tab is. */
   const [full, setFull] = useState(false);
+  /** The complete catalog is useful for navigation, but should not permanently consume the view. */
+  const [indexOpen, setIndexOpen] = useState(false);
+  /** Manual red points live only for this mounted document tab; they never touch IR or storage. */
+  const [assumptionStore, setAssumptionStore] = useState<AssumptionStore>({});
+  const launchButton = useRef<HTMLButtonElement>(null);
 
   const built = useMemo(() => {
     if (!current) return null;
@@ -123,78 +90,77 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
     return { recon, scene: recon.fatal ? null : buildEpureScene(current.ir, recon), facts: epureFacts(current.ir) };
   }, [current]);
 
-  // Where the animation starts from, without making the animation restart whenever it moves.
-  const from = useRef({ d: dihedralT, f: foldT });
-  from.current = { d: dihedralT, f: foldT };
+  const assumptionDefaults = useMemo(
+    () => defaultAssumptions(built?.scene?.diagnostics?.loci ?? []),
+    [built?.scene],
+  );
+  const currentAssumptions: FigureAssumptions = current
+    ? { ...assumptionDefaults, ...(assumptionStore[current.key] ?? {}) }
+    : {};
 
-  // Travel to whichever end was asked for. On open that is the whole demonstration: the sheet is
-  // flat (d=0, f=1) and stands up into space, with the rabattu swinging back into its own plane on
-  // the way — the relation between the drawing and the solid, shown in 1.4s instead of explained in
-  // a paragraph nobody reads. Afterwards the same path serves the toggle.
-  //
-  // No run-once guard: StrictMode double-mounts effects, and a ref flipped by the first, cancelled
-  // run would silently swallow the animation.
-  const hasScene = Boolean(built?.scene);
-  useEffect(() => {
-    if (!hasScene) return;
-    const to = ENDS[end];
-    const a = from.current;
-    if (a.d === to.d && a.f === to.f) return; // already there — switching figures should not replay the show
-    const t0 = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const t = Math.min((now - t0) / 1400, 1);
-      const s = t * t * (3 - 2 * t); // smoothstep
-      setDihedralT(a.d + (to.d - a.d) * s);
-      setFoldT(a.f + (to.f - a.f) * s);
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-    // The figure, not the built scene: this plays when the reader opens an épure, and must not
-    // replay because something upstream handed us an equal scene in a new object.
-  }, [current?.key, hasScene, end]);
+  const setFigureAssumptions = (update: (current: FigureAssumptions) => FigureAssumptions) => {
+    if (!current) return;
+    setAssumptionStore((store) => ({
+      ...store,
+      [current.key]: update({ ...assumptionDefaults, ...(store[current.key] ?? {}) }),
+    }));
+  };
+
+  const chooseDiagnosticLocus = (locus: DiagnosticLocus) => {
+    setFigureAssumptions((state) => chooseLocus(state, locus, state[locus.diagnosticId]));
+  };
+
+  const changeAssumption = (diagnosticId: string, t: number, confirmed: boolean) => {
+    setFigureAssumptions((state) => updateAssumption(state, diagnosticId, { t, confirmed }));
+  };
+
+  const resetAssumptions = () => {
+    if (!current) return;
+    setAssumptionStore((store) => ({ ...store, [current.key]: assumptionDefaults }));
+  };
+
+  // Opening the full workspace is deliberately explicit. Scrolling the document changes `current`,
+  // but must never pull the reader away from the page into the Atelier 3D.
+  const closeWorkspace = () => {
+    setFull(false);
+    window.requestAnimationFrame(() => launchButton.current?.focus());
+  };
 
   // The page-linked index: every reconstructable épure in the book, each labelled with its page.
   // Picking one navigates the scan there (App owns `page`), so it doubles as "which pages have 3D".
   const index = figures.length > 0 && (
-    <div className="epure-index">
-      <span className="muted">3D :</span>
-      {figures.map((f) => (
-        <button
-          key={f.key}
-          className={`epure-index-chip${current && f.key === current.key ? ' on' : ''}`}
-          onClick={() => onSelect(f.key)}
-          title={`Aller à la page ${f.pageIndex + 1}`}
-        >
-          {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
-        </button>
-      ))}
-    </div>
-  );
-
-  // The 2D companion index: every plate the geometry can't lift (clickable to its hand redraw), plus
-  // the three lifted plates whose annotated plate carries the red diagnostic points (marked ●).
-  const index2d = figures2d.length > 0 && (
-    <div className="epure-index epure-index-2d">
-      <span className="muted">2D :</span>
-      {figures2d.map((f) => (
-        <button
-          key={f.key}
-          className={`epure-index-chip flat${f.has3d ? ' annot' : ''}${current2d?.key === f.key ? ' on' : ''}`}
-          onClick={() => {
-            onPage(f.pageIndex + 1);
-            onSelect(f.key);
-          }}
-          title={
-            f.has3d
-              ? `Planche annotée — coordonnées de la reconstruction 3D, en rouge (page ${f.pageIndex + 1})`
-              : `Planche 2D redessinée — pas de reconstruction 3D (page ${f.pageIndex + 1})`
-          }
-        >
-          {f.has3d && <span className="dot">●</span>} {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
-        </button>
-      ))}
+    <div className={`epure-index${indexOpen ? ' open' : ''}`} aria-label="Figures 3D">
+      <button
+        className="epure-index-toggle"
+        onClick={() => setIndexOpen((open) => !open)}
+        aria-expanded={indexOpen}
+        aria-controls="epure-figure-catalog"
+      >
+        <span>Figures 3D</span>
+        <span className="epure-index-count">{figures.length}</span>
+        {current && <span className="epure-index-current">{current.label} · p.{current.pageIndex + 1}</span>}
+        <span className="epure-index-chevron" aria-hidden="true">⌄</span>
+      </button>
+      {indexOpen && <div id="epure-figure-catalog" className="epure-index-list">
+        {figures.map((f) => {
+          const coverage = epureCoverageFor(doc, f.pageIndex, f.blockId);
+          const status = coverage?.status === 'partial' ? 'partial' : 'exact';
+          return (
+            <button
+              key={f.key}
+              className={`epure-index-chip ${status}${current && f.key === current.key ? ' on' : ''}`}
+              onClick={() => {
+                onSelect(f.key);
+                setIndexOpen(false);
+              }}
+              title={`${status === 'partial' ? 'Reconstruction partielle avec loci rouges' : 'Reconstruction exacte'} · page ${f.pageIndex + 1}`}
+            >
+              <span className="status-dot" aria-hidden="true" />
+              {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
+            </button>
+          );
+        })}
+      </div>}
     </div>
   );
 
@@ -216,39 +182,27 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
     </div>
   );
 
-  if (figures.length === 0 && figurePages.length === 0)
-    return <p className="note pad">Aucune figure lue dans ce document.</p>;
+  // A scan page can contain several independent drawings. Keep its local choices visible so the
+  // second reconstruction is not hidden inside the complete 63-figure catalog.
+  const pageFigures = onThisPage.length > 1 && (
+    <div className="epure-page-figures" role="group" aria-label={`Figures 3D de la page ${page}`}>
+      <span>Sur cette page</span>
+      {onThisPage.map((figure) => (
+        <button
+          key={figure.key}
+          className={figure.key === current?.key ? 'on' : ''}
+          aria-pressed={figure.key === current?.key}
+          onClick={() => onSelect(figure.key)}
+          title={`Afficher ${figure.label} — dessin source ${figure.blockId}`}
+        >
+          {figure.label}
+        </button>
+      ))}
+    </div>
+  );
 
-  // A 2D plate opened from the « 2D » index: show its hand redraw full, with the same two indexes
-  // and the stepper. This wins over the page's 3D figure, so a construction plate that shares a sheet
-  // with a rabattement is still reachable — and it is labelled for what it is, not dressed up as 3D.
-  if (fig2d) {
-    return (
-      <div className="epure-tab">
-        <div className="epure-bar">
-          {index}
-          {index2d}
-          <span className="spacer" />
-          {stepper}
-        </div>
-        <p className="note epure-2d-note">
-          {current2d?.has3d ? (
-            <>
-              Planche annotée. Les points <strong style={{ color: '#d12f2f' }}>rouges</strong> sont les
-              coordonnées relevées qui ont permis la reconstruction 3D — chaque sommet sur ses projections V et H.
-            </>
-          ) : (
-            <>
-              Planche redessinée à la main, à comparer au scan à gauche. Cette figure n’a <strong>pas</strong> de
-              reconstruction 3D. Les points <strong style={{ color: '#d12f2f' }}>rouges</strong> montrent où la
-              lecture bute : ● relevé, ○ projections V/H non concordantes, ✕ projection absente de la planche.
-            </>
-          )}
-        </p>
-        <AuthoredFigureView fig={fig2d} pageIndex={current2d!.pageIndex} blockId={current2d!.key.slice(current2d!.key.indexOf(':') + 1)} />
-      </div>
-    );
-  }
+  if (figures.length === 0)
+    return <p className="note pad">Aucune figure lue dans ce document.</p>;
 
   // No 3D on this page — but most figure pages still have a hand-redrawn figure, and THAT is the
   // visualization to read beside the scan. So the tab shows it rather than an apology; the scan is
@@ -258,25 +212,12 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
       <div className="epure-tab">
         <div className="epure-bar">
           {index}
-          {index2d}
           <span className="spacer" />
           {stepper}
         </div>
-        {pageFigures.length > 0 ? (
-          <>
-            <p className="note epure-2d-note">
-              Figure redessinée à la main, à comparer au scan à gauche. Ce type de figure n’a pas de
-              reconstruction 3D — seuls les rabattements et vraies grandeurs en ont une (les quatre sous « 3D »).
-            </p>
-            {pageFigures.map(([blockId, fig]) => (
-              <AuthoredFigureView key={blockId} fig={fig} pageIndex={page - 1} blockId={blockId} />
-            ))}
-          </>
-        ) : (
-          <p className="note pad">
-            Aucune figure sur la page {page}. « ▶ » saute à la figure suivante ; « 3D » ouvre une reconstruction.
-          </p>
-        )}
+        <p className="note pad">
+          Aucune figure 3D sur la page {page}. « ▶ » saute à la figure suivante ou choisissez une figure ci-dessus.
+        </p>
       </div>
     );
   }
@@ -284,29 +225,31 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
   const fold = built.scene?.fold;
   const foldDeg = fold ? Math.abs((foldT * fold.angle * 180) / Math.PI) : 0;
   const changePlane = built.scene?.changePlane;
-  const onPlate = end === 'plate';
+  const onPlate = view === 'planche';
+  const warningSummaries = summarizeReconstructionWarnings(built.recon.warnings);
 
   return (
     <div className="epure-tab">
       <div className="epure-bar">
         {index}
-        {index2d}
+        {pageFigures}
         <span className="spacer" />
         {stepper}
-        {built.recon.warnings.map((w, i) => (
-          <span key={i} className="chip flag" title={w.message}>
-            ⚠ {w.code}
+        {warningSummaries.map((warning) => (
+          <span key={warning.code} className="chip flag" title={warning.detail}>
+            ⚠ {warning.label}
           </span>
         ))}
         {built.scene && (
-          <button className="btn tiny ghost" onClick={() => setFull(true)} title="Ouvrir la vue 3D en plein écran">
-            ⛶ Plein écran
+          <button ref={launchButton} className="btn tiny ghost" onClick={() => setFull(true)} title="Ouvrir l’atelier 2D vers 3D">
+            ◇ Atelier 3D
           </button>
         )}
       </div>
 
       {built.scene && full ? (
         <EpureStage
+          doc={doc}
           figures={figures}
           current={current}
           onSelect={onSelect}
@@ -320,15 +263,17 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
           hasAux={Boolean(changePlane)}
           layers={layers}
           onLayers={setLayers}
-          view={ENDS[end].view}
-          onPlate={onPlate}
-          onToggleEnd={() => setEnd(onPlate ? 'space' : 'plate')}
+          view={view}
+          onView={setView}
           hoveredId={hovered}
           onHoverPoint={setHovered}
-          foldDeg={foldDeg}
           hasFold={Boolean(fold)}
-          warnings={built.recon.warnings.map((w) => w.message)}
-          onClose={() => setFull(false)}
+          warnings={built.recon.warnings}
+          assumptions={currentAssumptions}
+          onChooseLocus={chooseDiagnosticLocus}
+          onAssumptionChange={changeAssumption}
+          onResetAssumptions={resetAssumptions}
+          onClose={closeWorkspace}
         />
       ) : built.scene ? (
         <>
@@ -338,9 +283,11 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
             dihedralT={dihedralT}
             auxT={auxT}
             layers={layers}
-            view={ENDS[end].view}
+            view={view}
             hoveredId={hovered}
             onHoverPoint={setHovered}
+            assumptions={currentAssumptions}
+            onAssumptionChange={changeAssumption}
           />
 
           <div className="epure-foldrow">
@@ -357,7 +304,17 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
             <code>{(dihedralT * 90).toFixed(0)}°</code>
             <button
               className="btn tiny ghost"
-              onClick={() => setEnd(onPlate ? 'space' : 'plate')}
+              onClick={() => {
+                if (onPlate) {
+                  setView('isometric');
+                  setDihedralT(1);
+                  setFoldT(0);
+                } else {
+                  setView('planche');
+                  setDihedralT(0);
+                  setFoldT(fold ? 1 : 0);
+                }
+              }}
               title={
                 onPlate
                   ? 'Rouvrir le dièdre : la figure dans l’espace.'
@@ -422,6 +379,8 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
                 blockId={current.blockId}
                 hoveredId={hovered}
                 onHoverPoint={setHovered}
+                scene={built.scene}
+                assumptions={currentAssumptions}
               />
               <p className="note">
                 Les points tels qu’ils ont été lus, en pixels. Tout le reste en découle — et ne vaut pas mieux.
@@ -448,9 +407,13 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
           </div>
         </>
       ) : (
-        <p className="note">
-          Cette lecture ne se reconstruit pas : {built.recon.warnings.map((w) => w.message).join(' — ')}
-        </p>
+        <div className="epure-state-card error">
+          <span className="state-dot" />
+          <div>
+            <strong>Reconstruction impossible</strong>
+            <small>{built.recon.warnings.map((w) => w.message).join(' — ')}</small>
+          </div>
+        </div>
       )}
 
       <p className="note epure-hint">glisser : orbiter · molette : zoom · clic droit : déplacer · double-clic : recentrer</p>
@@ -460,7 +423,8 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
           <strong style={{ color: '#d12f2f' }}>rouges</strong> sont les coordonnées relevées ; une{' '}
           <strong style={{ color: '#d12f2f' }}>droite rouge</strong> marque une coordonnée que la planche ne fixe
           pas — projection non tracée (la droite = positions possibles le long de l’axe manquant) ou projections
-          V/H incohérentes (deux droites qui ne se coupent pas). Aucune position n’est inventée.{' '}
+          V/H incohérentes (deux droites qui ne se coupent pas). Un point rouge confirmé reste une{' '}
+          <strong>hypothèse utilisateur</strong> et ne participe pas aux mesures exactes.{' '}
           {built.recon.warnings
             .filter((w) => w.code === 'incomplete')
             .map((w) => w.message)
@@ -473,27 +437,5 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
         aucun modèle. Elle vaut ce que vaut la lecture ; le scan reste la référence.
       </p>
     </div>
-  );
-}
-
-/**
- * One hand-redrawn figure, shown as the visualization for a page that has no 3D reconstruction. The
- * SVG is authored and checked in (trusted), and it is a RECONSTRUCTION, not evidence — the scan in
- * the left pane stays the reference, which is why they are read side by side.
- *
- * Drawn in a three.js canvas (`EpurePlateViewer`) rather than injected as static SVG, so a dense
- * construction plate can be zoomed and panned to read its points and thin lines. It falls back to the
- * inline SVG if the drawing can't be parsed.
- */
-function AuthoredFigureView({ fig, pageIndex, blockId }: { fig: AuthoredFigure; pageIndex: number; blockId: string }) {
-  return (
-    <figure className="epure-figure">
-      <EpurePlateViewer svg={fig.svg} points={plateDiagnosticsFor(pageIndex, blockId)} />
-      <p className="note epure-hint">molette : zoom · glisser : déplacer · double-clic : recentrer</p>
-      {fig.caption && <figcaption className="note">{fig.caption}</figcaption>}
-      {fig.omissions && fig.omissions.length > 0 && (
-        <p className="note">Non lus, laissés de côté plutôt que devinés : {fig.omissions.join(' ; ')}</p>
-      )}
-    </figure>
   );
 }

@@ -8,50 +8,263 @@
     "caption": "Épure E 97 : les deux projections d'un parallélépipède ABCD–A'B'C'D' avec ses arêtes cachées en tirets."
   },
   "units": "px",
-  "imageSize": { "width": 480, "height": 720 },
-  "groundLine": { "a": { "x": 465, "y": 180 }, "b": { "x": 465, "y": 410 } },
+  "imageSize": {
+    "width": 480,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 180,
+      "y": 255
+    },
+    "b": {
+      "x": 410,
+      "y": 255
+    }
+  },
   "points": [
-    { "id": "A",  "v": { "x": 588, "y": 208 }, "h": { "x": 271, "y": 208 }, "role": "vertex" },
-    { "id": "B",  "v": { "x": 674, "y": 259 }, "h": { "x": 326, "y": 259 }, "role": "vertex" },
-    { "id": "C",  "v": { "x": 643, "y": 386 }, "h": { "x": 305, "y": 386 }, "role": "vertex" },
-    { "id": "D",  "v": { "x": 560, "y": 336 }, "h": { "x": 254, "y": 336 }, "role": "vertex" },
-    { "id": "A'", "v": { "x": 513, "y": 207 }, "h": { "x": 395, "y": 207 }, "role": "vertex" },
-    { "id": "B'", "v": { "x": 600, "y": 258 }, "h": { "x": 447, "y": 258 }, "role": "vertex" },
-    { "id": "C'", "v": { "x": 576, "y": 384 }, "h": { "x": 427, "y": 384 }, "role": "vertex" },
-    { "id": "D'", "v": { "x": 486, "y": 335 }, "h": { "x": 378, "y": 335 }, "role": "vertex" }
+    {
+      "id": "A",
+      "v": {
+        "x": 208,
+        "y": 132
+      },
+      "h": {
+        "x": 208,
+        "y": 449
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B",
+      "v": {
+        "x": 259,
+        "y": 46
+      },
+      "h": {
+        "x": 259,
+        "y": 394
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "C",
+      "v": {
+        "x": 386,
+        "y": 77
+      },
+      "h": {
+        "x": 386,
+        "y": 415
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "D",
+      "v": {
+        "x": 336,
+        "y": 160
+      },
+      "h": {
+        "x": 336,
+        "y": 466
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "A'",
+      "v": {
+        "x": 207,
+        "y": 207
+      },
+      "h": {
+        "x": 207,
+        "y": 325
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B'",
+      "v": {
+        "x": 258,
+        "y": 120
+      },
+      "h": {
+        "x": 258,
+        "y": 273
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "C'",
+      "v": {
+        "x": 384,
+        "y": 144
+      },
+      "h": {
+        "x": 384,
+        "y": 293
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "D'",
+      "v": {
+        "x": 335,
+        "y": 234
+      },
+      "h": {
+        "x": 335,
+        "y": 342
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "A", "to": "B", "view": "v" },
-    { "from": "B", "to": "C", "view": "v" },
-    { "from": "C", "to": "D", "view": "v" },
-    { "from": "D", "to": "A", "view": "v" },
-    { "from": "A'", "to": "B'", "view": "v" },
-    { "from": "B'", "to": "C'", "view": "v", "style": "hidden" },
-    { "from": "C'", "to": "D'", "view": "v" },
-    { "from": "D'", "to": "A'", "view": "v" },
-    { "from": "A", "to": "A'", "view": "v" },
-    { "from": "B", "to": "B'", "view": "v", "style": "hidden" },
-    { "from": "C", "to": "C'", "view": "v" },
-    { "from": "D", "to": "D'", "view": "v" },
-
-    { "from": "A", "to": "B", "view": "h" },
-    { "from": "B", "to": "C", "view": "h" },
-    { "from": "C", "to": "D", "view": "h" },
-    { "from": "D", "to": "A", "view": "h" },
-    { "from": "A'", "to": "B'", "view": "h" },
-    { "from": "B'", "to": "C'", "view": "h" },
-    { "from": "C'", "to": "D'", "view": "h", "style": "hidden" },
-    { "from": "D'", "to": "A'", "view": "h", "style": "hidden" },
-    { "from": "A", "to": "A'", "view": "h" },
-    { "from": "B", "to": "B'", "view": "h" },
-    { "from": "C", "to": "C'", "view": "h" },
-    { "from": "D", "to": "D'", "view": "h", "style": "hidden" }
+    {
+      "from": "A",
+      "to": "B",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "view": "v"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "view": "v"
+    },
+    {
+      "from": "D",
+      "to": "A",
+      "view": "v"
+    },
+    {
+      "from": "A'",
+      "to": "B'",
+      "view": "v"
+    },
+    {
+      "from": "B'",
+      "to": "C'",
+      "view": "v",
+      "style": "hidden"
+    },
+    {
+      "from": "C'",
+      "to": "D'",
+      "view": "v"
+    },
+    {
+      "from": "D'",
+      "to": "A'",
+      "view": "v"
+    },
+    {
+      "from": "A",
+      "to": "A'",
+      "view": "v"
+    },
+    {
+      "from": "B",
+      "to": "B'",
+      "view": "v",
+      "style": "hidden"
+    },
+    {
+      "from": "C",
+      "to": "C'",
+      "view": "v"
+    },
+    {
+      "from": "D",
+      "to": "D'",
+      "view": "v"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "view": "h"
+    },
+    {
+      "from": "B",
+      "to": "C",
+      "view": "h"
+    },
+    {
+      "from": "C",
+      "to": "D",
+      "view": "h"
+    },
+    {
+      "from": "D",
+      "to": "A",
+      "view": "h"
+    },
+    {
+      "from": "A'",
+      "to": "B'",
+      "view": "h"
+    },
+    {
+      "from": "B'",
+      "to": "C'",
+      "view": "h"
+    },
+    {
+      "from": "C'",
+      "to": "D'",
+      "view": "h",
+      "style": "hidden"
+    },
+    {
+      "from": "D'",
+      "to": "A'",
+      "view": "h",
+      "style": "hidden"
+    },
+    {
+      "from": "A",
+      "to": "A'",
+      "view": "h"
+    },
+    {
+      "from": "B",
+      "to": "B'",
+      "view": "h"
+    },
+    {
+      "from": "C",
+      "to": "C'",
+      "view": "h"
+    },
+    {
+      "from": "D",
+      "to": "D'",
+      "view": "h",
+      "style": "hidden"
+    }
   ],
-  "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D", "A'", "B'", "C'", "D'"] },
+  "operation": {
+    "kind": "point_projection",
+    "points": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "A'",
+      "B'",
+      "C'",
+      "D'"
+    ]
+  },
   "notes": [
     "Parallélépipède E97 : 8 sommets, 12 arêtes (face haute ABCD, face basse A'B'C'D', 4 latérales AA'..DD'). Reconstruction directe par point_projection.",
     "Plate imprimée de travers (rotate(-90) dans le crop) : ligne de terre verticale, rappels V↔H horizontaux — chaque rappel est annoté de son sommet dans le SVG. V à droite (x grand, hauteur), H à gauche (x petit, profondeur). Abscisses V=H accordées (y partagé, lossless) : le léger jeu de tracé du rappel (~10px) est absorbé sans toucher hauteur/profondeur.",
     "Arêtes cachées différentes selon la vue : en V, B–B' et B'–C' ; en H, C'–D', D'–A' et D–D'. Reproduites en tirets sur la page.",
-    "Lecture cohérente : les 4 latérales sortent quasi parallèles et égales (~(1,122,73) en X,profondeur,hauteur), les faces opposées parallélogrammes — signature d'un parallélépipède correctement lu."
+    "Lecture cohérente : les 4 latérales sortent quasi parallèles et égales (~(1,122,73) en X,profondeur,hauteur), les faces opposées parallélogrammes — signature d'un parallélépipède correctement lu.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

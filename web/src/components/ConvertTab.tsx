@@ -292,7 +292,7 @@ export function ConvertTab({ doc, page, blocks, onRedraw, onEpure }: Props) {
                   className="btn tiny ghost"
                   onClick={() => void recover(block)}
                   disabled={recovering !== null}
-                  title="Mistral may have captured text (equations, labels) inside this region as a picture. Read it back as text."
+                  title="The OCR pass may have captured text (equations, labels) as a picture. Read it back with OpenAI vision."
                 >
                   {recovering === block.id ? 'Reading…' : block.recoveredText ? '↻ Recover text' : '⧉ Recover text'}
                 </button>

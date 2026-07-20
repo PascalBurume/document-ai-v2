@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "source": { "book": "dessin-scientifique", "n": 26, "page": 21, "blockId": "p21-b2", "caption": "Épure (ii) : reconstruction partielle des traces d et p dans le repère tourné de la planche." },
+  "units": "px",
+  "imageSize": { "width": 530, "height": 720 },
+  "groundLine": { "a": { "x": 201, "y": 690 }, "b": { "x": 217, "y": 4 } },
+  "points": [
+    { "id": "T", "v": { "x": 213, "y": 161 }, "h": { "x": 213, "y": 161 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "B", "kind": "unpaired", "v": { "x": 210, "y": 248 }, "h": { "x": 203, "y": 602 }, "note": "B^V et B^H sont des reports distincts, sans rappel commun" },
+    { "label": "N", "kind": "unpaired", "v": { "x": 210, "y": 307 }, "h": { "x": 205, "y": 553 }, "note": "N^V et N^H ne partagent pas une abscisse dans le repère de la ligne de terre" },
+    { "label": "A", "kind": "unpaired", "v": { "x": 210, "y": 98 }, "h": { "x": 201, "y": 479 }, "note": "coordonnées incompatibles pour un lift ponctuel" },
+    { "label": "M", "kind": "unpaired", "v": { "x": 210, "y": 157 }, "h": { "x": 208, "y": 429 }, "note": "coordonnées incompatibles pour un lift ponctuel" }
+  ],
+  "notes": [
+    "Le SVG est tourné de -90°. Les coordonnées sont exprimées dans son viewBox extérieur 530×720, après la transformation (x,y)→(y,720−x), pour superposer exactement les points à la planche.",
+    "T est le seul point commun déterminé sur la ligne de terre. B, N, A et M appartiennent aux reports rabattus d_R/p_R et ne constituent pas quatre couples V/H ordinaires.",
+    "Les locus rouges rendent cette indétermination visible ; aucune position moyenne n'est utilisée dans la reconstruction."
+  ]
+}

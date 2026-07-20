@@ -8,37 +8,131 @@
     "caption": "Planche E 64 : rabattement du triangle OAB autour d'une horizontale du plan α passant par O, avec les traces α^H, α^H_R et α^V."
   },
   "units": "px",
-  "imageSize": { "width": 720, "height": 550 },
-  "groundLine": { "a": { "x": 358.5, "y": 14 }, "b": { "x": 358.5, "y": 540 } },
+  "imageSize": {
+    "width": 550,
+    "height": 720
+  },
+  "groundLine": {
+    "a": {
+      "x": 14,
+      "y": 361.5
+    },
+    "b": {
+      "x": 540,
+      "y": 361.5
+    }
+  },
   "points": [
-    { "id": "O", "v": { "x": 487, "y": 187 }, "h": { "x": 187, "y": 190 }, "role": "vertex" },
-    { "id": "A", "v": { "x": 393, "y": 258 }, "h": { "x": 328, "y": 260 }, "role": "vertex" },
-    { "id": "B", "v": { "x": 467, "y": 361 }, "h": { "x": 262, "y": 362 }, "role": "vertex" }
+    {
+      "id": "O",
+      "v": {
+        "x": 187,
+        "y": 233
+      },
+      "h": {
+        "x": 190,
+        "y": 533
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "A",
+      "v": {
+        "x": 258,
+        "y": 327
+      },
+      "h": {
+        "x": 260,
+        "y": 392
+      },
+      "role": "vertex"
+    },
+    {
+      "id": "B",
+      "v": {
+        "x": 361,
+        "y": 253
+      },
+      "h": {
+        "x": 362,
+        "y": 458
+      },
+      "role": "vertex"
+    }
   ],
   "segments": [
-    { "from": "O", "to": "A", "view": "v" },
-    { "from": "A", "to": "B", "view": "v" },
-    { "from": "O", "to": "B", "view": "v" },
-    { "from": "O", "to": "A", "view": "h" },
-    { "from": "A", "to": "B", "view": "h" },
-    { "from": "O", "to": "B", "view": "h" }
+    {
+      "from": "O",
+      "to": "A",
+      "view": "v"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "view": "v"
+    },
+    {
+      "from": "O",
+      "to": "B",
+      "view": "v"
+    },
+    {
+      "from": "O",
+      "to": "A",
+      "view": "h"
+    },
+    {
+      "from": "A",
+      "to": "B",
+      "view": "h"
+    },
+    {
+      "from": "O",
+      "to": "B",
+      "view": "h"
+    }
   ],
   "operation": {
     "kind": "rabattement_plane",
     "hingeKind": "horizontal",
     "hinge": {
-      "aH": { "x": 132, "y": 14 },
-      "bH": { "x": 290, "y": 540 },
-      "aV": { "x": 487, "y": 14 },
-      "bV": { "x": 487, "y": 540 }
+      "aH": {
+        "x": 14,
+        "y": 588
+      },
+      "bH": {
+        "x": 540,
+        "y": 430
+      },
+      "aV": {
+        "x": 14,
+        "y": 233
+      },
+      "bV": {
+        "x": 540,
+        "y": 233
+      }
     },
-    "planePoints": ["O", "A", "B"],
+    "planePoints": [
+      "O",
+      "A",
+      "B"
+    ],
     "rabattu": {
       "view": "h",
       "points": {
-        "O": { "x": 187, "y": 190 },
-        "A": { "x": 360, "y": 250 },
-        "B": { "x": 276, "y": 362 }
+        "O": {
+          "x": 190,
+          "y": 533
+        },
+        "A": {
+          "x": 250,
+          "y": 360
+        },
+        "B": {
+          "x": 362,
+          "y": 444
+        }
       }
     }
   },
@@ -46,6 +140,7 @@
     "Planche imprimée de côté (transform rotate(-90) dans le SVG) : coordonnées lues dans le repère interne 720×550, la ligne de terre est donc VERTICALE et les lignes de rappel horizontales — même convention que fig08 (E66), l'autre planche E-de-côté.",
     "Ligne de terre droitée à la verticale x=358.5 : c'est l'intersection des traces α^H (480,14)-(155,540) et α^V (210,14)-(607,540) — le point où les deux traces d'un plan se coupent est sur la LT. La droite pi^V ch^V dessinée porte ~3° de biais de scan alors que les rappels sont horizontaux au pixel.",
     "Charnière = une HORIZONTALE du plan α passant par O (et non la trace α^H) : sa projection H est la droite (132,14)-(290,540) qui passe par O^H, sa projection V est la verticale x=487 passant par O^V (droite « pi^V ch^V »). Elle est donc à la hauteur z_O ≈ 128px, d'où aV/bV fournis pour caler zHinge (rabattement autour d'une horizontale, pas autour de la trace).",
-    "O est sur la charnière : O^H_R = O^H. Rabattu O^H(187,190)-A^H_R(360,250)-B^H_R(276,362) lu sur les fines lignes de construction — triangle congruent au vrai OAB (côtés 183/190/143 px), ce qui valide la lecture."
+    "O est sur la charnière : O^H_R = O^H. Rabattu O^H(187,190)-A^H_R(360,250)-B^H_R(276,362) lu sur les fines lignes de construction — triangle congruent au vrai OAB (côtés 183/190/143 px), ce qui valide la lecture.",
+    "Coordonnées normalisées dans le viewBox extérieur du SVG après la rotation (x,y)→(y,720−x), afin que les points 2D se superposent exactement à la planche."
   ]
 }

@@ -26,7 +26,7 @@ import {
 import { fetchCacheStats, fetchEditStats, type CacheStats, type EditStats } from './lib/telemetry';
 import { DEFAULT_CONFIG, type Block, type DocFile, type OcrConfig, type OcrPage } from './lib/types';
 import { buildPageMarks } from './lib/suspects';
-import { epureFiguresFor } from './lib/epureCatalog';
+import { epureFiguresFor, epureFiguresForSourceBlock } from './lib/epureCatalog';
 import { fetchEdits, saveEdit } from './lib/edits';
 
 export type Tab = 'text' | 'visual' | 'markdown' | 'convert' | 'book' | 'edit' | 'epure';
@@ -549,6 +549,19 @@ export default function App() {
     [active],
   );
 
+  // Clicking a drawing in the scan while Épure is open selects the 3D bound to THAT drawing.
+  // Resolve only at click time: a previous source selection must not pull the user back when they
+  // deliberately choose another figure from the catalog afterwards.
+  const selectSource = useCallback((next: Selection | null) => {
+    setSelected(next);
+    if (tab !== 'epure' || !active || !next) return;
+    const sourcePage = active.result?.pages.find((entry) => entry.index === next.pageIndex);
+    if (!sourcePage) return;
+    const matches = epureFiguresForSourceBlock(active, next.pageIndex, next.blockId, sourcePage.blocks);
+    if (!matches.length || matches.some((figure) => figure.key === epure)) return;
+    setEpure(matches[0].key);
+  }, [active, epure, tab]);
+
 
   // Every suspect span across the document, in reading order. The dom ids match what the Text tab
   // renders because both sides call the same `buildPageMarks` — so nav can scroll straight to a mark.
@@ -627,9 +640,6 @@ export default function App() {
         dirty={dirty && Boolean(active?.result)}
         hasResults={docs.some((d) => d.result)}
         canForce={Boolean(active?.result)}
-        model={config.model}
-        mock={mock}
-        keyMissing={keyMissing}
       />
 
       <input
@@ -646,8 +656,8 @@ export default function App() {
 
       {keyMissing && (
         <div className="banner">
-          No <code>MISTRAL_API_KEY</code> on the server. Copy <code>document-ai/.env.example</code> to{' '}
-          <code>.env</code>, add your key, and restart.
+          The OCR service is not configured. Copy <code>.env.example</code> to <code>.env</code>, add the
+          server-side OCR key, and restart.
         </div>
       )}
 
@@ -723,7 +733,7 @@ export default function App() {
               hovered={hovered}
               selected={selected}
               onHover={setHovered}
-              onSelect={setSelected}
+              onSelect={selectSource}
               onPage={setPage}
               onZoom={(z) => { setFitWidth(false); setZoom(z); }}
               onFitWidth={() => setFitWidth((f) => !f)}
@@ -756,4 +766,3 @@ export default function App() {
     </div>
   );
 }
-

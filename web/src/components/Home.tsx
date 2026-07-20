@@ -51,10 +51,11 @@ export function Home(props: Props) {
       )}
 
       <section className="home-hero">
-        <h2>Inspect a document</h2>
+        <span className="home-ai-kicker">Built with OpenAI visual intelligence</span>
+        <h2>Turn textbook pages into inspectable knowledge</h2>
         <p className="muted">
-          Drop a PDF or image anywhere on this page — then press <kbd>⌘/Ctrl</kbd> + <kbd>Enter</kbd> to
-          run OCR.
+          OCR the page, inspect the evidence, reconstruct defensible geometry in 3D, and ask OpenAI
+          vision to explain what the figure teaches. Drop a PDF or image, then press <kbd>⌘/Ctrl</kbd> + <kbd>Enter</kbd>.
         </p>
         <div className="home-drop">
           <button className="btn primary" onClick={props.onBrowse}>

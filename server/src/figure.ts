@@ -2,25 +2,18 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { HttpError, transientCode } from './mistral.js';
-import { callVision, visionModelName } from './vision.js';
+import { callOpenAIVision, openaiVisionModelName } from './openai.js';
 
 /**
- * "Recreate this figure." A vision LLM (xAI Grok) looks at ONE figure cropped from the scan and
+ * "Recreate this figure." OpenAI vision looks at ONE figure cropped from the scan and
  * redraws it as a clean, faithful SVG chart — axes, ticks, curves, reference lines and French
  * labels reproduced from the image, in the style of a modern vector plot.
  *
  * This is GENERATED content, not transcription — the caller renders it as a clearly-labelled AI
  * recreation next to (never instead of) the original crop. It stays an inspection/reading aid,
- * in keeping with what this tab is (CLAUDE.md: inspector, not verifier).
- *
- * Mirrors backend/vision.py's Grok call: xAI is OpenAI-compatible chat completions.
+ * in keeping with what this tab is: an inspector, not an automatic verifier.
  */
-const XAI = 'https://api.x.ai/v1/chat/completions';
-// Read lazily, not at module load: index.ts imports this file (evaluating its top level)
-// BEFORE it calls dotenv.config(), so a module-level const would capture the default and
-// never see GROK_VISION_MODEL from .env. A getter reads process.env at call time instead.
-const modelName = () => process.env.GROK_VISION_MODEL || 'grok-4.5';
+const modelName = openaiVisionModelName;
 
 /** Bump when the prompt changes materially — it is part of the cache key. */
 const PROMPT_VERSION = 5;
@@ -245,80 +238,6 @@ export function writeFigureTextCache(key: string, result: unknown): void {
   }
 }
 
-/**
- * One xAI Grok vision call, with the flaky-upload retry both the redraw and the classify need. The
- * figure crop is a multi-MB PNG, and xAI drops the connection mid-upload often enough (write EPIPE /
- * ECONNRESET) that a single attempt is not reliable — retry transient socket errors with backoff;
- * real HTTP errors (bad model, 4xx) are not transient and fall straight through.
- */
-async function grokVision(
-  system: string,
-  userText: string,
-  images: string | string[],
-  maxTokens: number,
-): Promise<string> {
-  const key = process.env.XAI_API_KEY;
-  if (!key) throw new HttpError(400, 'XAI_API_KEY is not set on the server.');
-  const list = Array.isArray(images) ? images : [images];
-  if (!list.length || list.some((img) => !img?.startsWith('data:image'))) {
-    throw new HttpError(400, 'A figure image (data:image/...) is required.');
-  }
-
-  const body = JSON.stringify({
-    model: modelName(),
-    temperature: 0,
-    max_tokens: maxTokens,
-    messages: [
-      { role: 'system', content: system },
-      {
-        role: 'user',
-        content: [
-          { type: 'text', text: userText },
-          ...list.map((url) => ({ type: 'image_url', image_url: { url } })),
-        ],
-      },
-    ],
-  });
-
-  const ATTEMPTS = 3;
-  let res: Response;
-  for (let i = 1; ; i++) {
-    try {
-      res = await fetch(XAI, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-        body,
-      });
-      break;
-    } catch (err) {
-      const code = transientCode(err);
-      if (!code || i >= ATTEMPTS) {
-        if (code) {
-          throw new HttpError(
-            502,
-            `xAI closed the connection (${code}), ${ATTEMPTS} times in a row. This is usually a flaky ` +
-              `upload rather than a problem with the figure — try again.`,
-          );
-        }
-        throw err;
-      }
-      console.warn(`grok vision: ${code} on attempt ${i}/${ATTEMPTS}`);
-      await new Promise((r) => setTimeout(r, 500 * 2 ** (i - 1)));
-    }
-  }
-
-  const data = (await res.json().catch(() => ({}))) as {
-    choices?: { message?: { content?: string } }[];
-    error?: { message?: string };
-    message?: string;
-  };
-  if (!res.ok) {
-    const detail = data?.error?.message || data?.message || JSON.stringify(data).slice(0, 300);
-    throw new HttpError(res.status, `Grok failed (${res.status}): ${detail}`);
-  }
-  return data?.choices?.[0]?.message?.content ?? '';
-}
-
 export async function redrawFigure(image: string, context: string, feedback?: string): Promise<FigureRedraw> {
   let userText =
     'Read, then recreate this figure faithfully. The OCR text near it (may be noisy) can help you ' +
@@ -330,7 +249,7 @@ export async function redrawFigure(image: string, context: string, feedback?: st
       'mismatches were found. Fix exactly these; keep everything that was already correct:\n- ' +
       feedback.slice(0, 1500);
   }
-  const text = await grokVision(
+  const text = await callOpenAIVision(
     SYSTEM,
     userText,
     image,
@@ -379,7 +298,7 @@ export interface FigureClass {
  * without paying to re-draw the figures that are genuinely charts.
  */
 export async function classifyFigure(image: string, context: string): Promise<FigureClass> {
-  const text = await grokVision(
+  const text = await callOpenAIVision(
     CLASSIFY_SYSTEM,
     `Classify this crop. Nearby OCR text (may be noisy):\n${context.slice(0, 1200)}`,
     image,
@@ -486,7 +405,7 @@ export function parseCompareReply(text: string): FigureCompare {
 
 /** Compare an AI recreation (rendered to a raster) against the original scan crop. */
 export async function compareFigure(original: string, redraw: string, context: string): Promise<FigureCompare> {
-  const text = await grokVision(
+  const text = await callOpenAIVision(
     CRITIC_SYSTEM,
     'Image 1 = original scan crop. Image 2 = AI recreation. Nearby OCR text (may be noisy):\n' +
       context.slice(0, 1500),
@@ -570,20 +489,8 @@ export async function explainFigure(image: string, context: string, facts?: stri
     userText += `\n\n--- FAITS CALCULÉS (géométrie exacte, fiable) ---\n${facts.slice(0, 1500)}`;
   }
 
-  // Grok first (the stronger teacher), Mistral vision as the fallback — a student aid that goes
-  // dark because ONE provider's credits ran out is worse than a slightly weaker explanation. The
-  // fallback is only taken on a real API failure (quota, auth, outage), never on a soft parse
-  // failure, and the result says which model taught.
-  let text: string;
-  let model: string;
-  try {
-    text = await grokVision(EXPLAIN_SYSTEM, userText, image, 2500);
-    model = modelName();
-  } catch (err) {
-    console.warn(`figure explain: grok unavailable (${(err as Error).message.slice(0, 120)}) — falling back to Mistral vision`);
-    text = await callVision(`${EXPLAIN_SYSTEM}\n\n${userText}`, image);
-    model = visionModelName();
-  }
+  const text = await callOpenAIVision(EXPLAIN_SYSTEM, userText, image, 2500);
+  const model = modelName();
 
   const parsed = extractJson(text) as { explanation?: unknown } | null;
   const explanation = coerceExplanation(parsed?.explanation ?? parsed);
@@ -592,8 +499,8 @@ export async function explainFigure(image: string, context: string, facts?: stri
 }
 
 /**
- * Accept the explanation in the shapes weaker models actually return. The prompt asks for
- * {"explanation": "<markdown>"}, and Grok complies — but pixtral (the fallback) likes to emit
+ * Accept the explanation in alternate shapes a model may return. The prompt asks for
+ * {"explanation": "<markdown>"}, but a response can occasionally emit
  * {"explanation": {"**1. Titre**": "texte", …}}: same content, sectioned as an object. Flattening
  * keys and values back into Markdown is mechanical reshaping of what the model wrote, not
  * invention; anything that doesn't reduce to text still fails into the `raw` path.

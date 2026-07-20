@@ -2,7 +2,7 @@
   "name": "document-ai",
   "private": true,
   "version": "1.0.0",
-  "description": "Mistral Document AI OCR playground",
+  "description": "OpenAI-powered document intelligence and deterministic 2D-to-3D learning workspace",
   "workspaces": [
     "server",
     "web"

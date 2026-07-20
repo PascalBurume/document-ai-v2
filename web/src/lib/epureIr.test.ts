@@ -81,6 +81,14 @@ test('rejects a degenerate ground line', () => {
   if (!res.ok) assert.ok(res.errors.some((e) => e.path === 'groundLine' && e.message.includes('degenerate')));
 });
 
+test('rejects coordinates authored outside the source SVG viewBox', () => {
+  const ir = minimalRabattement();
+  ir.points[0].v = { x: 140, y: 20 };
+  const res = validateEpureIr(ir);
+  assert.equal(res.ok, false);
+  if (!res.ok) assert.ok(res.errors.some((e) => e.path === 'points[0].v' && e.message.includes('outside imageSize')));
+});
+
 test('rejects a rabattu key that is not a plane point', () => {
   const ir = minimalRabattement();
   (ir.operation as { rabattu?: unknown }).rabattu = { view: 'h', points: { Z: { x: 1, y: 1 } } };

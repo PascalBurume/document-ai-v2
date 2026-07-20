@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 42,
+    "page": 31,
+    "blockId": "p31-b4",
+    "caption": "Plan projetant β : l'intersection T avec la ligne de terre est certaine ; les cinq couples de reports restent incompatibles et sont affichés en rouge."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1000 },
+  "groundLine": { "a": { "x": 31, "y": 793 }, "b": { "x": 679, "y": 799 } },
+  "points": [
+    { "id": "T", "v": { "x": 295, "y": 795 }, "h": { "x": 295, "y": 795 }, "role": "aux" }
+  ],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["T"] },
+  "diagnostics": [
+    { "label": "A", "kind": "unpaired", "v": { "x": 332, "y": 142 }, "h": { "x": 300, "y": 788 }, "note": "A^V/A^H appartiennent à la trace oblique β, pas à un même rappel" },
+    { "label": "C", "kind": "unpaired", "v": { "x": 328, "y": 236 }, "h": { "x": 302, "y": 504 }, "note": "C^V/C^H ne fournissent pas une abscisse spatiale unique" },
+    { "label": "I", "kind": "unpaired", "v": { "x": 323, "y": 317 }, "h": { "x": 299, "y": 652 }, "note": "I^V/I^H ne fournissent pas une abscisse spatiale unique" },
+    { "label": "D", "kind": "unpaired", "v": { "x": 322, "y": 329 }, "h": { "x": 296, "y": 715 }, "note": "D^V/D^H ne fournissent pas une abscisse spatiale unique" },
+    { "label": "B", "kind": "unpaired", "v": { "x": 320, "y": 377 }, "h": { "x": 301, "y": 610 }, "note": "B^V/B^H ne fournissent pas une abscisse spatiale unique" }
+  ],
+  "notes": [
+    "T est une intersection déterminée. Les autres marques sont des reports d'une construction de changement de plan, sans couples V/H concordants dans le repère courant.",
+    "Les croix et droites rouges signalent l'information manquante au lieu de compléter arbitrairement la profondeur."
+  ]
+}
