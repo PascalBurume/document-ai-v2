@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 47,
+    "page": 34,
+    "blockId": "p34-b18",
+    "caption": "Planche E 91 : reconstruction partielle. L'apex S et deux sommets de base A, M se relèvent ; le 3e sommet B n'a pas de projection horizontale tracée, sa profondeur est indéterminée (droite rouge). Section, charnière et triangle rabattu omis."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1130 },
+  "groundLine": { "a": { "x": 20, "y": 425 }, "b": { "x": 700, "y": 425 } },
+  "points": [
+    { "id": "S", "v": { "x": 478, "y": 120 }, "h": { "x": 485, "y": 637 }, "role": "vertex" },
+    { "id": "A", "v": { "x": 211, "y": 392 }, "h": { "x": 205, "y": 458 }, "role": "vertex" },
+    { "id": "M", "v": { "x": 306, "y": 391 }, "h": { "x": 310, "y": 693 }, "role": "vertex" }
+  ],
+  "segments": [
+    { "from": "S", "to": "A", "view": "v" },
+    { "from": "S", "to": "M", "view": "v" },
+    { "from": "A", "to": "M", "view": "v" }
+  ],
+  "operation": { "kind": "point_projection", "points": ["S", "A", "M"] },
+  "diagnostics": [
+    { "label": "S", "kind": "found", "v": { "x": 478, "y": 120 }, "h": { "x": 485, "y": 637 } },
+    { "label": "A", "kind": "found", "v": { "x": 211, "y": 392 }, "h": { "x": 205, "y": 458 } },
+    { "label": "M", "kind": "found", "v": { "x": 306, "y": 391 }, "h": { "x": 310, "y": 693 } },
+    { "label": "B", "kind": "missing", "v": { "x": 381, "y": 395 }, "note": "B^H non tracée → profondeur indéterminée" }
+  ],
+  "notes": [
+    "Lift partiel par point_projection : apex S + base A, M (LT horizontale, rappels verticaux). Le 3e sommet de base B n'a que sa projection verticale B^V(381,395) ; B^H n'est pas tracée sur la planche, donc la profondeur de B est libre — représentée par une droite rouge (lieu des positions possibles). C, N, K sont des points de section, non des sommets de base."
+  ]
+}

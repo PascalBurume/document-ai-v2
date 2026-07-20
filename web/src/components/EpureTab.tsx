@@ -454,6 +454,19 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
       )}
 
       <p className="note epure-hint">glisser : orbiter · molette : zoom · clic droit : déplacer · double-clic : recentrer</p>
+      {built.recon.warnings.some((w) => w.code === 'incomplete') && (
+        <p className="note epure-2d-note">
+          Reconstruction <strong>partielle</strong>. Les points{' '}
+          <strong style={{ color: '#d12f2f' }}>rouges</strong> sont les coordonnées relevées ; une{' '}
+          <strong style={{ color: '#d12f2f' }}>droite rouge</strong> marque une coordonnée que la planche ne fixe
+          pas — projection non tracée (la droite = positions possibles le long de l’axe manquant) ou projections
+          V/H incohérentes (deux droites qui ne se coupent pas). Aucune position n’est inventée.{' '}
+          {built.recon.warnings
+            .filter((w) => w.code === 'incomplete')
+            .map((w) => w.message)
+            .join(' · ')}
+        </p>
+      )}
       {current.ir.source.caption && <p className="note">{current.ir.source.caption}</p>}
       <p className="note">
         Reconstruction <strong>calculée</strong> depuis la lecture manuelle de la figure redessinée — géométrie pure,

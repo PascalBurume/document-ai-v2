@@ -68,6 +68,11 @@ export interface EpureScene {
     edges: [string, string][];
   };
   labels: { text: string; at: Vec3; kind: 'spatial' | 'v' | 'h'; pointId: string }[];
+  /** Red annotations, rescaled into the scene box: dots on read vertices, locus rays for the missing. */
+  diagnostics?: {
+    dots: { at: Vec3; label: string; kind: 'found' | 'unpaired' | 'missing' }[];
+    rays: { a: Vec3; b: Vec3; label: string; kind: 'unpaired' | 'missing' }[];
+  };
   warnings: ReconWarning[];
 }
 
@@ -87,6 +92,11 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
       ...d.auxProj1.values(), ...d.auxFlat1.values(), d.axisPoint1,
       ...d.auxProj2.values(), ...d.trueFlat.values(), d.axisPoint2,
     );
+  }
+  // Diagnostic markers must count toward the bounds too, or a locus ray falls outside the framed box.
+  if (recon.diagnostics) {
+    for (const dot of recon.diagnostics.dots) extra.push(dot.at);
+    for (const ray of recon.diagnostics.rays) extra.push(ray.a, ray.b);
   }
   const all = [...pts.map(([, p]) => p), ...extra];
 
@@ -298,5 +308,11 @@ export function buildEpureScene(ir: EpureIR, recon: Reconstruction): EpureScene 
   if (recon.trueLength !== undefined) scene.trueLength = recon.trueLength;
   if (section) scene.section = section;
   if (changePlane) scene.changePlane = changePlane;
+  if (recon.diagnostics && (recon.diagnostics.dots.length || recon.diagnostics.rays.length)) {
+    scene.diagnostics = {
+      dots: recon.diagnostics.dots.map((d) => ({ at: map(d.at), label: d.label, kind: d.kind })),
+      rays: recon.diagnostics.rays.map((r) => ({ a: map(r.a), b: map(r.b), label: r.label, kind: r.kind })),
+    };
+  }
   return scene;
 }

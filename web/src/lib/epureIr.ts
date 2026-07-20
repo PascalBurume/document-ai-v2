@@ -135,7 +135,25 @@ export interface EpureIR {
   segments: IrSegment[];
   operation: IrOperation;
   labels?: { text: string; anchor: Vec2; pointId?: string; view?: 'v' | 'h' }[];
+  /**
+   * Coordinates worth marking in red on the 3D scene — the ones behind this plate's reconstruction,
+   * and (for a partial lift) the ones that block it. A DERIVED figure, not evidence: nothing here is
+   * lifted into `points`, so it never changes the reconstruction — it only annotates it.
+   *  - found    : a vertex read and used (both views); a red dot on its lifted 3D position.
+   *  - unpaired : both views drawn but off the rappel; a red locus ray from each — they don't meet.
+   *  - missing  : one view never drawn; a red locus ray along the undetermined axis (no invented point).
+   */
+  diagnostics?: DiagnosticEntry[];
   notes?: string[];
+}
+
+export interface DiagnosticEntry {
+  /** e.g. « B^H », « K^V » — the projection or vertex this marks. */
+  label: string;
+  kind: 'found' | 'unpaired' | 'missing';
+  v?: Vec2 | null;
+  h?: Vec2 | null;
+  note?: string;
 }
 
 export interface IrIssue {
@@ -364,6 +382,23 @@ export function validateEpureIr(x: unknown): Validation {
       if (!isObj(l) || typeof l.text !== 'string') errors.push({ path: `labels[${i}]`, message: 'needs { text, anchor }' });
       else checkVec2(l.anchor, `labels[${i}].anchor`, errors);
     });
+  }
+
+  if (x.diagnostics !== undefined) {
+    if (!Array.isArray(x.diagnostics)) errors.push({ path: 'diagnostics', message: 'must be an array' });
+    else
+      x.diagnostics.forEach((d, i) => {
+        const p = `diagnostics[${i}]`;
+        if (!isObj(d) || typeof d.label !== 'string') return errors.push({ path: p, message: 'needs { label, kind }' });
+        if (d.kind !== 'found' && d.kind !== 'unpaired' && d.kind !== 'missing')
+          errors.push({ path: `${p}.kind`, message: "must be 'found' | 'unpaired' | 'missing'" });
+        if (d.v != null) checkVec2(d.v, `${p}.v`, errors);
+        if (d.h != null) checkVec2(d.h, `${p}.h`, errors);
+        const has = (d.v != null ? 1 : 0) + (d.h != null ? 1 : 0);
+        if (d.kind === 'missing' && has !== 1) errors.push({ path: p, message: "'missing' needs exactly one of v/h drawn" });
+        if ((d.kind === 'found' || d.kind === 'unpaired') && has !== 2)
+          errors.push({ path: p, message: `'${d.kind}' needs both v and h` });
+      });
   }
 
   return errors.length ? { ok: false, errors } : { ok: true, ir: x as unknown as EpureIR };

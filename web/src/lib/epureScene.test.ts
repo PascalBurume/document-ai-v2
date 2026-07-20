@@ -231,3 +231,35 @@ test('a double_change_of_plane scene reuses the change-plane field for its true 
   const spread = Math.max(...scene.changePlane!.aux.map((a) => Math.max(Math.abs(a.at.x), Math.abs(a.at.y), Math.abs(a.at.z))));
   assert.ok(spread <= 11, `aux points outside the box: ${spread}`);
 });
+
+test('diagnostics: a found vertex is a dot, a missing projection is a locus ray along the free axis (serializable, in box)', () => {
+  const ir: EpureIR = {
+    version: 1,
+    source: { book: 'synthetic', n: 0, page: 0, blockId: 'b0' },
+    units: 'px',
+    imageSize: { width: 800, height: 800 },
+    groundLine: { a: { x: 40, y: 400 }, b: { x: 760, y: 400 } },
+    points: [{ id: 'A', v: { x: 200, y: 320 }, h: { x: 200, y: 470 }, role: 'vertex' }],
+    segments: [],
+    operation: { kind: 'point_projection', points: ['A'] },
+    diagnostics: [
+      { label: 'A', kind: 'found', v: { x: 200, y: 320 }, h: { x: 200, y: 470 } },
+      // B has only its V projection → depth (y axis) is undetermined ⇒ a ray, not a point.
+      { label: 'B', kind: 'missing', v: { x: 360, y: 300 }, note: 'B^H non tracée' },
+    ],
+  };
+  const val = validateEpureIr(ir);
+  assert.ok(val.ok, val.ok ? '' : JSON.stringify(val.errors));
+  const recon = reconstruct(ir);
+  assert.ok(recon.warnings.some((w) => w.code === 'incomplete'), 'missing coordinate is flagged incomplete');
+  const scene = buildEpureScene(ir, recon);
+  assert.deepEqual(JSON.parse(JSON.stringify(scene)), scene); // serializes byte-for-byte
+  assert.equal(scene.diagnostics?.dots.length, 1, 'one found dot');
+  assert.equal(scene.diagnostics?.rays.length, 1, 'one locus ray');
+  const ray = scene.diagnostics!.rays[0];
+  // The undetermined axis (depth = y) varies; the determined axes (x, z) are fixed along the ray.
+  assert.ok(Math.abs(ray.a.y - ray.b.y) > 0.5, 'ray spans the free (depth) axis');
+  assert.ok(Math.abs(ray.a.x - ray.b.x) < 1e-6 && Math.abs(ray.a.z - ray.b.z) < 1e-6, 'ray is fixed on the drawn axes');
+  const far = Math.max(Math.abs(ray.a.x), Math.abs(ray.a.y), Math.abs(ray.a.z), Math.abs(ray.b.y));
+  assert.ok(far <= 11, `ray outside the box: ${far}`);
+});

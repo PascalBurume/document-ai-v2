@@ -24,9 +24,16 @@ export interface ReconWarning {
     | 'section-off-plane'
     | 'aux-vs-authored'
     | 'true-shape-vs-authored'
+    | 'incomplete'
     | 'unsupported';
   message: string;
   magnitudePx?: number;
+}
+
+/** A red marker on the 3D scene: a lifted dot (found), or a locus ray for an undetermined coordinate. */
+export interface ReconDiagnostics {
+  dots: { label: string; at: Vec3; kind: 'found' | 'unpaired' | 'missing' }[];
+  rays: { label: string; a: Vec3; b: Vec3; kind: 'unpaired' | 'missing' }[];
 }
 
 export interface Reconstruction {
@@ -83,6 +90,8 @@ export interface Reconstruction {
     auxProj2: Map<string, Vec3>;
     trueFlat: Map<string, Vec3>;
   };
+  /** Red annotations — coordinates behind the lift, and locus rays for the ones it can't determine. */
+  diagnostics?: ReconDiagnostics;
   warnings: ReconWarning[];
   /** True when the reconstruction should not be shown at all (a mis-read figure, not a nuance). */
   fatal: boolean;
@@ -132,7 +141,50 @@ export function reconstruct(ir: EpureIR, opts: ReconOptions = {}): Reconstructio
     points.set(p.id, v3((uV + uH) / 2, s(frame, p.h), -s(frame, p.v)));
   }
 
-  const result: Reconstruction = { frame, points, warnings, fatal: false };
+  // Red diagnostic markers, in the reconstructor's frame. Nothing here enters `points`, so it never
+  // changes the reconstruction — it only annotates it. A missing coordinate has one free axis, so it
+  // is a locus RAY spanning the figure's box, never an invented point.
+  let diagnostics: ReconDiagnostics | undefined;
+  if (ir.diagnostics?.length) {
+    const dots: ReconDiagnostics['dots'] = [];
+    const rays: ReconDiagnostics['rays'] = [];
+    const ys: number[] = [];
+    const zs: number[] = [];
+    for (const p of points.values()) {
+      ys.push(p.y);
+      zs.push(p.z);
+    }
+    for (const d of ir.diagnostics) {
+      if (d.h) ys.push(s(frame, d.h));
+      if (d.v) zs.push(-s(frame, d.v));
+    }
+    // Span the free axis over everything placeable, with a floor so a lone point still shows a ray.
+    const span = (arr: number[]): [number, number] => {
+      const lo = Math.min(0, ...arr);
+      const hi = Math.max(0, ...arr);
+      const mid = (lo + hi) / 2;
+      const half = Math.max((hi - lo) / 2, 70) * 1.15;
+      return [mid - half, mid + half];
+    };
+    const [yLo, yHi] = span(ys);
+    const [zLo, zHi] = span(zs);
+    for (const d of ir.diagnostics) {
+      if (d.kind === 'found' && d.v && d.h) {
+        dots.push({ label: d.label, kind: 'found', at: v3((u(frame, d.v) + u(frame, d.h)) / 2, s(frame, d.h), -s(frame, d.v)) });
+      } else if (d.kind === 'missing') {
+        if (d.v) rays.push({ label: d.label, kind: 'missing', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
+        else if (d.h) rays.push({ label: d.label, kind: 'missing', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
+        warnings.push({ code: 'incomplete', message: `${d.label} : ${d.note ?? 'projection non tracée — coordonnée indéterminée'}` });
+      } else if (d.kind === 'unpaired' && d.v && d.h) {
+        rays.push({ label: d.label, kind: 'unpaired', a: v3(u(frame, d.v), yLo, -s(frame, d.v)), b: v3(u(frame, d.v), yHi, -s(frame, d.v)) });
+        rays.push({ label: '', kind: 'unpaired', a: v3(u(frame, d.h), s(frame, d.h), zLo), b: v3(u(frame, d.h), s(frame, d.h), zHi) });
+        warnings.push({ code: 'incomplete', message: `${d.label} : ${d.note ?? 'projections V/H incohérentes'}` });
+      }
+    }
+    diagnostics = { dots, rays };
+  }
+
+  const result: Reconstruction = { frame, points, diagnostics, warnings, fatal: false };
   const op = ir.operation;
 
   if (op.kind === 'point_projection') return result;

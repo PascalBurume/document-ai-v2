@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 48,
+    "page": 35,
+    "blockId": "p35-b16",
+    "caption": "Planche E 92 : reconstruction partielle. Seul O se relève ; A, B, C sont sur le faisceau des traces, leurs projections V/H ne concordent pas (droites rouges). Repère externe de la planche (rotation -90 appliquée)."
+  },
+  "units": "px",
+  "imageSize": { "width": 490, "height": 720 },
+  "groundLine": { "a": { "x": 20, "y": 319 }, "b": { "x": 470, "y": 319 } },
+  "points": [{ "id": "O", "v": { "x": 143, "y": 223 }, "h": { "x": 147, "y": 415 }, "role": "vertex" }],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["O"] },
+  "diagnostics": [
+    { "label": "O", "kind": "found", "v": { "x": 143, "y": 223 }, "h": { "x": 147, "y": 415 } },
+    { "label": "A", "kind": "unpaired", "v": { "x": 333, "y": 91 }, "h": { "x": 360, "y": 585 }, "note": "sur une trace du faisceau — V/H incohérents (Δ27)" },
+    { "label": "B", "kind": "unpaired", "v": { "x": 329, "y": 225 }, "h": { "x": 310, "y": 191 }, "note": "V/H incohérents (Δ19)" },
+    { "label": "C", "kind": "unpaired", "v": { "x": 308, "y": 476 }, "h": { "x": 290, "y": 414 }, "note": "V/H incohérents (Δ18)" }
+  ],
+  "notes": [
+    "Lift partiel : seul O se relève proprement (LT horizontale, rappels verticaux). A, B, C sont des points du faisceau-des-traces ; leurs projections V et H ne partagent pas d'abscisse, donc aucun point 3D cohérent — chaque projection donne une droite rouge, les paires ne se coupent pas."
+  ]
+}

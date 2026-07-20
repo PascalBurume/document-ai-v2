@@ -23,6 +23,12 @@
     { "from": "D", "to": "A", "view": "v" }
   ],
   "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D"] },
+  "diagnostics": [
+    { "label": "A", "kind": "found", "v": { "x": 182, "y": 248 }, "h": { "x": 186, "y": 543 } },
+    { "label": "B", "kind": "found", "v": { "x": 236, "y": 347 }, "h": { "x": 238, "y": 407 } },
+    { "label": "C", "kind": "found", "v": { "x": 353, "y": 248 }, "h": { "x": 357, "y": 473 } },
+    { "label": "D", "kind": "found", "v": { "x": 289, "y": 378 }, "h": { "x": 293, "y": 543 } }
+  ],
   "notes": [
     "Quadrilatère ABCD relevé par point_projection. Coordonnées exprimées dans le repère externe de la planche (viewBox 510x720, rotation -90 appliquee) pour que la lecture se superpose au dessin ; la planche imprimee a une LT verticale, ici horizontale apres rotation. Chaque sommet apparie ses projections V et H par rappel (Δ ≤ 4 px). Contour A-B-C-D lu sur la polyligne epaisse fermee. Changement de plan (f, p^H/p^V, L'T', point de percee) omis."
   ]

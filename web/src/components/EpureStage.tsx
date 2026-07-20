@@ -13,6 +13,7 @@ export const LEGEND: { key: keyof EpureLayers; label: string; swatch: string }[]
   { key: 'rabattu', label: 'rabattement', swatch: '#b3543a' },
   { key: 'section', label: 'section', swatch: '#3f7d4f' },
   { key: 'aux', label: 'changement de plan', swatch: '#7a4fa3' },
+  { key: 'diagnostics', label: 'relevé / coordonnée manquante', swatch: '#d12f2f' },
   { key: 'labels', label: 'noms', swatch: '#767676' },
 ];
 

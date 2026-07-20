@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": {
+    "book": "dessin-scientifique",
+    "n": 37,
+    "page": 29,
+    "blockId": "p29-b0",
+    "caption": "Planche E 88 : reconstruction partielle. Un seul coin du quadrilatère se relève ; les trois autres n'ont pas de projection partenaire dans leur colonne de rappel (droites rouges). Repère externe (rotation 180 appliquée) ; faisceaux omis."
+  },
+  "units": "px",
+  "imageSize": { "width": 720, "height": 1260 },
+  "groundLine": { "a": { "x": 20, "y": 516 }, "b": { "x": 700, "y": 516 } },
+  "points": [{ "id": "A", "v": { "x": 377, "y": 210 }, "h": { "x": 370, "y": 822 }, "role": "vertex" }],
+  "segments": [],
+  "operation": { "kind": "point_projection", "points": ["A"] },
+  "diagnostics": [
+    { "label": "A", "kind": "found", "v": { "x": 377, "y": 210 }, "h": { "x": 370, "y": 822 } },
+    { "label": "coin②", "kind": "missing", "v": { "x": 216, "y": 698 }, "note": "coin sans partenaire H → profondeur indéterminée" },
+    { "label": "coin③", "kind": "missing", "h": { "x": 330, "y": 508 }, "note": "coin sans partenaire V → hauteur indéterminée" },
+    { "label": "coin④", "kind": "missing", "h": { "x": 497, "y": 632 }, "note": "coin sans partenaire V → hauteur indéterminée" }
+  ],
+  "notes": [
+    "Lift partiel : un seul coin A du quadrilatère a ses deux projections dans la même colonne de rappel (LT horizontale). Les trois autres coins n'ont pas de partenaire opposé dans leur colonne — chacun donne une droite rouge (axe manquant libre). Le reste de la planche est un faisceau de droites concurrentes + un rabattement, non des points."
+  ]
+}

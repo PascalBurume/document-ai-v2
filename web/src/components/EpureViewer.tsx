@@ -14,6 +14,7 @@ export interface EpureLayers {
   rabattu: boolean;
   section: boolean;
   aux: boolean;
+  diagnostics: boolean;
   labels: boolean;
 }
 
@@ -26,6 +27,7 @@ export const ALL_LAYERS: EpureLayers = {
   rabattu: true,
   section: true,
   aux: true,
+  diagnostics: true,
   labels: true,
 };
 
@@ -116,6 +118,9 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
     const SECTION_INK = 0x3f7d4f;
     // The auxiliary view is a THIRD projection; a violet keeps it apart from both original views.
     const AUX_INK = 0x7a4fa3;
+    // Diagnostics — the read coordinates and, in red, the ones the plate never determined. Same red
+    // as the flat plate viewer (EpurePlateViewer), so the vocabulary reads the same in 2D and 3D.
+    const DIAG_RED = 0xd12f2f;
 
     const materials = {
       spatial: new THREE.LineBasicMaterial({ color: INK, transparent: true }),
@@ -126,6 +131,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       sectionEdge: new THREE.LineBasicMaterial({ color: SECTION_INK, transparent: true }),
       projectionAux: new THREE.LineBasicMaterial({ color: AUX_INK, transparent: true }),
     };
+    const diagRayMat = new THREE.LineBasicMaterial({ color: DIAG_RED, transparent: true });
     // `transparent` is set at construction and never flipped: toggling it forces a shader rebuild,
     // which is not something to do mid-drag.
     const dotMats: Record<string, THREE.MeshBasicMaterial> = {
@@ -134,6 +140,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       h: new THREE.MeshBasicMaterial({ color: H_INK, transparent: true }),
       rabattu: new THREE.MeshBasicMaterial({ color: TERRA, transparent: true }),
       aux: new THREE.MeshBasicMaterial({ color: AUX_INK, transparent: true }),
+      diagnostic: new THREE.MeshBasicMaterial({ color: DIAG_RED, transparent: true }),
       hover: new THREE.MeshBasicMaterial({ color: 0xfa500f }),
     };
     const dotGeo = new THREE.SphereGeometry(1, 16, 12);
@@ -152,13 +159,14 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       rabattu: new THREE.Group(),
       section: new THREE.Group(),
       aux: new THREE.Group(),
+      diagnostic: new THREE.Group(),
     };
     // The charnière and the rabattu live ON a projection plane, so they must ride the dièdre with
     // it — but through their own frame, so that hiding πH does not also hide them.
     const foldFrame = new THREE.Group();
     foldFrame.add(G.hinge, G.rabattu);
-    // The section and the auxiliary view live in space, so they stay at the root like G.spatial.
-    three.add(G.spatial, G.v, G.h, G.projectors, foldFrame, G.section, G.aux);
+    // The section, auxiliary view, and diagnostics live in space, so they stay at the root like G.spatial.
+    three.add(G.spatial, G.v, G.h, G.projectors, foldFrame, G.section, G.aux, G.diagnostic);
 
     // Each plane is a wash of its own ink, so the warm/cool coding survives the paper: a pale tint
     // picked against white (the old #f0ead9) composites to within 2/255 of this background and
@@ -243,6 +251,24 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
         vec(l.at).add(new THREE.Vector3(0, l.kind === 'h' ? off : 0, l.kind === 'h' ? 0 : off)),
         LABEL_GROUP[l.kind],
       );
+    }
+
+    // Diagnostics — red dots on the read vertices, and red locus RAYS for coordinates the plate never
+    // determined (a missing view, or two views that disagree). The red vocabulary matches the flat
+    // plate viewer; a CSS2D label rides each dot and each ray's midpoint.
+    if (scene.diagnostics) {
+      for (const d of scene.diagnostics.dots) {
+        dot(vec(d.at), 'diagnostic', G.diagnostic, 0.11);
+        if (d.label) label(d.label, 'diagnostic', vec(d.at).add(new THREE.Vector3(0, 0, 0.3)), G.diagnostic);
+      }
+      for (const r of scene.diagnostics.rays) {
+        const geo = new THREE.BufferGeometry().setFromPoints([vec(r.a), vec(r.b)]);
+        G.diagnostic.add(new THREE.Line(geo, diagRayMat));
+        if (r.label) {
+          const mid = vec(r.a).add(vec(r.b)).multiplyScalar(0.5);
+          label(r.label, 'diagnostic', mid.add(new THREE.Vector3(0, 0, 0.28)), G.diagnostic);
+        }
+      }
     }
 
     // The rabattement: a rotating COPY of the plane figure, so the spatial original stays visible
@@ -439,6 +465,7 @@ export function EpureViewer({ scene, foldT, dihedralT, auxT, layers, view, recen
       G.projectors.visible = curLayers.projectors && solid;
       G.section.visible = curLayers.section && solid; // the cut only means anything in space
       G.aux.visible = curLayers.aux && solid; // the auxiliary view is a construction in space
+      G.diagnostic.visible = curLayers.diagnostics && solid; // red markers/loci live in space
       G.v.visible = curLayers.v;
       G.h.visible = curLayers.h;
       G.hinge.visible = curLayers.hinge;

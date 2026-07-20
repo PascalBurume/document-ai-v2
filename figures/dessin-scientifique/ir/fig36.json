@@ -27,6 +27,14 @@
     { "from": "E", "to": "A", "view": "v" }
   ],
   "operation": { "kind": "point_projection", "points": ["A", "B", "C", "D", "F", "E"] },
+  "diagnostics": [
+    { "label": "A", "kind": "found", "v": { "x": 505, "y": 307 }, "h": { "x": 220, "y": 320 } },
+    { "label": "B", "kind": "found", "v": { "x": 571, "y": 271 }, "h": { "x": 123, "y": 288 } },
+    { "label": "C", "kind": "found", "v": { "x": 578, "y": 150 }, "h": { "x": 85, "y": 160 } },
+    { "label": "D", "kind": "found", "v": { "x": 503, "y": 51 }, "h": { "x": 155, "y": 63 } },
+    { "label": "F", "kind": "found", "v": { "x": 426, "y": 92 }, "h": { "x": 268, "y": 104 } },
+    { "label": "E", "kind": "found", "v": { "x": 426, "y": 237 }, "h": { "x": 310, "y": 237 } }
+  ],
   "notes": [
     "Hexagone ABCDEF d'un plan oblique relevé par point_projection ; les deux contours épais (πH à gauche, long tirets ; πV à droite, long tirets) lisent proprement et s'apparient sommet à sommet par les rappels horizontaux autour de la ligne de terre verticale (x≈508). Ordre de parcours A-B-C-D-F-E lu sur le contour fermé de la projection verticale. Étiquettes dessinées cohérentes avec les rappels (F=(268,104)/(426,92), E=(310,237)/(426,237)) — aucun réétiquetage. Le décalage de rappel du sommet B (~17 px en y) reflète l'imprécision du tracé à la main, pas un mauvais appariement. Rabattement vrai (hexagone rabattu en traits forts) et double changement de plan L′/L″ omis."
   ]

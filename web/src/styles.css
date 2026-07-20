@@ -1316,6 +1316,7 @@ mark.suspect.nav-focus {
 .epure-label.v { color: #2f5d7c; }
 .epure-label.h { color: #8a7a33; }
 .epure-label.rabattu { font-size: 11px; color: #b3543a; }
+.epure-label.diagnostic { font-size: 11px; color: #d12f2f; font-weight: 600; }
 .epure-foldrow {
   display: flex;
   align-items: center;
