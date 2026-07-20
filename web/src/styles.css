@@ -1218,6 +1218,13 @@ mark.suspect.nav-focus {
 .epure-index-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .epure-index-chip .pg { color: var(--muted); font-variant-numeric: tabular-nums; }
 .epure-index-chip.on .pg { color: rgba(255, 255, 255, 0.8); }
+/* The 2D companion index: plates the geometry can't lift, shown as their hand redraw only. Muted and
+   dashed so they read as "drawing, not reconstruction" — distinct from the solid 3D chips above. */
+.epure-index-2d { margin-top: 4px; }
+.epure-index-chip.flat { border-style: dashed; color: var(--muted); }
+.epure-index-chip.flat:hover { border-color: var(--accent); color: var(--ink); }
+.epure-index-chip.flat.on { background: var(--muted); border-color: var(--muted); border-style: solid; color: #fff; }
+.epure-index-chip.flat.on .pg { color: rgba(255, 255, 255, 0.8); }
 
 /* Figure stepper — walk every figure page in order, skipping text-only pages. */
 .epure-stepper { display: flex; align-items: center; gap: 6px; font-size: 12px; }

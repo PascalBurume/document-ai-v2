@@ -79,6 +79,28 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
       .map(([k, f]) => [k.slice(k.indexOf(':') + 1), f]);
   }, [figSet, page]);
 
+  // Every plate the book draws that has NO 3D reconstruction — construction plates (traces,
+  // faisceaux), profile lines, curves, degenerate épures. They are still redrawn by hand and shown
+  // in 2D beside the scan; this second index makes each one reachable directly, instead of only by
+  // stepping page to page. Nothing here is 3D — it is honest about which plates the geometry can't lift.
+  const keys3d = useMemo(() => new Set(figures.map((f) => `${f.pageIndex}:${f.blockId}`)), [figures]);
+  const figures2d = useMemo(() => {
+    if (!figSet) return [] as { key: string; pageIndex: number; label: string }[];
+    return Object.entries(figSet)
+      .filter(([k]) => !keys3d.has(k))
+      .map(([k, f]) => {
+        const pageIndex = Number(k.slice(0, k.indexOf(':')));
+        const plate = /(?:Épures?|Planche)\s+(E\s*\d+)/.exec(f.caption ?? '')?.[1];
+        return { key: k, pageIndex, label: plate ?? '2D' };
+      })
+      .sort((a, b) => a.pageIndex - b.pageIndex || a.label.localeCompare(b.label));
+  }, [figSet, keys3d]);
+  // A 2D plate the reader explicitly opened from the index. It is shown full even on a page that
+  // also carries a 3D figure, so a construction plate sharing a sheet with a rabattement is still
+  // reachable. Gated by page so paging away drops back to the normal behaviour.
+  const current2d = figures2d.find((f) => f.key === selected && f.pageIndex === page - 1) ?? null;
+  const fig2d = current2d && figSet ? figSet[current2d.key] : null;
+
   const [foldT, setFoldT] = useState(1);
   const [dihedralT, setDihedralT] = useState(0);
   /** The change-of-plane unfold: 1 = auxiliary in space, 0 = swung flat (the drawn auxiliary). */
@@ -146,6 +168,26 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
     </div>
   );
 
+  // The 2D companion index: every plate the geometry can't lift, clickable to open its hand redraw.
+  const index2d = figures2d.length > 0 && (
+    <div className="epure-index epure-index-2d">
+      <span className="muted">2D :</span>
+      {figures2d.map((f) => (
+        <button
+          key={f.key}
+          className={`epure-index-chip flat${current2d?.key === f.key ? ' on' : ''}`}
+          onClick={() => {
+            onPage(f.pageIndex + 1);
+            onSelect(f.key);
+          }}
+          title={`Planche 2D redessinée — pas de reconstruction 3D (page ${f.pageIndex + 1})`}
+        >
+          {f.label} <span className="pg">p.{f.pageIndex + 1}</span>
+        </button>
+      ))}
+    </div>
+  );
+
   // Step through EVERY figure page in order — skipping the text-only pages between them — so the
   // visualization stays glued to the scan whichever figure you walk to, 3D or redraw.
   const curIdx0 = page - 1;
@@ -167,6 +209,28 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
   if (figures.length === 0 && figurePages.length === 0)
     return <p className="note pad">Aucune figure lue dans ce document.</p>;
 
+  // A 2D plate opened from the « 2D » index: show its hand redraw full, with the same two indexes
+  // and the stepper. This wins over the page's 3D figure, so a construction plate that shares a sheet
+  // with a rabattement is still reachable — and it is labelled for what it is, not dressed up as 3D.
+  if (fig2d) {
+    return (
+      <div className="epure-tab">
+        <div className="epure-bar">
+          {index}
+          {index2d}
+          <span className="spacer" />
+          {stepper}
+        </div>
+        <p className="note epure-2d-note">
+          Planche redessinée à la main, à comparer au scan à gauche. Cette figure n’a <strong>pas</strong> de
+          reconstruction 3D : c’est une épure de construction (traces, faisceau, droite de profil, courbe) dont
+          la géométrie 3D n’est pas déterminée par ses deux projections — la reconstruire serait l’inventer.
+        </p>
+        <AuthoredFigureView fig={fig2d} />
+      </div>
+    );
+  }
+
   // No 3D on this page — but most figure pages still have a hand-redrawn figure, and THAT is the
   // visualization to read beside the scan. So the tab shows it rather than an apology; the scan is
   // already in the left pane, so this completes the side-by-side for every figure, not just the four.
@@ -175,6 +239,7 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
       <div className="epure-tab">
         <div className="epure-bar">
           {index}
+          {index2d}
           <span className="spacer" />
           {stepper}
         </div>
@@ -206,6 +271,7 @@ export function EpureTab({ doc, page, onPage, selected, onSelect }: Props) {
     <div className="epure-tab">
       <div className="epure-bar">
         {index}
+        {index2d}
         <span className="spacer" />
         {stepper}
         {built.recon.warnings.map((w, i) => (
