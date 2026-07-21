@@ -9,7 +9,7 @@ import { copy } from '../lib/download';
 import { formatWhen } from '../lib/format';
 import { renderPageToImage } from '../lib/pdf';
 import { verifyFigure, visionCompare } from '../lib/vision';
-import { exportHtml, exportMarkdown, exportPageMarkdown, figureFilename, printPdf, renderConverted } from '../lib/convert';
+import { exportHtml, exportMarkdown, exportPageMarkdown, exportPdf, figureFilename, renderConverted } from '../lib/convert';
 import { checkedRedrawPatch, figureCropDataUri, redrawFigureChecked } from '../lib/figure';
 import { ConvertTab } from './ConvertTab';
 import { EditTab } from './EditTab';
@@ -229,7 +229,7 @@ export function ResultPane(props: Props) {
             <button className="btn tiny" onClick={() => exportMarkdown(doc)} title="One Markdown file — redrawn figures inlined as labelled SVG">
               ⤓ MD
             </button>
-            <button className="btn tiny" onClick={() => printPdf(doc)} title="Print dialog → Save as PDF">
+            <button className="btn tiny" onClick={() => void exportPdf(doc)} title="Télécharger un vrai fichier PDF">
               ⤓ PDF
             </button>
             {tab === 'edit' && editing && (

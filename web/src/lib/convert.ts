@@ -2,6 +2,7 @@ import { renderMarkdown } from './markdown';
 import { save, stem } from './download';
 import { effectiveMarkdown } from './editorNodes';
 import { collectRadicands, restoreBareRadicals } from './radicals';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import type { Block, DocFile, OcrPage } from './types';
 
 /**
@@ -468,6 +469,68 @@ export function exportHtml(doc: DocFile): void {
 
 export function exportMarkdown(doc: DocFile): void {
   save(new Blob([buildMarkdown(doc)], { type: 'text/markdown' }), `${stem(doc.name)}-converted.md`);
+}
+
+/** Strip presentation markup for the embedded-browser PDF fallback. */
+function pdfText(markdown: string): string {
+  return markdown
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '[$1]')
+    .replace(/<[^>]+>/g, '')
+    .replace(/^\s{0,3}#{1,6}\s*/gm, '')
+    .replace(/[*_~`]/g, '')
+    .replace(/\r/g, '')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function wrapPdfLine(line: string, maxChars: number): string[] {
+  if (!line) return [''];
+  const out: string[] = [];
+  let current = '';
+  for (const word of line.split(' ')) {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length > maxChars && current) {
+      out.push(current);
+      current = word;
+    } else current = next;
+  }
+  if (current) out.push(current);
+  return out;
+}
+
+/** Download a real PDF directly; this does not depend on a WebView print dialog or popups. */
+export async function exportPdf(doc: DocFile): Promise<void> {
+  const pdf = await PDFDocument.create();
+  const regular = await pdf.embedFont(StandardFonts.Helvetica);
+  const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const width = 595.28;
+  const height = 841.89;
+  const margin = 42;
+  const lineHeight = 13;
+
+  for (const sourcePage of doc.result?.pages ?? []) {
+    let page = pdf.addPage([width, height]);
+    let y = height - margin;
+    page.drawText(`Document AI — page ${sourcePage.index + 1}`, {
+      x: margin, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1),
+    });
+    y -= 24;
+    for (const rawLine of pdfText(effectiveMarkdown(sourcePage)).split('\n')) {
+      for (const line of wrapPdfLine(rawLine, 96)) {
+        if (y < margin) {
+          page = pdf.addPage([width, height]);
+          y = height - margin;
+        }
+        page.drawText(line, { x: margin, y, size: 9, font: regular, color: rgb(0.15, 0.15, 0.15) });
+        y -= lineHeight;
+      }
+      y -= 4;
+    }
+  }
+
+  const bytes = await pdf.save();
+  save(new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }), `${stem(doc.name)}-converted.pdf`);
 }
 
 /**
