@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Selection, Tab } from '../App';
 import { BLOCK_COLORS, linkBlocks, visibleBlocks } from '../lib/ocr';
-import { renderMarkdownMarked } from '../lib/markdown';
+import { renderMarkdown, renderMarkdownMarked } from '../lib/markdown';
 import { buildPageMarks, SUSPECT_LABELS, type MarkKind } from '../lib/suspects';
 import { collectRadicands } from '../lib/radicals';
 import { applyTableMode, tableToHtml } from '../lib/tables';
@@ -349,7 +349,7 @@ function PageBody(props: BodyProps) {
   if (tab === 'visual') return <VisualTab {...props} page={ocrPage} blocks={blocks} />;
   if (tab === 'convert')
     return <ConvertTab doc={props.doc} page={ocrPage} blocks={blocks} onRedraw={props.onRedraw} onEpure={props.onEpure} />;
-  if (tab === 'book') return <BookPage page={ocrPage} radicands={radicands} />;
+  if (tab === 'book') return <BookPage page={ocrPage} radicands={radicands} selected={props.selected} />;
   return <MarkdownTab {...props} page={ocrPage} blocks={blocks} />;
 }
 
@@ -729,11 +729,49 @@ function SecondOpinion({
  * ALONE (no side-by-side scan): the point here is reading, not comparing. Recreations live on the
  * block, so a page re-renders the instant "Recreate all figures" fills one in.
  */
-function BookPage({ page, radicands }: { page: OcrPage; radicands: ReadonlySet<string> }) {
+function BookPage({ page, radicands, selected }: { page: OcrPage; radicands: ReadonlySet<string>; selected: Selection | null }) {
   const html = useMemo(() => renderConverted(page, { compare: false, radicands }), [page, radicands]);
+  const selectedBlock = selected?.pageIndex === page.index
+    ? page.blocks.find((block) => block.id === selected.blockId) ?? null
+    : null;
+  const selectionRef = useRef<HTMLDivElement>(null);
+  const selectedCrop = useMemo(() => {
+    if (!selectedBlock || selectedBlock.type !== 'image') return null;
+    const filename = figureFilename(selectedBlock);
+    const alias = page.blocks.find((block) =>
+      block.type === 'image' && block.imageBase64 && (
+        figureFilename(block) === filename ||
+        (block.bbox.x === selectedBlock.bbox.x && block.bbox.y === selectedBlock.bbox.y &&
+          block.bbox.w === selectedBlock.bbox.w && block.bbox.h === selectedBlock.bbox.h)
+      ));
+    return alias?.imageBase64 ?? selectedBlock.imageBase64 ?? null;
+  }, [page.blocks, selectedBlock]);
+
+  useEffect(() => {
+    if (!selectedBlock) return;
+    selectionRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [selectedBlock]);
+
   return (
-    // eslint-disable-next-line react/no-danger -- output of our own renderer + sanitized SVG
-    <div className="book convert-doc pad" dangerouslySetInnerHTML={{ __html: html }} />
+    <>
+      {selectedBlock && (
+        <div ref={selectionRef} className="book-source-selection" aria-live="polite">
+          <div className="book-source-selection-head">
+            <strong>Sélection exacte sur le scan</strong>
+            <span>page {page.index + 1} · {selectedBlock.type} · {selectedBlock.id}</span>
+          </div>
+          {selectedCrop ? (
+            <img src={selectedCrop.startsWith('data:') ? selectedCrop : `data:image/jpeg;base64,${selectedCrop}`} alt="Région sélectionnée sur le scan" />
+          ) : (
+            // eslint-disable-next-line react/no-danger -- OCR text rendered by the same sanitized Markdown renderer
+            <div className="book-source-selection-text" dangerouslySetInnerHTML={{ __html: renderMarkdown(selectedBlock.text, new Map()) }} />
+          )}
+          <p>Ce panneau reprend uniquement le bloc sélectionné à gauche. Le livre converti continue ci-dessous.</p>
+        </div>
+      )}
+      {/* eslint-disable-next-line react/no-danger -- output of our own renderer + sanitized SVG */}
+      <div className="book convert-doc pad" dangerouslySetInnerHTML={{ __html: html }} />
+    </>
   );
 }
 

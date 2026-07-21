@@ -1103,6 +1103,22 @@ mark.suspect.nav-focus {
   transition: width 0.3s ease;
 }
 .book-note { margin: 8px 0 0; font-size: 12px; }
+.book-source-selection {
+  margin: 12px 16px 2px;
+  padding: 12px 14px;
+  border: 2px solid #0ea5e9;
+  border-radius: 10px;
+  background: #f0f9ff;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.12);
+}
+.book-source-selection-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.book-source-selection-head strong { color: #075985; font-size: 13px; }
+.book-source-selection-head span { color: var(--muted); font: 11px/1.4 ui-monospace, monospace; }
+.book-source-selection img { display: block; max-width: min(100%, 620px); max-height: 360px; margin: 10px auto; object-fit: contain; }
+.book-source-selection-text { margin-top: 8px; font: 15px/1.6 Georgia, 'Times New Roman', serif; color: var(--ink); }
+.book-source-selection-text > :first-child { margin-top: 0; }
+.book-source-selection-text > :last-child { margin-bottom: 0; }
+.book-source-selection > p { margin: 8px 0 0; color: var(--muted); font-size: 11px; }
 
 /* --- figure label investigator: flags where an independent vision reading disagrees with OCR --- */
 .fig-flags {
