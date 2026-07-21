@@ -490,33 +490,41 @@ export function exportPageMarkdown(doc: DocFile, page: OcrPage): void {
 }
 
 /**
- * Print-to-PDF: open the same HTML export in a real print document, then let the browser's dialog
- * save it as PDF. A hidden iframe used to be printed after an async font wait; embedded browsers
- * commonly suppress that print request, making the button appear to do nothing. Opening the window
- * synchronously preserves the user's click activation and gives the browser a visible print target.
+ * Print-to-PDF: mount the same HTML export as a temporary print view in the current tab, then let
+ * the browser's dialog save it as PDF. This deliberately avoids popups and delayed print calls:
+ * embedded browsers often suppress both, making a PDF button appear to do nothing.
  */
 export function printPdf(doc: DocFile): void {
-  const win = window.open('', '_blank');
-  if (!win) {
-    window.alert('Le navigateur a bloqué la fenêtre d’impression. Autorisez les fenêtres pop-up puis réessayez.');
-    return;
-  }
+  const parsed = new DOMParser().parseFromString(buildHtml(doc), 'text/html');
+  const root = document.createElement('div');
+  root.className = 'export-print-root';
+  root.innerHTML = parsed.body.innerHTML;
+  const printStyles = [...parsed.head.querySelectorAll('style')].map((source) => {
+    const copy = document.createElement('style');
+    copy.dataset.exportPrint = 'true';
+    copy.textContent = source.textContent;
+    document.head.append(copy);
+    return copy;
+  });
+  const style = document.createElement('style');
+  style.dataset.exportPrint = 'true';
+  style.textContent = `
+    .export-print-root { position: fixed; inset: 0; z-index: 2147483647; overflow: auto; background: #fff; }
+    @media print {
+      body > *:not(.export-print-root) { display: none !important; }
+      .export-print-root { position: static; overflow: visible; }
+    }
+  `;
+  document.head.append(style);
+  document.body.append(root);
 
-  const idoc = win.document;
-  idoc.open();
-  idoc.write(buildHtml(doc));
-  idoc.close();
-
-  const done = () => {
-    // Give the KaTeX stylesheet + fonts a beat; print with fallback fonts beats never printing.
-    const fonts = (idoc as Document & { fonts?: { ready: Promise<unknown> } }).fonts;
-    Promise.race([fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]).then(() => {
-      win.focus();
-      win.print();
-      // Keep the print document open: some browsers return from the dialog asynchronously and
-      // closing it immediately can cancel the generated PDF. The user can close the tab normally.
-    });
+  const cleanup = () => {
+    root.remove();
+    printStyles.forEach((entry) => entry.remove());
+    style.remove();
+    window.removeEventListener('afterprint', cleanup);
   };
-  if (idoc.readyState === 'complete') done();
-  else win.addEventListener('load', done, { once: true });
+  window.addEventListener('afterprint', cleanup, { once: true });
+  // Keep this synchronous so the browser treats it as the original button activation.
+  window.print();
 }
