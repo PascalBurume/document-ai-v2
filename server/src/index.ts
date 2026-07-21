@@ -6,12 +6,14 @@ import { fileURLToPath } from 'node:url';
 import { HttpError, runOcr, uploadAndSign } from './mistral.js';
 import {
   recoverText,
+  reviewSuspects,
   verifyFigure,
   visionCompare,
   visionModelName,
   type FigureCheck,
   type RecoveredText,
   type VisionResult,
+  type SuspectReviewResult,
 } from './vision.js';
 import {
   classifyFigure,
@@ -24,6 +26,7 @@ import {
   figureExplainCacheKey,
   figureTextCacheKey,
   pageVisionCacheKey,
+  pageCorrectionCacheKey,
   readFigureCache,
   readFigureCheckCache,
   readFigureClassCache,
@@ -31,6 +34,7 @@ import {
   readFigureExplainCache,
   readFigureTextCache,
   readPageVisionCache,
+  readPageCorrectionCache,
   redrawFigure,
   writeFigureCache,
   writeFigureCheckCache,
@@ -39,6 +43,7 @@ import {
   writeFigureExplainCache,
   writeFigureTextCache,
   writePageVisionCache,
+  writePageCorrectionCache,
   type FigureClass,
   type FigureCompare,
   type FigureExplain,
@@ -129,6 +134,36 @@ app.post('/api/vision', async (req, res) => {
     const result = await visionCompare(image, text ?? '');
     // Never cache a soft failure (unparseable model reply): a bad parse must stay retryable.
     if (!result.raw) writePageVisionCache(key, result);
+    res.json(result);
+  } catch (err) {
+    fail(res, err);
+  }
+});
+
+/** GPT-5.6 Vision reviews only deterministic suspect spans and returns auditable replacements. */
+app.post('/api/vision/suspects', async (req, res) => {
+  try {
+    const { image, text, suspects } = req.body as {
+      image?: string;
+      text?: string;
+      suspects?: Array<{ start: number; end: number; text: string; kind: string; context?: string }>;
+    };
+    if (!image) throw new HttpError(400, 'A page image is required.');
+    if (typeof text !== 'string') throw new HttpError(400, 'The immutable OCR text is required.');
+    if (!Array.isArray(suspects)) throw new HttpError(400, 'Suspect spans are required.');
+    if (MOCK) {
+      const result: SuspectReviewResult = { corrections: [], model: 'mock-vision' };
+      return void res.json(result);
+    }
+    const reviewContext = JSON.stringify({ text, suspects });
+    const key = pageCorrectionCacheKey(image, reviewContext, visionModelName());
+    const hit = readPageCorrectionCache<SuspectReviewResult>(key);
+    if (hit) {
+      console.log(`suspect review cache hit ${key.slice(0, 8)} — no API call, no cost`);
+      return void res.json(hit);
+    }
+    const result = await reviewSuspects(image, text, suspects);
+    if (!result.raw) writePageCorrectionCache(key, result);
     res.json(result);
   } catch (err) {
     fail(res, err);

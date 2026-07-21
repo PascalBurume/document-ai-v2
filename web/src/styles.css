@@ -702,6 +702,22 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
   background: transparent;
 }
 .second-opinion .btn.ghost:hover { color: var(--ink); border-color: var(--accent); }
+.second-opinion .vision-improve { margin-left: 7px; color: #5b21b6; border-color: #c4b5fd; background: #faf5ff; }
+.suspect-review-toolbar {
+  margin: 8px 16px 0;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border: 1px solid #c4b5fd;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, #faf5ff, #fff);
+}
+.suspect-review-toolbar > div { display: flex; flex-direction: column; gap: 2px; margin-right: auto; }
+.suspect-review-toolbar strong { font-size: 12px; color: #4c1d95; }
+.suspect-review-toolbar span { font-size: 11px; color: var(--muted); }
+.suspect-review-toolbar .vision-err { flex-basis: 100%; margin: 0; }
 .vision-err { margin: 8px 0 0; font-size: 12px; color: #b91c1c; }
 .vision-panel {
   margin-top: 8px;
@@ -736,6 +752,23 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .vision-notes .vi code { color: #166534; }
 .vision-raw { white-space: pre-wrap; font-size: 12px; margin: 0; }
 .vision-foot { margin: 8px 0 0; font-size: 11px; color: var(--muted); }
+.vision-corrections {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid #c4b5fd;
+  border-left: 3px solid #7c3aed;
+  border-radius: var(--radius);
+  background: #faf5ff;
+  font-size: 12px;
+}
+.vision-corrections p { margin: 0 0 7px; }
+.vision-corrections ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; }
+.vision-corrections li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.vision-corrections li > span { min-width: 48px; padding: 1px 5px; border-radius: 4px; font-size: 9px; text-transform: uppercase; text-align: center; }
+.vision-corrections li.applied > span { color: #166534; background: #dcfce7; }
+.vision-corrections li.suggested > span { color: #92400e; background: #fef3c7; }
+.vision-corrections code { color: #312e81; }
+.vision-corrections small { flex-basis: 100%; margin-left: 54px; color: var(--muted); }
 
 /* --- suspect signals: free, always-on "look here" underlines. Hints, NOT flags or corrections. --- */
 .suspect-summary {

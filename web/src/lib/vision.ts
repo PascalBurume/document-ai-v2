@@ -11,6 +11,38 @@ export interface VisionResult {
   raw?: string;
 }
 
+export interface VisionCorrection {
+  start: number;
+  end: number;
+  ocr: string;
+  replacement: string;
+  kind: string;
+  reason: string;
+  confidence: 'high' | 'medium';
+}
+
+export interface SuspectReviewResult {
+  corrections: VisionCorrection[];
+  model: string;
+  raw?: string;
+  cached?: boolean;
+}
+
+export async function reviewSuspects(
+  image: string,
+  text: string,
+  suspects: Array<{ start: number; end: number; text: string; kind: string; context: string }>,
+): Promise<SuspectReviewResult> {
+  const res = await fetch('/api/vision/suspects', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image, text, suspects }),
+  });
+  const data = await res.json().catch(() => ({ error: `Server returned ${res.status}.` }));
+  if (!res.ok) throw new Error(data.error ?? `Server returned ${res.status}.`);
+  return data as SuspectReviewResult;
+}
+
 /**
  * Ask the server for a second, independent reading of one page: a vision model reads the page
  * image and reports only where it disagrees with the OCR text. An inspection aid — no flags,

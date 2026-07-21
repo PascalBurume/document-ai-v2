@@ -171,6 +171,18 @@ export interface OcrPage {
   visionModel?: string;
   /** True once a second opinion has run for this page, even when it found nothing to disagree with. */
   visionChecked?: boolean;
+  /** Auditable GPT vision replacements applied to `editedMarkdown`; immutable OCR remains intact. */
+  visionCorrections?: Array<{
+    start: number;
+    end: number;
+    ocr: string;
+    replacement: string;
+    kind: string;
+    reason: string;
+    confidence: 'high' | 'medium';
+    applied: boolean;
+  }>;
+  visionCorrectedAt?: number;
   /**
    * The human's corrected text for this page (Edit tab). Deliberately a SEPARATE field: `markdown`
    * stays exactly what the OCR returned, because it is the claim the inspector measures — suspect

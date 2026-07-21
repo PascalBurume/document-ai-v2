@@ -209,6 +209,35 @@ export function writePageVisionCache(key: string, result: unknown): void {
   }
 }
 
+// Targeted suspect-span corrections are cached separately from whole-page disagreement checks.
+// The suspect list is part of `text`, so a detector/prompt change naturally produces a new key.
+const PAGE_CORRECTION_VERSION = 1;
+
+export function pageCorrectionCacheKey(image: string, text: string, model: string): string {
+  const payload = image.startsWith('data:') ? image.slice(image.indexOf(',') + 1) : image;
+  const bytes = createHash('sha256').update(payload).digest('hex');
+  const ctx = createHash('sha256').update(text).digest('hex');
+  return createHash('sha256').update(JSON.stringify({ bytes, ctx, model, v: PAGE_CORRECTION_VERSION })).digest('hex');
+}
+
+export function readPageCorrectionCache<T extends object>(key: string): T | null {
+  try {
+    const hit = JSON.parse(readFileSync(path.join(DIR, `fix-${key}.json`), 'utf8')) as T;
+    return { ...hit, cached: true };
+  } catch {
+    return null;
+  }
+}
+
+export function writePageCorrectionCache(key: string, result: unknown): void {
+  try {
+    mkdirSync(DIR, { recursive: true });
+    writeFileSync(path.join(DIR, `fix-${key}.json`), JSON.stringify(result));
+  } catch (err) {
+    console.warn('page correction cache write failed:', (err as Error).message);
+  }
+}
+
 // Recovered text (text trapped in a mis-classified image region) is paid too and stable per crop —
 // cache it beside the rest (`txt-<sha>.json`), same content-addressed scheme as the check cache.
 const TEXT_VERSION = 1;

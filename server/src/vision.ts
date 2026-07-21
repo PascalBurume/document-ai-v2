@@ -55,6 +55,99 @@ export interface VisionResult {
   raw?: string;
 }
 
+export interface SuspectInput {
+  start: number;
+  end: number;
+  text: string;
+  kind: string;
+  context?: string;
+}
+
+export interface VisionCorrection {
+  start: number;
+  end: number;
+  ocr: string;
+  replacement: string;
+  kind: string;
+  reason: string;
+  confidence: 'high' | 'medium';
+}
+
+export interface SuspectReviewResult {
+  corrections: VisionCorrection[];
+  model: string;
+  raw?: string;
+  cached?: boolean;
+}
+
+const SUSPECT_REVIEW_PROMPT = `You are a meticulous proofreader comparing OCR text with the scanned page image.
+You receive a short list of suspect spans, each with exact offsets, OCR text, and nearby context.
+Inspect ONLY those listed spans in the image. Correct a span only when the printed page is legible
+enough to establish the replacement. Preserve French spelling, mathematical notation, Markdown,
+LaTeX delimiters, capitalization, punctuation, and line breaks. Never modernize, paraphrase, infer a
+missing sentence, or repair content from general knowledge. A missing or unreadable glyph is not a
+license to guess: omit that correction.
+
+Return STRICT JSON and nothing else:
+{"corrections":[{"start":0,"end":4,"ocr":"exact OCR substring","replacement":"exact printed text","kind":"accent|letter|digit|word|symbol|math|encoding|other","reason":"short visual evidence","confidence":"high|medium"}]}
+
+The start/end values and ocr field must be copied unchanged from the supplied suspect. Do not return
+unchanged replacements. Use high only when clearly legible; medium when legible but scan quality is weak.`;
+
+/** Parse and validate a review against immutable OCR text. Invalid, guessed, and stale spans drop out. */
+export function parseSuspectReview(reply: string, ocrText: string): Omit<SuspectReviewResult, 'model'> {
+  const fenced = reply.match(/```(?:json)?\s*([\s\S]*?)```/i)?.[1];
+  const candidate = fenced ?? reply.slice(reply.indexOf('{'), reply.lastIndexOf('}') + 1);
+  try {
+    const parsed = JSON.parse(candidate) as { corrections?: unknown };
+    if (!Array.isArray(parsed.corrections)) return { corrections: [], raw: reply.slice(0, 3000) };
+    const corrections: VisionCorrection[] = [];
+    for (const value of parsed.corrections.slice(0, 100)) {
+      if (!value || typeof value !== 'object') continue;
+      const item = value as Record<string, unknown>;
+      const start = Number(item.start);
+      const end = Number(item.end);
+      const ocr = String(item.ocr ?? '');
+      const replacement = String(item.replacement ?? '');
+      const confidence = item.confidence === 'high' ? 'high' : item.confidence === 'medium' ? 'medium' : null;
+      if (!Number.isInteger(start) || !Number.isInteger(end) || start < 0 || end <= start) continue;
+      if (!ocr || !replacement || replacement === ocr || ocrText.slice(start, end) !== ocr || !confidence) continue;
+      corrections.push({
+        start,
+        end,
+        ocr,
+        replacement,
+        kind: String(item.kind ?? 'other'),
+        reason: String(item.reason ?? '').slice(0, 500),
+        confidence,
+      });
+    }
+    return { corrections };
+  } catch {
+    return { corrections: [], raw: reply.slice(0, 3000) };
+  }
+}
+
+/** Review only deterministic suspect spans; the full OCR is evidence and is never rewritten here. */
+export async function reviewSuspects(
+  image: string,
+  ocrText: string,
+  suspects: SuspectInput[],
+): Promise<SuspectReviewResult> {
+  const bounded = suspects.slice(0, 100).filter((s) =>
+    Number.isInteger(s.start) && Number.isInteger(s.end) && s.start >= 0 && s.end > s.start &&
+    ocrText.slice(s.start, s.end) === s.text,
+  );
+  if (!bounded.length) return { corrections: [], model: visionModelName() };
+  const text = await callOpenAIVision(
+    SUSPECT_REVIEW_PROMPT,
+    `--- IMMUTABLE OCR TEXT ---\n${ocrText.slice(0, 12000)}\n\n--- SUSPECT SPANS ---\n${JSON.stringify(bounded)}`,
+    image,
+    5000,
+  );
+  return { ...parseSuspectReview(text, ocrText), model: visionModelName() };
+}
+
 /**
  * One vision call: the prompt (with the OCR context already appended) plus the image. Shared by
  * the page "second opinion" and the per-figure label investigator — both are the same move (read

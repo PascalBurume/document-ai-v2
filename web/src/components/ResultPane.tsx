@@ -2,13 +2,14 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import type { Selection, Tab } from '../App';
 import { BLOCK_COLORS, linkBlocks, visibleBlocks } from '../lib/ocr';
 import { renderMarkdown, renderMarkdownMarked } from '../lib/markdown';
-import { buildPageMarks, SUSPECT_LABELS, type MarkKind } from '../lib/suspects';
+import { buildPageMarks, findSuspects, SUSPECT_LABELS, type MarkKind } from '../lib/suspects';
 import { collectRadicands } from '../lib/radicals';
 import { applyTableMode, tableToHtml } from '../lib/tables';
 import { copy } from '../lib/download';
 import { formatWhen } from '../lib/format';
 import { renderPageToImage } from '../lib/pdf';
-import { verifyFigure, visionCompare } from '../lib/vision';
+import { reviewSuspects, verifyFigure, visionCompare } from '../lib/vision';
+import { applyVisionCorrections } from '../lib/visionCorrections';
 import { exportHtml, exportMarkdown, exportPageMarkdown, exportPdf, figureFilename, renderConverted } from '../lib/convert';
 import { checkedRedrawPatch, figureCropDataUri, redrawFigureChecked } from '../lib/figure';
 import { ConvertTab } from './ConvertTab';
@@ -256,6 +257,15 @@ export function ResultPane(props: Props) {
         />
       )}
 
+      {tab === 'text' && (
+        <SuspectReviewToolbar
+          doc={doc}
+          pages={pages}
+          onVision={props.onVision}
+          onEdit={props.onEdit}
+        />
+      )}
+
       {hasMarks && legendOpen && <SuspectLegend onClose={() => setLegendOpen(false)} />}
 
       {doc.result?.warnings.map((w) => (
@@ -315,7 +325,9 @@ export function ResultPane(props: Props) {
                     </button>
                   )}
                 </div>
-                {tab !== 'book' && <SecondOpinion doc={doc} page={p} onVision={props.onVision} />}
+                {tab !== 'book' && (
+                  <SecondOpinion doc={doc} page={p} onVision={props.onVision} onEdit={props.onEdit} />
+                )}
                 <PageBody {...props} ocrPage={p} />
               </article>
           ))
@@ -637,6 +649,99 @@ function Linked(props: {
   );
 }
 
+async function improveSuspectPage(
+  doc: DocFile,
+  page: OcrPage,
+  onVision: (pageIndex: number, patch: Partial<OcrPage>) => void,
+  onEdit: (pageIndex: number, patch: Partial<OcrPage>) => void,
+) {
+  const spans = findSuspects(page.markdown);
+  if (!spans.length) return { suspects: 0, applied: 0, suggestions: 0 };
+  const image = doc.sourceType === 'image_url'
+    ? doc.dataUri
+    : await renderPageToImage(doc.id, doc.dataUri, page.index, 2200, 0.92);
+  const result = await reviewSuspects(image, page.markdown, spans.map((s) => ({
+    start: s.start,
+    end: s.end,
+    text: page.markdown.slice(s.start, s.end),
+    kind: s.kind,
+    context: page.markdown.slice(Math.max(0, s.start - 120), Math.min(page.markdown.length, s.end + 120)),
+  })));
+  if (result.raw) throw new Error('GPT-5.6 returned an unreadable review. Please retry this page.');
+
+  const current = effectiveMarkdown(page);
+  const applied = applyVisionCorrections(current, page.markdown, result.corrections);
+  onVision(page.index, {
+    visionModel: result.model,
+    visionCorrections: applied.corrections,
+    visionCorrectedAt: Date.now(),
+  });
+  const appliedCount = applied.corrections.filter((c) => c.applied).length;
+  if (appliedCount && applied.markdown !== current) onEdit(page.index, { editedMarkdown: applied.markdown });
+  return {
+    suspects: spans.length,
+    applied: appliedCount,
+    suggestions: applied.corrections.length - appliedCount,
+  };
+}
+
+function SuspectReviewToolbar({
+  doc,
+  pages,
+  onVision,
+  onEdit,
+}: {
+  doc: DocFile;
+  pages: OcrPage[];
+  onVision: (pageIndex: number, patch: Partial<OcrPage>) => void;
+  onEdit: (pageIndex: number, patch: Partial<OcrPage>) => void;
+}) {
+  const candidates = useMemo(
+    () => pages.filter((p) => !p.visionCorrectedAt && findSuspects(p.markdown).length > 0),
+    [pages],
+  );
+  const [running, setRunning] = useState(false);
+  const [progress, setProgress] = useState<{ done: number; total: number; applied: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const runAll = async () => {
+    setRunning(true);
+    setError(null);
+    let applied = 0;
+    setProgress({ done: 0, total: candidates.length, applied: 0 });
+    try {
+      for (let i = 0; i < candidates.length; i++) {
+        const result = await improveSuspectPage(doc, candidates[i], onVision, onEdit);
+        applied += result.applied;
+        setProgress({ done: i + 1, total: candidates.length, applied });
+      }
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  if (!candidates.length && !progress) return null;
+  return (
+    <div className="suspect-review-toolbar">
+      <div>
+        <strong>GPT‑5.6 Vision review</strong>
+        <span>Checks only suspect spans against their source scans; original OCR is preserved.</span>
+      </div>
+      <button className="btn tiny primary" onClick={() => void runAll()} disabled={running || !candidates.length}>
+        {running && progress
+          ? `Reviewing ${Math.min(progress.done + 1, progress.total)}/${progress.total}…`
+          : candidates.length
+            ? `Improve ${candidates.length} suspect page${candidates.length === 1 ? '' : 's'}`
+            : 'Review complete'}
+      </button>
+      {progress && !running && <span className="chip done">{progress.applied} correction{progress.applied === 1 ? '' : 's'} applied</span>}
+      {error && <p className="vision-err">Review stopped: {error}</p>}
+    </div>
+  );
+}
+
 /**
  * On-demand "second reading" of one page. A vision model reads the page image and reports only
  * where it disagrees with the OCR text — surfacing the silent edits (invented accents) that text
@@ -647,12 +752,15 @@ function SecondOpinion({
   doc,
   page,
   onVision,
+  onEdit,
 }: {
   doc: DocFile;
   page: OcrPage;
   onVision: (pageIndex: number, patch: Partial<OcrPage>) => void;
+  onEdit: (pageIndex: number, patch: Partial<OcrPage>) => void;
 }) {
   const [state, setState] = useState<'idle' | 'running' | 'error'>('idle');
+  const [improving, setImproving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   const run = async () => {
@@ -680,17 +788,36 @@ function SecondOpinion({
     }
   };
 
+  const improve = async () => {
+    setImproving(true);
+    setErr(null);
+    try {
+      await improveSuspectPage(doc, page, onVision, onEdit);
+    } catch (e) {
+      setErr((e as Error).message);
+    } finally {
+      setImproving(false);
+    }
+  };
+
   const checked = page.visionChecked;
   const notes = page.visionNotes ?? [];
   const clean = checked && notes.length === 0;
+  const suspects = findSuspects(page.markdown);
+  const corrections = page.visionCorrections ?? [];
 
   return (
     <div className="second-opinion">
       <button className="btn tiny ghost" onClick={run} disabled={state === 'running'}>
         {state === 'running' ? 'Reading the page…' : checked ? '↻ Second opinion' : '⧉ Second opinion'}
       </button>
+      {suspects.length > 0 && (
+        <button className="btn tiny vision-improve" onClick={() => void improve()} disabled={improving}>
+          {improving ? 'GPT‑5.6 is checking…' : `✦ Improve ${suspects.length} suspect span${suspects.length === 1 ? '' : 's'}`}
+        </button>
+      )}
 
-      {(state === 'error' || (err && !checked)) && <p className="vision-err">Second reading: {err}</p>}
+      {err && <p className="vision-err">Vision review: {err}</p>}
 
       {checked && (
         <div className={`vision-panel${clean ? ' ok' : ''}`}>
@@ -717,6 +844,21 @@ function SecondOpinion({
             Independent reading by <code>{page.visionModel}</code>. This is an inspection, not a verified
             correction — the raw text remains the evidence.
           </p>
+        </div>
+      )}
+      {corrections.length > 0 && (
+        <div className="vision-corrections">
+          <p><strong>GPT‑5.6 visual corrections</strong> · {corrections.filter((c) => c.applied).length} applied</p>
+          <ul>
+            {corrections.map((c, i) => (
+              <li key={`${c.start}-${i}`} className={c.applied ? 'applied' : 'suggested'}>
+                <span>{c.applied ? 'Applied' : 'Review'}</span>
+                <code>{c.ocr}</code> → <code>{c.replacement}</code>
+                <small>{c.reason}{c.confidence === 'medium' ? ' · medium confidence' : ''}</small>
+              </li>
+            ))}
+          </ul>
+          <p className="vision-foot">The OCR evidence is unchanged. Applied text is stored in the editable layer used by Book and exports.</p>
         </div>
       )}
     </div>
