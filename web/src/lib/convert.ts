@@ -490,34 +490,33 @@ export function exportPageMarkdown(doc: DocFile, page: OcrPage): void {
 }
 
 /**
- * Print-to-PDF: the same HTML export in a hidden iframe, printed once its stylesheet and fonts
- * are in. The browser's dialog does the PDF — no rasterizing library, math stays vector text.
+ * Print-to-PDF: open the same HTML export in a real print document, then let the browser's dialog
+ * save it as PDF. A hidden iframe used to be printed after an async font wait; embedded browsers
+ * commonly suppress that print request, making the button appear to do nothing. Opening the window
+ * synchronously preserves the user's click activation and gives the browser a visible print target.
  */
 export function printPdf(doc: DocFile): void {
-  const iframe = document.createElement('iframe');
-  iframe.style.position = 'fixed';
-  iframe.style.right = '0';
-  iframe.style.bottom = '0';
-  iframe.style.width = '0';
-  iframe.style.height = '0';
-  iframe.style.border = '0';
-  document.body.appendChild(iframe);
+  const win = window.open('', '_blank');
+  if (!win) {
+    window.alert('Le navigateur a bloqué la fenêtre d’impression. Autorisez les fenêtres pop-up puis réessayez.');
+    return;
+  }
 
-  const idoc = iframe.contentWindow!.document;
+  const idoc = win.document;
   idoc.open();
   idoc.write(buildHtml(doc));
   idoc.close();
 
   const done = () => {
     // Give the KaTeX stylesheet + fonts a beat; print with fallback fonts beats never printing.
-    const win = iframe.contentWindow!;
     const fonts = (idoc as Document & { fonts?: { ready: Promise<unknown> } }).fonts;
     Promise.race([fonts?.ready ?? Promise.resolve(), new Promise((r) => setTimeout(r, 2500))]).then(() => {
       win.focus();
       win.print();
-      window.setTimeout(() => iframe.remove(), 1000);
+      // Keep the print document open: some browsers return from the dialog asynchronously and
+      // closing it immediately can cancel the generated PDF. The user can close the tab normally.
     });
   };
   if (idoc.readyState === 'complete') done();
-  else iframe.addEventListener('load', done);
+  else win.addEventListener('load', done, { once: true });
 }
