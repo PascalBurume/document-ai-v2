@@ -1,5 +1,6 @@
 import type { Block, DocFile } from './types';
 import { DESSIN_SCIENTIFIQUE } from './figures/dessinScientifique';
+import { MATH_POINT_NATURE_CURVES } from './figures/mathPointNatureCurves';
 
 /**
  * Figures redrawn BY HAND for a specific book, keyed by the page and block they replace.
@@ -37,6 +38,9 @@ interface Book {
 export const matchesDessinScientifique = (doc: DocFile): boolean =>
   /dessin[-_ ]?scientifique/i.test(doc.name) && doc.pageCount === 51;
 
+const matchesMaitriserMaths = (doc: DocFile): boolean =>
+  /maitriser[-_ ]?les[-_ ]?maths/i.test(doc.name) && doc.pageCount === 570;
+
 const BOOKS: Book[] = [
   {
     match: matchesDessinScientifique,
@@ -59,12 +63,22 @@ export function authoredFigureCount(doc: DocFile): number {
  */
 export function applyAuthoredFigures(doc: DocFile): DocFile {
   const set = figureSetFor(doc);
-  if (!set || !doc.result) return doc;
+  const tableFigures = matchesMaitriserMaths(doc)
+    ? { '318:p318-b1': [...MATH_POINT_NATURE_CURVES] }
+    : null;
+  if ((!set && !tableFigures) || !doc.result) return doc;
 
   let touched = false;
   const pages = doc.result.pages.map((page) => {
     const blocks = page.blocks.map((block) => {
-      const fig = set[`${page.index}:${block.id}`];
+      const key = `${page.index}:${block.id}`;
+      const figures = tableFigures?.[key as keyof typeof tableFigures];
+      if (figures) {
+        if (block.authoredTableFigures?.join('') === figures.join('')) return block;
+        touched = true;
+        return { ...block, authoredTableFigures: figures };
+      }
+      const fig = set?.[key];
       // Already applied and unchanged — leave the object identity alone.
       if (!fig || (block.redrawnAuthored && block.redrawnSvg === fig.svg)) return block;
       touched = true;

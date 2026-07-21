@@ -1002,6 +1002,9 @@ mark.suspect.nav-focus {
   font-family: 'Times New Roman', 'Liberation Serif', Cambria, Times, serif;
   font-variant-numeric: lining-nums tabular-nums;
 }
+.convert-doc .authored-table-curve { min-width: 190px; margin: 2px 0 8px; text-align: center; }
+.convert-doc .authored-table-curve > svg { display: block; width: 100%; max-width: 240px; height: auto; margin: 0 auto; }
+.convert-doc .authored-table-curve span { display: block; color: var(--muted); font: 10px/1.35 var(--font); }
 .ai-figure { margin: 1.5em 0; }
 .ai-figure figcaption { font-family: var(--font); font-size: 12px; color: var(--muted); margin-top: 6px; }
 .ai-badge {

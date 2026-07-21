@@ -98,6 +98,8 @@ export interface Block {
   redrawnAuthored?: boolean;
   /** What the author could NOT read on the scan and therefore left out. Shown with the figure. */
   authoredOmissions?: string[];
+  /** Source-matched SVGs omitted by OCR from successive body rows of a table. Presentation-only. */
+  authoredTableFigures?: string[];
   /**
    * Text recovered from an image region that Mistral captured only as a picture — transcribed by a
    * second reading as Markdown + LaTeX. Shown labelled beside the figure; a RECOVERY, not evidence,

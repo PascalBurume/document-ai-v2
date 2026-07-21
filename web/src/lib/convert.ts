@@ -55,6 +55,23 @@ export function figureFilename(block: Block): string {
 const imgRefRe = (filename: string) => new RegExp(`!\\[[^\\]]*\\]\\(\\s*(?:\\./)?${escapeRe(filename)}\\s*\\)`, 'g');
 
 const token = (blockId: string) => `%%FIG:${blockId}%%`;
+const tableFigureToken = (blockId: string, row: number) => `%%TABLEFIG:${blockId}:${row}%%`;
+
+function addTableFigureTokens(markdown: string, block: Block): string {
+  const figures = block.authoredTableFigures ?? [];
+  if (!figures.length || !markdown.includes(block.text)) return markdown;
+  const lines = block.text.split(/\r?\n/);
+  let bodyRow = 0;
+  const augmented = lines.map((line, index) => {
+    if (index < 2 || !line.trim().startsWith('|') || bodyRow >= figures.length) return line;
+    const cells = line.trim().replace(/^\||\|$/g, '').split('|').map((cell) => cell.trim());
+    if (cells.length < 2) return line;
+    cells[1] = `${tableFigureToken(block.id, bodyRow)} ${cells[1]}`;
+    bodyRow += 1;
+    return `| ${cells.join(' | ')} |`;
+  }).join('\n');
+  return markdown.replace(block.text, augmented);
+}
 
 const asImageUri = (b64: string) => (b64.startsWith('data:') ? b64 : `data:image/jpeg;base64,${b64}`);
 
@@ -310,6 +327,8 @@ export function renderConverted(
   // a different expression from the √(x+6) on the page. Typeset the ones whose reach is known
   // (see radicals.ts); the ones that would need a guess are left alone and stay flagged.
   if (opts.radicands) md = restoreBareRadicals(md, opts.radicands).text;
+  const tableFigureBlocks = page.blocks.filter((block) => block.authoredTableFigures?.length);
+  for (const block of tableFigureBlocks) md = addTableFigureTokens(md, block);
   for (const block of [...redrawn, ...kept]) md = md.replace(imgRefRe(figureFilename(block)), token(block.id));
 
   let html = renderMarkdown(md, images);
@@ -318,6 +337,14 @@ export function renderConverted(
   }
   for (const block of kept) {
     html = html.split(token(block.id)).join(figureKeptHtml(block, images.get(figureFilename(block))));
+  }
+  for (const block of tableFigureBlocks) {
+    block.authoredTableFigures?.forEach((svg, row) => {
+      const reconstructed =
+        `<div class="authored-table-curve">${sanitizeSvg(svg)}` +
+        '<span>Schéma reconstruit d’après le scan</span></div>';
+      html = html.split(tableFigureToken(block.id, row)).join(reconstructed);
+    });
   }
 
   return html;
@@ -347,6 +374,9 @@ const READING_CSS = `
     font-family: 'Times New Roman', 'Liberation Serif', Cambria, Times, serif;
     font-variant-numeric: lining-nums tabular-nums;
   }
+  .authored-table-curve { min-width: 190px; margin: 2px 0 8px; text-align: center; }
+  .authored-table-curve > svg { display: block; width: 100%; max-width: 240px; height: auto; margin: 0 auto; }
+  .authored-table-curve span { display: block; color: #64748b; font: 10px/1.35 Arial, sans-serif; }
   .page { border-top: 1px solid #e6e6e6; padding-top: 24px; margin-top: 24px; }
   .page:first-child { border-top: none; margin-top: 0; padding-top: 0; }
   .page-no { font: 11px/1 sans-serif; color: #767676; margin-bottom: 16px; }

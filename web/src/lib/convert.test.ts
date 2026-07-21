@@ -84,6 +84,26 @@ test('PDF export survives French accents and descriptive-geometry Unicode', asyn
   assert.ok(bytes.length > 500, 'the result contains a real PDF document, not an empty download');
 });
 
+test('converted table restores source-matched curve figures omitted by OCR', () => {
+  const table = [
+    '| Condition | Courbe | Nature |',
+    '| --- | --- | --- |',
+    '| 1 | tangentes obliques | anguleux |',
+    '| 2 | tangente verticale | inflexion |',
+  ].join('\n');
+  const block: Block = {
+    id: 'p318-b1', type: 'table', bbox, text: table,
+    authoredTableFigures: [
+      '<svg viewBox="0 0 10 10"><path d="M0 9L5 2L10 9"/></svg>',
+      '<svg viewBox="0 0 10 10"><path d="M5 0V10"/></svg>',
+    ],
+  };
+  const html = renderConverted(page(table, [block], 318));
+  assert.equal((html.match(/authored-table-curve/g) ?? []).length, 2);
+  assert.match(html, /Schéma reconstruit d’après le scan/);
+  assert.doesNotMatch(html, /TABLEFIG:/, 'every presentation token is replaced by its SVG');
+});
+
 test('sanitize: scripts, foreignObject, handlers and external refs are stripped; #refs survive', () => {
   const dirty =
     '<svg viewBox="0 0 10 10"><script>alert(1)</script>' +
