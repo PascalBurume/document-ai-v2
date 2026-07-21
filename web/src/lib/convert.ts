@@ -499,8 +499,28 @@ function wrapPdfLine(line: string, maxChars: number): string[] {
   return out;
 }
 
-/** Download a real PDF directly; this does not depend on a WebView print dialog or popups. */
-export async function exportPdf(doc: DocFile): Promise<void> {
+/** Standard PDF fonts are WinAnsi, not Unicode. Preserve common geometry notation legibly and
+ * replace any remaining unsupported glyph instead of letting pdf-lib abort the whole download. */
+function pdfSafeText(text: string, font: { encodeText: (value: string) => unknown }): string {
+  const substitutions: Record<string, string> = {
+    'π': 'pi', 'Π': 'Pi', 'α': 'alpha', 'β': 'beta', 'γ': 'gamma', 'δ': 'delta', 'φ': 'phi',
+    'ᴴ': 'H', 'ⱽ': 'V', '′': "'", '″': '"', '−': '-', '–': '-', '—': '-', '×': 'x',
+    '·': '.', '→': '->', '←': '<-', '↔': '<->', '√': 'sqrt', '∞': 'infinity',
+    '≤': '<=', '≥': '>=', '≠': '!=', '∈': 'in', '⊥': 'perp', '∥': 'parallel',
+  };
+  const expanded = [...text.normalize('NFC')].map((char) => substitutions[char] ?? char).join('');
+  return [...expanded].map((char) => {
+    try {
+      font.encodeText(char);
+      return char;
+    } catch {
+      return '?';
+    }
+  }).join('');
+}
+
+/** Build valid PDF bytes without browser APIs, so Unicode failures are directly testable. */
+export async function buildPdf(doc: DocFile): Promise<Uint8Array> {
   const pdf = await PDFDocument.create();
   const regular = await pdf.embedFont(StandardFonts.Helvetica);
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
@@ -512,11 +532,12 @@ export async function exportPdf(doc: DocFile): Promise<void> {
   for (const sourcePage of doc.result?.pages ?? []) {
     let page = pdf.addPage([width, height]);
     let y = height - margin;
-    page.drawText(`Document AI — page ${sourcePage.index + 1}`, {
+    page.drawText(`Document AI - page ${sourcePage.index + 1}`, {
       x: margin, y, size: 13, font: bold, color: rgb(0.1, 0.1, 0.1),
     });
     y -= 24;
-    for (const rawLine of pdfText(effectiveMarkdown(sourcePage)).split('\n')) {
+    const safe = pdfSafeText(pdfText(effectiveMarkdown(sourcePage)), regular);
+    for (const rawLine of safe.split('\n')) {
       for (const line of wrapPdfLine(rawLine, 96)) {
         if (y < margin) {
           page = pdf.addPage([width, height]);
@@ -529,8 +550,18 @@ export async function exportPdf(doc: DocFile): Promise<void> {
     }
   }
 
-  const bytes = await pdf.save();
-  save(new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }), `${stem(doc.name)}-converted.pdf`);
+  return pdf.save();
+}
+
+/** Download a real PDF directly; this does not depend on a WebView print dialog or popups. */
+export async function exportPdf(doc: DocFile): Promise<void> {
+  try {
+    const bytes = await buildPdf(doc);
+    save(new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }), `${stem(doc.name)}-converted.pdf`);
+  } catch (error) {
+    console.error('PDF export failed', error);
+    window.alert(`Le PDF n’a pas pu être créé : ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 /**

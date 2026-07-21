@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildHtml, buildMarkdown, renderConverted, sanitizeSvg } from './convert';
+import { buildHtml, buildMarkdown, buildPdf, renderConverted, sanitizeSvg } from './convert';
 import type { Block, DocFile, OcrPage } from './types';
 
 const bbox = { x: 0, y: 0, w: 10, h: 10 };
@@ -76,6 +76,12 @@ test('export: "this page" yields only that page, carrying its correction', () =>
   assert.doesNotMatch(onePage, /page one/, 'other pages are not in a single-page export');
   assert.doesNotMatch(onePage, /page two OCR/, 'the superseded OCR text is not exported');
   assert.match(onePage, /<!-- page 2 -->/, 'and it keeps its real page anchor, not a renumbered one');
+});
+
+test('PDF export survives French accents and descriptive-geometry Unicode', async () => {
+  const bytes = await buildPdf(doc([page('Épure πᴴ → πⱽ : α ⊥ β, vraie grandeur √2.', [])]));
+  assert.equal(new TextDecoder().decode(bytes.slice(0, 5)), '%PDF-');
+  assert.ok(bytes.length > 500, 'the result contains a real PDF document, not an empty download');
 });
 
 test('sanitize: scripts, foreignObject, handlers and external refs are stripped; #refs survive', () => {
